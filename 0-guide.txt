@@ -11,7 +11,7 @@ Developer Mode must be enabled already.
 3. as chronos, run "cp -r ~/Downloads/aok-master /usr/local/aok"
 4. sudo su
 5. cd /usr/local/aok
-6. ./1-install.sh
+6. ./1-root-install.sh
 7. Reboot. CTRL-U, Login (User: root, Pass: root), "cd /aok", and run scripts 2 through 8.
 
 The script will ask for a root password, a user (user "a") password, and uncommenting the wheel group in vi.
@@ -31,10 +31,3 @@ THE OTHER USER SCRIPTS!!!
 You probably REALLY want to run the "patch" scripts!!!
 The patch scripts get Arch Linux working nicely on the XE303C12.
 Everything else is just normal Arch Linux install stuff.
-
-
-
-
-
-
-
