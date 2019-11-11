@@ -1,0 +1,42 @@
+
+## KALI LINUX IMAGE
+## TESTED PERSONALLY, DIDN'T WORK FOR ME
+https://www.offensive-security.com/kali-linux-arm-images/#1493408272119-3d0cc1ea-c8d4
+
+## USB INSTALL NOT WORKING
+## A lot of these guides say you can use a USB drive for installation.
+## A USB drive may not work. For me, it doesn't.
+## The Debian Wiki says "This same sequence of steps using a USB flash drive
+## instead of the SD card failed to boot for reasons currently unknown."
+https://wiki.debian.org/InstallingDebianOn/Samsung/ARMChromebook
+
+## USB DRIVE INSTALL WORKS? PERHAPS WITH KERN-A AND KERN-B PARTITIONS
+https://blog.pgeiser.com/posts/2018/02/installing-debian-stretch-on-an-arm-chromebook-xe303c12/
+
+## VIDEO DRIVER
+## The Debian Wiki recommends xf86-video-armsoc, but I have found this to be
+## worse than using xf86-video-fbdev. I have included what I have tested to be
+## the best driver and Xorg.conf file.
+
+
+## FULL ARM MALI GPU SUPPORT, AND WIFI DRIVERS, ETC
+## OUTDATED; THE GUIDE DIDN'T WORK FOR ME IN 2019.
+## BUT THIS GUIDE AND CODE AND PATCHES COULD HELP SOMEONE GET IT WORKING.
+https://community.arm.com/developer/tools-software/graphics/b/blog/posts/linux-on-chromebook-with-arm-mali-gpu
+
+## ARCH LINUX INSTALLATION INSTRUCTIONS
+https://archlinuxarm.org/platforms/armv7/samsung/samsung-chromebook
+
+## A BIT OF USEFUL INFO
+https://wiki.archlinux.org/index.php/Samsung_Chromebook_(ARM)
+
+## ARCH LINUX INSTALLATION SCRIPT BASED ON archlinuxarm.org INSTRUCTIONS
+https://github.com/altreact/archbk
+
+
+
+
+
+
+
+

@@ -1,0 +1,10 @@
+
+XE303C12-A01CA keyboard:
+
+WHITE MARKINGS
+English
+  US English
+
+ORANGE MARKINGS
+French
+  Canadian French

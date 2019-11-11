@@ -1,0 +1,81 @@
+
+This help info does not help with trying to establish a normal home WiFi connection. This is for public WiFi issues and increased privacy.
+
+
+STUBBY: SECURE DNS
+This is especially useful with WiFi Hotspots that spy on and/or control your Internet usage without your permission.
+
+Commands:
+
+sudo pacman -S stubby
+sudo stubby
+echo "nameserver 127.0.0.1" > /etc/resolv.conf
+lsattr /etc/resolv.conf
+chattr +i /etc/resolv.conf
+
+## VISIT dnsleaktest.com TO TEST
+
+
+## IF TRYING TO GET PAST WIFI HOTSPOT LANDING PAGE
+chattr -i /etc/resolv.conf
+## THEN TRY AGAIN
+
+
+
+
+Descriptions:
+
+/etc/resolv.conf set to: nameserver 127.0.0.1 (yourself)
+lsattr to show immutable flag on /etc/resolv.conf
+chattr +i /etc/resolv.conf # make immutable (AKA not changeable)
+
+set to immutable to prevent it being overwritten by systemd.
+making it immutable also prevents it being overwritten with wifi hotspots' own dns servers, which is good.
+
+
+IF THE WI-FI HOTSPOT YOU'RE CONNECTING TO HAS A LANDING PAGE (i.e. Starbucks):
+
+You must turn immutable off to allow for connection to wifi landing/login pages.
+
+After an Internet connection is established,
+then you can go back to using stubby where /etc/resolv.conf is "nameserver 127.0.0.1", and is immutable.
+
+
+
+
+
+IF YOU CAN'T GET PAST A LANDING PAGE:
+
+Problem:
+Sometimes even clicking "I Agree, Connect" on the landing page doesn't work.
+i.e. "It looks like I'm getting stuck on the landing page even when I've PASSED login...
+for some reason EVERYTHING routes to that landing page and I can't do anything..."
+
+Cause: This may be an issue with running a very custom linux laptop, or any number of things.
+
+Workaround:
+Login with your smartphone, then change your laptop's mac id to the smartphone's mac id.
+
+Details:
+Some public wi-fi hotspots (i.e., Starbucks) keep track of connections by mac id.
+
+For example, resetting a mac address requires logging in again.
+Conversely, setting another device to a mac id that's already logged in will bypass the landing page.
+
+
+example:
+
+smartphone mac id:
+1a:2b:3c:4d:5e:6f
+
+laptop mac id:
+aa:bb:cc:dd:ee:ff
+
+## BASH COMMANDS ON LAPTOP
+ip link
+sudo ip link set mlan0 down
+sudo ip link set dev mlan0 address 1a:2b:3c:4d:5e:6f
+ip link
+
+## AND PERHAPS
+sudo ip link set mlan0 up
