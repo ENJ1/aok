@@ -4,6 +4,8 @@ Advanced Installation Guide
 
 Use a 4 GB or larger SD Card. USB's won't work.
 
+Developer Mode must be enabled already.
+
 1. In Chrome OS, move the aok folder from the zip to Downloads
 2. CTRL+ALT+T for a crosh window, run "shell" for a shell
 3. as chronos, run "cp -r ~/Downloads/aok /usr/local"
