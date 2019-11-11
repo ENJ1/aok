@@ -14,6 +14,8 @@ Developer Mode must be enabled already.
 6. ./1-install.sh
 7. Reboot. CTRL-U, Login (User: root, Pass: root), "cd /aok", and run scripts 2 through 8.
 
+The script may prompt you for a password, or other config info. It assumes you know what you're doing.
+
 
 Run "root" scripts as root. These provide setup for all users.
 Run "user" scripts as a user. These provide an environment, and user-specific settings.
