@@ -11,8 +11,9 @@ Developer Mode must be enabled already.
 3. as chronos, run "sudo cp -r ~/Downloads/aok-master /usr/local/aok"
 4. sudo su
 5. cd /usr/local/aok
-6. ./1-root-install.sh
-7. Reboot. CTRL-U, Login (User: root, Pass: root), "cd /aok", and run scripts 2 through 8.
+6. chmod +x *.sh
+7. ./1-root-install.sh
+8. Reboot. CTRL-U, Login (User: root, Pass: root), "cd /aok", and run scripts 2 through 8.
 
 The script will ask for a root password, a user (user "a") password, and uncommenting the wheel group in vi.
 It assumes you know what you're doing.
