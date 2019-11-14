@@ -6,5 +6,5 @@
 cp /usr/share/kbd/keymaps/i386/qwerty/us.map.gz /usr/share/kbd/keymaps/us-chrome-caps.map.gz
 gunzip /usr/share/kbd/keymaps/us-chrome-caps.map.gz
 echo "keycode 125 = Caps_Lock" >> /usr/share/kbd/keymaps/us-chrome-caps.map
-loadkeys /usr/local/share/kbd/keymaps/us-chrome-caps.map
+loadkeys /usr/share/kbd/keymaps/us-chrome-caps.map
 echo "KEYMAP=us-chrome-caps" > /etc/vconsole.conf
