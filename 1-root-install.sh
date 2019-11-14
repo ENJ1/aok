@@ -54,6 +54,10 @@ p
 w
 END
 cgpt add -i 1 -P 10 -T 5 -S 1 ${DEVICE} || echo -n
+
+## Avoid mkfs complaining if it's 'apparently in use by the system' but isn't
+umount rootfs || echo -n
+
 mkfs.ext4 -F ${DEVICE}${PARTITION_2}
 mkdir -p rootfs
 mount ${DEVICE}${PARTITION_2} rootfs
