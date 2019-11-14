@@ -8,7 +8,7 @@ Developer Mode must be enabled already.
 
 1. In Chrome OS, move the aok-master folder from the zip to Downloads
 2. CTRL+ALT+T for a crosh window, run "shell" for a shell
-3. as chronos, run "cp -r ~/Downloads/aok-master /usr/local/aok"
+3. as chronos, run "sudo cp -r ~/Downloads/aok-master /usr/local/aok"
 4. sudo su
 5. cd /usr/local/aok
 6. ./1-root-install.sh
