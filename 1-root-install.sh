@@ -62,10 +62,10 @@ dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 
 ## COPY CUSTOM SCRIPTS AND IMAGES
 mkdir -p rootfs/aok
-install -o root -g root -m 0644 *.txt /rootfs/aok/
-install -o root -g root -m 0755 *.sh /rootfs/aok/
-cp -r files /rootfs/aok
-cp -r extra /rootfs/aok
+install -o root -g root -m 0644 *.txt rootfs/aok/
+install -o root -g root -m 0755 *.sh rootfs/aok/
+cp -r files rootfs/aok
+cp -r extra rootfs/aok
 umount rootfs
 sync
 rmdir rootfs
