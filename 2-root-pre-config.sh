@@ -33,6 +33,13 @@ EOF
 useradd -m -G wheel -s /bin/bash a
 passwd a
 
+## disable systemd-resolved managment of dns because it breaks landing pages
+systemctl disable systemd-resolved.service
+
+## Put a classic resolv.conf in place instead of a broken link file
+rm /etc/resolv.conf
+echo "nameserver 1.1.1.1" > /etc/resolv.conf
+
 ## MANUAL WIFI CONFIGURATION
 wifi-menu
 
