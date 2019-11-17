@@ -13,9 +13,13 @@ passwd
 ## LOCALE
 ## NOTICE: CAPS LOCK KEY FIX MAY OVERRIDE SETTINGS: US ONLY
 
-## tzselect OR JUST SET TO PACIFIC TIME WITH THIS LINE
-ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
+## Set time zone to Pacific
+#ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
 
+## Let anyone set the time zone
+tzselect
+
+## Standard Arch Linux Recommendation, perhaps not necessary or needed
 hwclock --systohc
 
 ## nano /etc/locale.gen AND UNCOMMENT LOCALE, OR USE PREMADE FILE
@@ -23,7 +27,7 @@ install -o root -g root -m 0644 files/locale.gen /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
-## PERSONAL SYSTEM CONFIGURATION
+## AOK SYSTEM CONFIGURATION
 echo "ok" > /etc/hostname
 cat << EOF > /etc/hosts
 127.0.0.1	localhost
@@ -36,7 +40,7 @@ passwd a
 ## disable systemd-resolved managment of dns because it breaks landing pages
 systemctl disable systemd-resolved.service
 
-## Put a classic resolv.conf in place instead of a broken link file
+## Put a classic resolv.conf file in place, instead of what is now a broken link
 rm /etc/resolv.conf
 echo "nameserver 1.1.1.1" > /etc/resolv.conf
 
