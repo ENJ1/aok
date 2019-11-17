@@ -63,7 +63,7 @@ echo 'Enter a new password for the "a" account'
 passwd a
 
 ## Disable systemd-resolved DNS managment because it breaks Wi-Fi hotspot landing pages
-systemctl disable systemd-resolved.service
+systemctl disable systemd-resolved
 
 ## Put a classic resolv.conf file in place, instead of what is now a broken link
 rm /etc/resolv.conf
