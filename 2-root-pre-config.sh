@@ -69,34 +69,10 @@ systemctl disable systemd-resolved.service
 rm /etc/resolv.conf
 echo "nameserver 1.1.1.1" > /etc/resolv.conf
 
-## MANUAL WIFI CONFIGURATION
-wifi-menu
-
-## UNCOMMENT CLOSEST MIRROR, COMMENT MAIN
-#nano /etc/pacman.d/mirrorlist
-
 ## INITIALIZE PACKAGE MANAGER
 pacman-key --init
 pacman-key --populate archlinuxarm
 
-## Get sudo
-pacman --noconfirm -Sy sudo
-
-## Append wheel group line to /etc/sudoers file through visudo.
-## This allows root privilege to users who are members of the wheel group
-## This is an easy way to automate this but a cheap solution, because
-## a similar line already exists in the file but is commented out, and
-## because if this script is run again, this will be appended again.
-## Should probably use sed, or just copy a new file in without depending
-## on getting sudo, but does installing sudo overwrite the sudoers file?
-echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
-
 ## Exit message
-echo -e "\nIf you need to do advanced network administration, do that now.\n"
-echo "Otherwise, now is a good time to upgrade the system."
-echo "NOTICE: UPGRADING PACKAGES MAY REQUIRE MORE THAN THE AVAILABLE SPACE"
-echo "You may upgrade packages now with 'pacman -Syu', then 'reboot' when it is done."
-echo "Or you may skip this, and continue to the next script"
-
-## REBOOT TO LOAD UPGRADED KERNEL, ETC
-# reboot
+echo "Done."
+echo "Run 'wifi-menu' to get online. Then run the next script."
