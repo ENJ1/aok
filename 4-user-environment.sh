@@ -31,7 +31,7 @@ chown a:a /home/a/.xinitrc
 
 ## INSTALL lightdm AND ENABLE
 sudo pacman -S lightdm lightdm-gtk-greeter
-sudo systemctl enable lightdm.service
+sudo systemctl enable lightdm
 
 ## ESSENTIAL AUDIO
 sudo pacman -S volumeicon xterm
