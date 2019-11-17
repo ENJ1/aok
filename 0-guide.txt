@@ -1,5 +1,5 @@
 
-Arch Linux on the Samsung XE303C12 and HP Chromebook 11
+Arch Linux on the Samsung XE303C12
 Advanced Installation Guide
 
 Use a 4 GB or larger SD Card. USB's won't work.
