@@ -37,7 +37,7 @@ EOF
 useradd -m -G wheel -s /bin/bash a
 passwd a
 
-## disable systemd-resolved managment of dns because it breaks landing pages
+## Disable systemd-resolved DNS managment because it breaks Wi-Fi hotspot landing pages
 systemctl disable systemd-resolved.service
 
 ## Put a classic resolv.conf file in place, instead of what is now a broken link
@@ -54,16 +54,24 @@ wifi-menu
 pacman-key --init
 pacman-key --populate archlinuxarm
 
-## NOTICE: UPGRADING PACKAGES MAY REQUIRE MORE THAN THE AVAILABLE SPACE
+## Get sudo
 pacman --noconfirm -Sy sudo
 
-## Append wheel group line to /etc/sudoers file through visudo
+## Append wheel group line to /etc/sudoers file through visudo.
 ## This allows root privilege to users who are members of the wheel group
+## This is an easy way to automate this but a cheap solution, because
+## a similar line already exists in the file but is commented out, and
+## because if this script is run again, this will be appended again.
+## Should probably use sed, or just copy a new file in without depending
+## on getting sudo, but does installing sudo overwrite the sudoers file?
 echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 
-## CHOICE
-echo "upgrade packages now with 'pacman -Syu', and reboot..."
-echo "or continue to next script"
+## CHOICE\
+echo -e "\nIf you need to do advanced network administration, do that now.\n"
+echo "Otherwise, now is a good time to upgrade the system."
+echo "NOTICE: UPGRADING PACKAGES MAY REQUIRE MORE THAN THE AVAILABLE SPACE"
+echo "You may upgrade packages now with 'pacman -Syu', then reboot..."
+echo "Or you may skip this, and continue to next script"
 
 ## REBOOT TO LOAD UPGRADED KERNEL, ETC
 # reboot
