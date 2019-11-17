@@ -38,11 +38,12 @@ dmesg -n 1
 ## xorg-xinput: command line mouse and trackpad control (script included in extra)
 ## cgpt: for creating partition flags for chromebooks (used by install script)
 ## mplayer: install a video player that actually works. vlc is too heavy.
+## cheese: webcam video capture
 ##
 pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm \
 firefox unzip zip xarchiver volumeicon xfce4 xorg-xinit lightdm lightdm-gtk-greeter \
 networkmanager nm-connection-editor network-manager-applet blueman gpicview mousepad \
-xorg-xinput cgpt mplayer
+xorg-xinput cgpt mplayer cheese
 ###########################################################################
 
 ###########################################################################
