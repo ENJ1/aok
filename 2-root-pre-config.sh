@@ -93,10 +93,8 @@ echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(A
 echo -e "\nIf you need to do advanced network administration, do that now.\n"
 echo "Otherwise, now is a good time to upgrade the system."
 echo "NOTICE: UPGRADING PACKAGES MAY REQUIRE MORE THAN THE AVAILABLE SPACE"
-echo "You may upgrade packages now with 'pacman -Syu', then reboot..."
-echo "Or you may skip this, and continue to next script"
+echo "You may upgrade packages now with 'pacman -Syu', then 'reboot' when it is done."
+echo "Or you may skip this, and continue to the next script"
 
 ## REBOOT TO LOAD UPGRADED KERNEL, ETC
 # reboot
-
-
