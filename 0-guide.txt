@@ -16,11 +16,15 @@ Developer Mode must be enabled already.
 8. ./1-install.sh
 9. Reboot. CTRL-U, Login (User: root, Pass: root), "cd /aok", and run scripts 2 through 8.
 
-The script will ask for a root password, a user (user "a") password, and uncommenting the wheel group in vi.
-It assumes you know what you're doing.
-
-Run "root" scripts as root. These provide setup for all users.
-Run "user" scripts as a user. These provide an environment, and user-specific settings.
+To run scripts 2-8:
+1. Login as "root", password "root"
+2. Type "cd /aok" and press enter
+3. Type "ls" and press enter to list the contents of the folder
+4. Type "./2-run-on-first-login.sh" and press enter to run the script.
+5. Get online by typing "wifi-menu" and pressing enter.
+     This will run a program that guides you to connecting to a Wi-Fi network.
+     If the Wi-Fi Hotspot has a Landing Page, see the WiFi Hotspot Help file in "extra".
+5. Repeat the process for the next scripts
 
 You probably will want to customize 2-root-pre-config.sh with:
   - Your timezone
