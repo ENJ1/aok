@@ -37,11 +37,12 @@
 ## mplayer: install a video player that actually works. vlc is too heavy.
 ## cheese: webcam video capture
 ## gmtp: needed for android file transfers
+## android-file-transfer: needed for transferring files to/from android devices
 ##
 pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm \
 firefox unzip zip xarchiver volumeicon xfce4 xorg-xinit lightdm lightdm-gtk-greeter \
 networkmanager nm-connection-editor network-manager-applet blueman gpicview mousepad \
-xorg-xinput cgpt mplayer cheese gmtp
+xorg-xinput cgpt mplayer cheese gmtp android-file-transfer
 ###########################################################################
 
 ###########################################################################
