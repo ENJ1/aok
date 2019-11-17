@@ -26,9 +26,17 @@ dmesg -n 1
 ## zip: basic utility
 ## xarchiver: gui frontend for tar, zip, gzip, xz, etc.
 ## volumeicon: volume gui. depends on xterm by default but won't automatically install it
+## xfce4: Desktop Environment and all associated packages
+## xorg-xinit: for being able to disable lightdm, boot to prompt, then run startx
+## lightdm: autostart Xfce on bootup
+## lightdm-gtk-greeter: login screen
+## networkmanager: networking backend
+## nm-connection-editor: networking editor gui
+## network-manager-applet: tray icon
 ##
 pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm leafpad \
-firefox unzip zip xarchiver volumeicon
+firefox unzip zip xarchiver volumeicon xfce4 xorg-xinit lightdm lightdm-gtk-greeter \
+networkmanager nm-connection-editor network-manager-applet
 ###########################################################################
 
 ###########################################################################
@@ -112,10 +120,7 @@ EOF
 ###########################################################################
 
 
-
-
-## Get sudo, and configure
-#pacman --noconfirm -Sy sudo
+## Configure sudo
 ## Append wheel group line to /etc/sudoers file through visudo.
 ## This allows root privilege to users who are members of the wheel group
 ## This is an easy way to automate this but a cheap solution, because
@@ -125,7 +130,10 @@ EOF
 ## on getting sudo, but does installing sudo overwrite the sudoers file?
 echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 
-## FIX CAPS LOCK KEY FOR XORG X11 WINDOWING (NOT CONSOLE)
+
+###########################################################################
+## CAPS LOCK PATCH (FOR WINDOW ENVIRONMENT NOT CONSOLE)
+##
 ## THIS WILL PROVIDE CAPS LOCK GLOBALLY, FOR ALL USERS, EVEN AT LOGIN.
 ## THIS CHANGES THE CONFIGURATION FOR "Generic 105-key PC (intl.)" AND
 ## OTHER GENERIC KEYBOARDS. IF YOU INSTEAD CHOOSE A CHROMEBOOK KEYBOARD
@@ -149,33 +157,18 @@ cp /usr/share/X11/xkb/symbols/pc-chrome-caps /usr/share/X11/xkb/symbols/pc
 ## To load it on X11 login every time for that user...
 ## (This may not work for the root user, and may not work for all systems)
 #echo "keycode 133 = Caps_Lock" > ~/.Xmodmap
-
-## Optional openbox setup
-# sudo pacman -S openbox xorg-xinit
-# echo "exec openbox" > /home/a/.xinitrc
-# chown a:a /home/a/.xinitrc
+###########################################################################
 
 
-## BROWSER
-# sudo pacman -S links
-# sudo pacman -S lynx
-
-## XFCE
-sudo pacman -S xfce4 xorg-xinit
+## Configure being able to run "startx" to load Xfce
 echo "exec startxfce4" > /home/a/.xinitrc
 chown a:a /home/a/.xinitrc
 
-## INSTALL lightdm AND ENABLE
-sudo pacman -S lightdm lightdm-gtk-greeter
-sudo systemctl enable lightdm
+## Enable lightdm to load Xfce on boot
+systemctl enable lightdm
 
-## Enable WiFi gui autostart now that lightdm is autostarting
-################################################################
-## INSTALL "networkmanager", GUI INTERFACE, AND SYSTRAY ICON
-sudo pacman -S networkmanager nm-connection-editor network-manager-applet
-
-## ENABLE "networkmanager" ON BOOT
-sudo systemctl enable NetworkManager.service
+## Enable WiFi gui autostart now that lightdm is autostarting Xfce
+systemctl enable NetworkManager
 
 ## DO NOT START NetworkManager.service WITH wifi-menu RUNNING
 ## BECAUSE THEN THE SYSTEM WOULD HANG WHEN TRYING TO SHUT DOWN/REBOOT
@@ -210,7 +203,16 @@ sudo pacman -S gpicview
 
 
 
+## Command line browsers
+# sudo pacman -S links
+# sudo pacman -S lynx
+
 #################### OPENBOX ENVIRONMENT ###################
+
+## Openbox
+# sudo pacman -S openbox xorg-xinit
+# echo "exec openbox" > /home/a/.xinitrc
+# chown a:a /home/a/.xinitrc
 
 ## menu.xml IS CURRENTLY  CONFIGURED TO DEPEND ON THE FOLLOWING COMMANDS:
 # firefox gmrun gedit terminator deluge deadbeef wicd-client thunar \
