@@ -15,29 +15,32 @@ dmesg -n 1
 ## Sync repo, upgrade, and install packages without hassle
 ##
 ## sudo: needed to gain root privilege
-## xf86-video-fbdev: needed for Mali-T604 Graphics acceleration (patch below)
+## xf86-video-fbdev: needed for Mali-T604 Graphics acceleration patch below
 ## alsa-utils: needed for auto (patch below); to unmute audio and keep unmuted
 ## xorg-server: needed for Xfce. chromebook caps (patch below)
-## ttf-dejavu: essential basic fonts
+## ttf-dejavu: basic font pack
 ## xterm: needed for volumeicon, and recommended for volumeicon because the window is small
-## leafpad: super lightweight minimal gui text editor (optional)
 ## firefox: needed for landing page redirection for public Wi-Fi Hotspots
 ## unzip: basic utility
 ## zip: basic utility
 ## xarchiver: gui frontend for tar, zip, gzip, xz, etc.
 ## volumeicon: volume gui. depends on xterm by default but won't automatically install it
-## xfce4: Desktop Environment and all associated packages
-## xorg-xinit: for being able to disable lightdm, boot to prompt, then run startx
-## lightdm: autostart Xfce on bootup
+## xfce4: Desktop Environment and all associated packages (gui config will be on desktop)
+## xorg-xinit: start Xfce from command line (configured below)
+## lightdm: autostart Xfce on bootup (enabled below)
 ## lightdm-gtk-greeter: login screen
-## networkmanager: networking backend
+## networkmanager: networking backend (enabled below)
 ## nm-connection-editor: networking editor gui
 ## network-manager-applet: tray icon
-## gpicview: minimal image viewer
+## gpicview: lightweight image viewer
+## mousepad: lightweight text editor and code syntax highlighter made for Xfce
+## xorg-xinput: command line mouse and trackpad control (script included in extra)
+## cgpt: for creating partition flags for chromebooks (used by install script)
 ##
-pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm leafpad \
+pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm \
 firefox unzip zip xarchiver volumeicon xfce4 xorg-xinit lightdm lightdm-gtk-greeter \
-networkmanager nm-connection-editor network-manager-applet gpicview
+networkmanager nm-connection-editor network-manager-applet gpicview mousepad \
+xorg-xinput cgpt
 ###########################################################################
 
 ###########################################################################
@@ -195,16 +198,18 @@ systemctl enable NetworkManager
 ## OPTIONAL PACKAGES
 ################################################################
 
+## Command line browsers
+##
+# sudo pacman -S links
+# sudo pacman -S lynx
+
+## AUDIO
+##
 ## deadbeef: minimal yet full featured audio player
 ## audacity: powerful audio editor and converter (add-ons not installed)
 ## lmms: linux multimedia music studio for loops (not a DAW)
 ##
 # pacman -Sy deadbeef audacity lmms
-
-## Command line browsers
-##
-# sudo pacman -S links
-# sudo pacman -S lynx
 
 ############################################################
 ## OPENBOX ENVIRONMENT
@@ -256,9 +261,6 @@ systemctl enable NetworkManager
 ## TORRENTING
 # sudo pacman -S deluge
 
-## COMMAND LINE TOUCHPAD AND MOUSE CONTROL AND FINE TUNING
-# sudo pacman -S xorg-xinput
-
 ## COMMAND LINE DOWNLOAD UTILITY (OTHER THAN CURL)
 # sudo pacman -S wget
 
@@ -287,7 +289,6 @@ systemctl enable NetworkManager
 ## x264: FOR VIDEO
 ## lshw: FOR LISTING HARDWARE
 ## hardinfo: FOR BROWSING KERNEL MODULES
-## cgpt: for creating partition flags for chromebooks
 # sudo pacman -S cgpt base-devel x264 lshw hardinfo cmake gcc
 
 ## HEAVY PROGRAMS
@@ -299,12 +300,12 @@ systemctl enable NetworkManager
 ## sudo pacman -S libreoffice
 
 
-
 ## Exit message
-#echo "Now is a good time to upgrade the system, if there is enough storage space"
-#echo "Run 'df -h' to view available space"
-#echo "You may upgrade packages now with 'pacman -Syu', then 'reboot' when it is done."
-#echo "Or you may skip this, and continue to the next script"
+echo ""
+echo "Done."
+echo ""
+#echo "Press space to reboot."
+
 
 ## REBOOT TO LOAD UPGRADED KERNEL, ETC
 reboot
