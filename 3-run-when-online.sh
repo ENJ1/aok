@@ -265,9 +265,9 @@ systemctl enable bluetooth
 cp /etc/skel/.bashrc /root
 
 ## Exit message
-echo ""
+echo
 echo "Done."
-echo ""
+echo
 
 ## REBOOT TO LOAD UPGRADED KERNEL, ETC
 read -p "Press enter to reboot"
