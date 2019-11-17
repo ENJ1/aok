@@ -116,9 +116,9 @@ echo "echo ''" >> rootfs/root/.bashrc
 umount rootfs
 sync
 rmdir rootfs
-echo ""
+echo
 echo "Arch Linux is Installed."
-echo ""
+echo
 echo "Would you also like to copy the Arch Linux Distro for future installs?"
 read -p "(y/N) > " FUTURE
 case "$FUTURE" in
@@ -129,11 +129,24 @@ case "$FUTURE" in
     umount rootfs
     sync
     rmdir rootfs
-    echo "Distro copied. Done."
+    echo "Distro copied."
     ;;
   *)
-    echo "Done."
+    echo
     ;;
+esac
+echo "Done."
+echo "Reboot and press CTRL-U to boot to SD Card, or CTRL-D to boot Internal Storage."
+echo "Username: root"
+echo "Password: root"
+echo "Would you like to reboot now? (Y/n)"
+read -p "> " REBOOT
+case "$REBOOT" in
+  n|N|no|No|NO|nO)
+      ;;
+  *)
+      reboot
+      ;;
 esac
 }
 
