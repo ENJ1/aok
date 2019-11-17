@@ -6,9 +6,6 @@
 ## Sometimes the main mirror doesn't work, so this may be necessary.
 #nano /etc/pacman.d/mirrorlist
 
-## STOP KERNEL MESSAGES FROM INTERFERING WITH CONSOLE
-dmesg -n 1
-
 ###########################################################################
 ## UPGRADE AND INSTALL PACKAGES
 ##
