@@ -1,4 +1,4 @@
-#!/bin/bash -ev
+#!/bin/bash -e
 
 ## Run 'wifi-menu' before running this, so you can get online
 
@@ -7,12 +7,14 @@
 ## be necessary.
 #nano /etc/pacman.d/mirrorlist
 
+## Sync repo, upgrade, and install packages without hassle
+pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils
+
 ## DOWNLOAD DRIVER FOR PARTIAL MALI-T604 SUPPORT
-pacman -Sy --noconfirm xf86-video-fbdev
+#pacman -Sy --noconfirm xf86-video-fbdev
 ## CREATE xf86-video-fbdev CONFIG FILE FOR PARTIAL MALI-T604 SUPPORT
 ## MUST DOWNLOAD xf86-video-fbdev PACKAGE FOR THIS TO MAKE A DIFFERENCE
 mkdir -p /etc/X11/xorg.conf.d/
-
 cat << EOF > /etc/X11/xorg.conf.d/10-monitor.conf
 Section	"Device"
 	Identifier	"Mali FBDEV"
@@ -31,15 +33,12 @@ Section	"Screen"
 	DefaultDepth	24
 EndSection
 EOF
-
 ## WITH THIS DRIVER SETUP, THE XORG SERVER NEEDS ROOT PRIVILEGE
 echo "needs_root_rights = yes" > /etc/X11/Xwrapper.config
 
 
-
 ## TO ENABLE AUDIO WE WILL USE alsa-utils
-pacman -S alsa-utils
-
+#pacman -S alsa-utils
 ## UNMUTE. TO DO MANUALLY, RUN "alsamixer",
 ## USE RIGHT ARROW, AND PRESS "m" TO UNMUTE THE FOLLOWING:
 amixer -c 0 set 'Left Headphone Mixer Left DAC1' on
@@ -51,9 +50,9 @@ amixer -c 0 set 'Right Speaker Mixer Right DAC1' on
 # SET VOLUME (DEFAULT IS ZERO)
 amixer -c 0 set Headphone 70%
 amixer -c 0 set Speaker 70%
+
 ## PLUGGING-IN/UNPLUGGING HEADPHONES WILL NOT MUTE/UNMUTE THE SPEAKER
 ## THIS MUST BE CONTROLLED MANUALLY BY THE USER
-
 ## SAVE SETTINGS AFTER UNMUTING HEADPHONES AND SPEAKER
 ## THIS ALSO CREATES A FILE SO THAT CHANGES ALWAYS PERSIST ACROSS REBOOTS
 alsactl store
@@ -93,7 +92,7 @@ EOF
 
 
 ## Get sudo, and configure
-pacman --noconfirm -Sy sudo
+#pacman --noconfirm -Sy sudo
 ## Append wheel group line to /etc/sudoers file through visudo.
 ## This allows root privilege to users who are members of the wheel group
 ## This is an easy way to automate this but a cheap solution, because
@@ -103,11 +102,15 @@ pacman --noconfirm -Sy sudo
 ## on getting sudo, but does installing sudo overwrite the sudoers file?
 echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 
+
+
+
+
 ## Exit message
-echo "Now is a good time to upgrade the system, if there is enough storage space"
-echo "Run 'df -h' to view available space"
-echo "You may upgrade packages now with 'pacman -Syu', then 'reboot' when it is done."
-echo "Or you may skip this, and continue to the next script"
+#echo "Now is a good time to upgrade the system, if there is enough storage space"
+#echo "Run 'df -h' to view available space"
+#echo "You may upgrade packages now with 'pacman -Syu', then 'reboot' when it is done."
+#echo "Or you may skip this, and continue to the next script"
 
 ## REBOOT TO LOAD UPGRADED KERNEL, ETC
-# reboot
+reboot
