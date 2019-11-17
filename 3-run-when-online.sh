@@ -3,17 +3,40 @@
 ## Run 'wifi-menu' before running this, so you can get online
 
 ## Optionally, you can choose a closer mirror for faster downloads.
-## Sometimes the main mirror just doesn't work, so this might actually
-## be necessary.
+## Sometimes the main mirror doesn't work, so this may be necessary.
 #nano /etc/pacman.d/mirrorlist
 
-## Sync repo, upgrade, and install packages without hassle
-pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils
+## STOP KERNEL MESSAGES FROM INTERFERING WITH CONSOLE
+dmesg -n 1
 
-## DOWNLOAD DRIVER FOR PARTIAL MALI-T604 SUPPORT
-#pacman -Sy --noconfirm xf86-video-fbdev
-## CREATE xf86-video-fbdev CONFIG FILE FOR PARTIAL MALI-T604 SUPPORT
-## MUST DOWNLOAD xf86-video-fbdev PACKAGE FOR THIS TO MAKE A DIFFERENCE
+###########################################################################
+## UPGRADE AND INSTALL PACKAGES
+##
+## Sync repo, upgrade, and install packages without hassle
+##
+## sudo: needed to gain root privilege
+## xf86-video-fbdev: needed for Mali-T604 Graphics acceleration (patch below)
+## alsa-utils: needed for auto (patch below); to unmute audio and keep unmuted
+## xorg-server: needed for Xfce. chromebook caps (patch below)
+## ttf-dejavu: essential basic fonts
+## xterm: needed for volumeicon, and recommended for volumeicon because the window is small
+## leafpad: super lightweight minimal gui text editor (optional)
+## firefox: needed for landing page redirection for public Wi-Fi Hotspots
+## unzip: basic utility
+## zip: basic utility
+## xarchiver: gui frontend for tar, zip, gzip, xz, etc.
+## volumeicon: volume gui. depends on xterm by default but won't automatically install it
+##
+pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm leafpad \
+firefox unzip zip xarchiver volumeicon
+###########################################################################
+
+###########################################################################
+## VIDEO PATCH
+##
+## DEPENDS ON: xf86-video-fbdev
+##
+## Create configuration file to implement graphics acceleration
 mkdir -p /etc/X11/xorg.conf.d/
 cat << EOF > /etc/X11/xorg.conf.d/10-monitor.conf
 Section	"Device"
@@ -33,12 +56,14 @@ Section	"Screen"
 	DefaultDepth	24
 EndSection
 EOF
-## WITH THIS DRIVER SETUP, THE XORG SERVER NEEDS ROOT PRIVILEGE
+## With this driver setup, the Xorg Server needs root privilege
 echo "needs_root_rights = yes" > /etc/X11/Xwrapper.config
+###########################################################################
 
-
+###########################################################################
+## AUDIO PATCH
+##
 ## TO ENABLE AUDIO WE WILL USE alsa-utils
-#pacman -S alsa-utils
 ## UNMUTE. TO DO MANUALLY, RUN "alsamixer",
 ## USE RIGHT ARROW, AND PRESS "m" TO UNMUTE THE FOLLOWING:
 amixer -c 0 set 'Left Headphone Mixer Left DAC1' on
@@ -46,17 +71,17 @@ amixer -c 0 set 'Right Headphone Mixer Right DAC1' on
 amixer -c 0 set 'Left Speaker Mixer Left DAC1' on
 amixer -c 0 set 'Right Speaker Mixer Right DAC1' on
 ## DOES A MICROPHONE NEED TO BE UNMUTED?
-
-# SET VOLUME (DEFAULT IS ZERO)
+##
+## SET VOLUME (DEFAULT IS ZERO)
 amixer -c 0 set Headphone 70%
 amixer -c 0 set Speaker 70%
-
+##
 ## PLUGGING-IN/UNPLUGGING HEADPHONES WILL NOT MUTE/UNMUTE THE SPEAKER
 ## THIS MUST BE CONTROLLED MANUALLY BY THE USER
 ## SAVE SETTINGS AFTER UNMUTING HEADPHONES AND SPEAKER
 ## THIS ALSO CREATES A FILE SO THAT CHANGES ALWAYS PERSIST ACROSS REBOOTS
 alsactl store
-
+##
 ## CREATE AUDIO CONFIGURATION FILE
 ## THIS ALLOWS MULTIPLE SOUND STREAMS AT THE SAME TIME
 cat << EOF > /etc/asound.conf
@@ -84,11 +109,9 @@ ctl.dmixer {
        card 0
 }
 EOF
+###########################################################################
 
-## OPTIONAL MINIMAL PACKAGES FOR IMPROVED CONTROL
-## volumeicon DEPENDS ON xterm UNLESS OTHERWISE CONFIGURED
-## xterm IS RECOMMENDED HERE BECAUSE THE WINDOW IS SMALL
-# sudo pacman -S volumeicon xterm
+
 
 
 ## Get sudo, and configure
@@ -102,7 +125,185 @@ EOF
 ## on getting sudo, but does installing sudo overwrite the sudoers file?
 echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 
+## FIX CAPS LOCK KEY FOR XORG X11 WINDOWING (NOT CONSOLE)
+## THIS WILL PROVIDE CAPS LOCK GLOBALLY, FOR ALL USERS, EVEN AT LOGIN.
+## THIS CHANGES THE CONFIGURATION FOR "Generic 105-key PC (intl.)" AND
+## OTHER GENERIC KEYBOARDS. IF YOU INSTEAD CHOOSE A CHROMEBOOK KEYBOARD
+## IN THE LAYOUT SETTINGS OF YOUR DESKTOP ENVIRONMENT, THEN YOU
+## WILL GET THE TRUE CHROMEBOOK EXPERIENCE: NO CAPS LOCK.
+## Backup the original keyboard configuration file
+cp -n /usr/share/X11/xkb/symbols/pc /usr/share/X11/xkb/symbols/pc.bak
+## Create a new custom file
+sed 's/key <LWIN> {\t\[ Super_L/key <LWIN> {\t\[ Caps_Lock/g' \
+/usr/share/X11/xkb/symbols/pc > /usr/share/X11/xkb/symbols/pc-chrome-caps
+## Overwrite the old file with the new custom file
+cp /usr/share/X11/xkb/symbols/pc-chrome-caps /usr/share/X11/xkb/symbols/pc
+## You must reboot for changes to take effect
+#reboot
+## You can restore the original file at any time
+#cp /usr/share/X11/xkb/symbols/pc.bak /usr/share/X11/xkb/symbols/pc
+## X11 CAPS LOCK, PER USER, PER SESSION: THE SIMPLE WAY
+## Alternatively, you could just run the following command, but you would have
+## to run it upon every login, for every user.
+#xmodmap -e "keycode 133 = Caps_Lock"
+## To load it on X11 login every time for that user...
+## (This may not work for the root user, and may not work for all systems)
+#echo "keycode 133 = Caps_Lock" > ~/.Xmodmap
 
+## Optional openbox setup
+# sudo pacman -S openbox xorg-xinit
+# echo "exec openbox" > /home/a/.xinitrc
+# chown a:a /home/a/.xinitrc
+
+
+## BROWSER
+# sudo pacman -S links
+# sudo pacman -S lynx
+
+## XFCE
+sudo pacman -S xfce4 xorg-xinit
+echo "exec startxfce4" > /home/a/.xinitrc
+chown a:a /home/a/.xinitrc
+
+## INSTALL lightdm AND ENABLE
+sudo pacman -S lightdm lightdm-gtk-greeter
+sudo systemctl enable lightdm
+
+## Enable WiFi gui autostart now that lightdm is autostarting
+################################################################
+## INSTALL "networkmanager", GUI INTERFACE, AND SYSTRAY ICON
+sudo pacman -S networkmanager nm-connection-editor network-manager-applet
+
+## ENABLE "networkmanager" ON BOOT
+sudo systemctl enable NetworkManager.service
+
+## DO NOT START NetworkManager.service WITH wifi-menu RUNNING
+## BECAUSE THEN THE SYSTEM WOULD HANG WHEN TRYING TO SHUT DOWN/REBOOT
+## AND THE CHROMEBOOK MIGHT THINK IT NEEDS TO REPAIR ITSELF
+## IN THAT CASE, DON'T LET IT DO ANYTHING, JUST HOLD POWER TO TURN OFF
+
+
+### DEPRECATED METHOD: WICD
+
+## INSTALL WICD
+# sudo pacman -S wicd wicd-gtk
+
+## RUN WICD ONCE, NOW
+# sudo wicd
+
+## ENABLE WIFI STARTING ON BOOT-UP
+# sudo systemctl enable wicd.service
+################################################################
+
+
+
+
+
+## ESSENTIAL AUDIO
+sudo pacman -S volumeicon xterm
+
+## ESSENTIAL IMAGE
+sudo pacman -S gpicview
+
+## AUDIO
+# pacman -S deadbeef audacity lmms
+
+
+
+#################### OPENBOX ENVIRONMENT ###################
+
+## menu.xml IS CURRENTLY  CONFIGURED TO DEPEND ON THE FOLLOWING COMMANDS:
+# firefox gmrun gedit terminator deluge deadbeef wicd-client thunar \
+# tint2 leafpad obmenux obconf tint2conf xterm 
+
+## OPENBOX AUTOSTART & MENU
+# mkdir -p /home/a/.config/openbox/
+# chown a:a /home/a/.config/
+# chown a:a /home/a/.config/openbox/
+# touch /home/a/.config/openbox/autostart
+# chown a:a /home/a/.config/openbox/autostart
+# cp files/menu.xml /home/a/.config/openbox/menu.xml
+# chown a:a /home/a/.config/openbox/menu.xml
+
+## BASIC CUT/COPY/PASTE FUNCTIONALITY WITHOUT A DESKTOP ENVIRONMENT
+# sudo pacman -S parcellite
+
+## BASIC IMAGE VIEWER, PROGRAM RUNNER, SCREENSHOT
+# sudo pacman -S feh gmrun scrot
+
+## DESKTOP
+# sudo pacman -S xfdesktop
+
+## GUI FILE MANAGER
+# sudo pacman -S thunar
+# sudo pacman -S pcmanfm
+
+## TINT2
+# sudo pacman -S tint2
+# mkdir -p /home/a/.config/tint2/
+# chown a:a /home/a/.config/tint2/
+# cp files/tint2rc /home/a/.config/tint2/tint2rc
+# chown a:a /home/a/.config/tint2/tint2rc
+
+## THE GITHUB PROGRAM obmenux NEEDS pygtk
+# sudo pacman -S pygtk
+# sudo pacman -S obconf
+
+#########################################################
+
+
+
+
+
+### OPTIONAL PACKAGES
+
+## TORRENTING
+# sudo pacman -S deluge
+
+## COMMAND LINE TOUCHPAD AND MOUSE CONTROL AND FINE TUNING
+# sudo pacman -S xorg-xinput
+
+## COMMAND LINE DOWNLOAD UTILITY (OTHER THAN CURL)
+# sudo pacman -S wget
+
+## PDF
+## sudo pacman -S evince
+
+## ANDROID FILE TRANSFER
+# sudo pacman -S android-file-transfer
+
+## CALCULATOR
+# sudo pacman -S galculator
+# sudo pacman -S speedcrunch
+
+## VIDEO
+## VLC VIDEO ON THIS LAPTOP WITHOUT FULL MALI-T604 SUPPORT IS NOT RECOMMENDED
+## PARTIAL MALI-T604 SUPPORT FROM xf86-video-fbdev WITH CONFIG FILES WILL
+## ALLOW BASIC VIDEO FUNCTIONALITY:
+## YOUTUBE VIDEO WORKS
+## AND x264 VIDEO WORKS (AT LEAST AT LOW RESOLUTIONS)
+## x265 VIDEO IS KNOWN TO NOT WORK WITHOUT FULL MALI-T604 SUPPORT
+## vlc NEEDS qt4, BUT IT DOESN'T GET INSTALLED AUTOMATICALLY
+# sudo pacman -S vlc qt4
+
+## DEVELOPMENT PACKAGES
+## base-devel INCLUDES gcc AND make WHICH ARE NECESSARY FOR YAOURT
+## x264 FOR VIDEO
+## lshw FOR LISTING HARDWARE
+## hardinfo FOR BROWSING KERNEL MODULES
+## cgpt for creating partition flags for chromebooks
+# sudo pacman -S cgpt base-devel x264 lshw hardinfo cmake gcc
+
+
+
+
+## LARGE PROGRAMS
+
+## IMAGE
+## sudo pacman -S gimp
+
+## OFFICE
+## sudo pacman -S libreoffice
 
 
 
