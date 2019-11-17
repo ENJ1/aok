@@ -71,9 +71,16 @@ pacman-key --init
 pacman-key --populate archlinuxarm
 
 ## Exit message
-echo ""
+echo
 echo "Done."
-echo ""
+echo
 echo "If you need to do advanced network administration, do that now."
-echo ""
+echo
+echo "You may want or need to uncomment a closer mirror for downloading packages."
+echo "To do that, type 'nano /etc/pacman.d/mirrorlist' and press enter,"
+echo "then uncomment (remove the leading # character) from a closer mirror,"
+echo "save the file by pressing CTRL-O, then exit using CTRL-X"
+echo "You may also want to comment out (add a leading # character) to the line"
+echo "that has the default mirror, or a mirror that isn't working for you."
+echo
 echo "Run 'wifi-menu' to get online. Then run the next script."
