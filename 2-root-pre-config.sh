@@ -74,5 +74,9 @@ pacman-key --init
 pacman-key --populate archlinuxarm
 
 ## Exit message
+echo ""
 echo "Done."
+echo ""
+echo "If you need to do advanced network administration, do that now."
+echo ""
 echo "Run 'wifi-menu' to get online. Then run the next script."
