@@ -171,12 +171,10 @@ cp /usr/share/X11/xkb/symbols/pc-chrome-caps /usr/share/X11/xkb/symbols/pc
 cat << EOL > /etc/xdg/autostart/volumeicon.desktop
 [Desktop Entry]
 Name=Volume Icon
-Comment=Volume Icon Volume Control
-Icon=
+Comment=Volume Control
 Exec=volumeicon
 Terminal=false
 Type=Application
-Categories=
 EOL
 
 ## Configure being able to run "startx" to load Xfce
