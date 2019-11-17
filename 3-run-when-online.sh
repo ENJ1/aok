@@ -250,6 +250,8 @@ systemctl enable NetworkManager
 ## OFFICE
 ## sudo pacman -S libreoffice
 
+## Now that that's all done, remove install help from the root bashrc
+cp /etc/skel/.bashrc /root
 
 ## Exit message
 echo ""
