@@ -24,6 +24,8 @@ To run scripts 2-8:
 5. Get online by typing "wifi-menu" and pressing enter.
      This will run a program that guides you to connecting to a Wi-Fi network.
      If the Wi-Fi Hotspot has a Landing Page, see the WiFi Hotspot Help file in "extra".
+     Once the system is installed, Landing Pages will work automatically and a browser
+     will be installed so you can visit the Landing Page and get online.
 5. Repeat the process for the next scripts
 
 You probably will want to customize 2-root-pre-config.sh with:
