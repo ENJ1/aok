@@ -77,7 +77,7 @@ echo "Done."
 echo
 echo "If you need to do advanced network administration, do that now."
 echo
-echo "You may want or need to uncomment a closer mirror for downloading packages."
+echo "You may want or need to use a closer mirror for downloading packages."
 echo "To do that, type 'nano /etc/pacman.d/mirrorlist' and press enter,"
 echo "then uncomment (remove the leading # character) from a closer mirror,"
 echo "save the file by pressing CTRL-O, then exit using CTRL-X"
