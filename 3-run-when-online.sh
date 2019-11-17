@@ -190,7 +190,6 @@ systemctl enable NetworkManager
 # sudo wicd
 ## ENABLE WIFI STARTING ON BOOT-UP
 # sudo systemctl enable wicd
-################################################################
 
 
 
