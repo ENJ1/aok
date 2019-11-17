@@ -66,7 +66,7 @@ pacman --noconfirm -Sy sudo
 ## on getting sudo, but does installing sudo overwrite the sudoers file?
 echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 
-## CHOICE\
+## Exit message
 echo -e "\nIf you need to do advanced network administration, do that now.\n"
 echo "Otherwise, now is a good time to upgrade the system."
 echo "NOTICE: UPGRADING PACKAGES MAY REQUIRE MORE THAN THE AVAILABLE SPACE"
