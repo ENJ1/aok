@@ -2,7 +2,11 @@
 Arch Linux on the Samsung XE303C12
 Advanced Installation Guide
 
-Use a 4 GB or larger SD Card. USB's won't work.
+Minimum Requirements:
+4 GB or larger SD Card. USB's won't work.
+
+Recommended:
+8 GB or larger SD Card.
 
 Developer Mode must be enabled already.
 
@@ -14,9 +18,9 @@ Developer Mode must be enabled already.
 6. cd /usr/local/aok
 7. chmod +x *.sh
 8. ./1-install.sh
-9. Reboot. CTRL-U, Login (User: root, Pass: root), "cd /aok", and run scripts 2 through 8.
+9. Reboot. CTRL-U, Login (User: root, Pass: root), "cd /aok", and run scripts.
 
-To run scripts 2-8:
+To run scripts after install:
 1. Login as "root", password "root"
 2. Type "cd /aok" and press enter
 3. Type "ls" and press enter to list the contents of the folder
@@ -26,16 +30,14 @@ To run scripts 2-8:
      If the Wi-Fi Hotspot has a Landing Page, see the WiFi Hotspot Help file in "extra".
      Once the system is installed, Landing Pages will work automatically and a browser
      will be installed so you can visit the Landing Page and get online.
-5. Repeat the process for the next scripts
+5. Repeat the process for the next script, using that script name
 
-You probably will want to customize 2-root-pre-config.sh with:
-  - Your timezone
+You may want to customize script 2 with:
   - Your locale
   - Your own username
   - Your own hostname
-IF YOU MODIFY THE USERNAME, YOU WILL HAVE TO MODIFY IT IN ALL
-THE OTHER USER SCRIPTS!!!
+IF YOU MODIFY THE USERNAME, YOU WILL HAVE TO MODIFY THE OTHER SCRIPT TO MATCH IT!!!
 
-You probably REALLY want to run the "patch" scripts!!!
-The patch scripts get Arch Linux working nicely on the XE303C12.
+You probably REALLY want to run the "patch" stuff!!!
+The patch code get Arch Linux working nicely on the XE303C12.
 Everything else is just normal Arch Linux install stuff.
