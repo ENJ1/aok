@@ -1,4 +1,4 @@
-#!/bin/bash -ev
+#!/bin/bash -e
 
 ## DEPENDS: files/locale.gen
 ## RUN THIS SCRIPT FIRST AFTER LOGGING IN TO NEW INSTALLATION
@@ -8,6 +8,9 @@ dmesg -n 1
 
 ## REMOVE DEFAULT ALARM ACCOUNT, SET ROOT PASSWORD
 userdel -r alarm
+
+## Change root password
+echo 'Enter a new root password'
 passwd
 
 ## LOCALE
@@ -35,6 +38,10 @@ cat << EOF > /etc/hosts
 127.0.1.1	ok.localdomain	ok
 EOF
 useradd -m -G wheel -s /bin/bash a
+
+## Change password for the "a" account
+echo 'The default user account is just the letter "a"'
+echo 'Enter a new password for the "a" account'
 passwd a
 
 ## Disable systemd-resolved DNS managment because it breaks Wi-Fi hotspot landing pages
