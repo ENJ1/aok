@@ -3,10 +3,12 @@
 ## DEPENDS: files/locale.gen
 ## RUN THIS SCRIPT FIRST AFTER LOGGING IN TO NEW INSTALLATION
 
-## STOP KERNEL MESSAGES FROM GARBLING CONSOLE
+## Stop kernel messages from garbling the console
 dmesg -n 1
 
-## REMOVE DEFAULT ALARM ACCOUNT, SET ROOT PASSWORD
+## Remove the default alarm (Arch Linux ARM) account.
+## This account is only needed if you have to use SSH to login remotely
+## for the very first login, which is not applicable here.
 userdel -r alarm
 
 ## Change root password
