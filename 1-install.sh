@@ -33,6 +33,9 @@ curl -LO http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
   curl -LO http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz
   md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5
+} || {
+  echo "Arch Linux distribution unavailable. Check your Internet connection."
+  exit 1
 }
 cd -
 umount ${DEVICE}* || echo -n
