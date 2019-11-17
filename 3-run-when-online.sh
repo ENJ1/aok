@@ -35,7 +35,6 @@
 ## xorg-xinput: command line mouse and trackpad control (script included in extra)
 ## cgpt: for creating partition flags for chromebooks (used by install script)
 ## gnome-mplayer: install a video player that actually works. vlc is too heavy.
-## cheese: webcam video capture
 ## gmtp: needed for android file transfers
 ## android-file-transfer: needed for transferring files to/from android devices
 ## galculator: common calculator
@@ -43,7 +42,7 @@
 pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm \
 firefox unzip zip xarchiver volumeicon xfce4 xorg-xinit lightdm lightdm-gtk-greeter \
 networkmanager nm-connection-editor network-manager-applet blueman gpicview mousepad \
-xorg-xinput cgpt gnome-mplayer cheese gmtp android-file-transfer galculator
+xorg-xinput cgpt gnome-mplayer gmtp android-file-transfer galculator
 ###########################################################################
 
 ###########################################################################
