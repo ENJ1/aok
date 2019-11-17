@@ -1,7 +1,7 @@
 #!/bin/bash -ev
 
 # Run this script from within the aok folder
-# If using within Chrome OS, the folder should be in /usr/local so it can read/write
+# If using within Chrome OS, aok should be in /usr/local so it can read/write
 
 tools_check () {
 echo "Checking tools..."
