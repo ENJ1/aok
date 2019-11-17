@@ -33,10 +33,11 @@ dmesg -n 1
 ## networkmanager: networking backend
 ## nm-connection-editor: networking editor gui
 ## network-manager-applet: tray icon
+## gpicview: minimal image viewer
 ##
 pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm leafpad \
 firefox unzip zip xarchiver volumeicon xfce4 xorg-xinit lightdm lightdm-gtk-greeter \
-networkmanager nm-connection-editor network-manager-applet
+networkmanager nm-connection-editor network-manager-applet gpicview
 ###########################################################################
 
 ###########################################################################
@@ -71,8 +72,9 @@ echo "needs_root_rights = yes" > /etc/X11/Xwrapper.config
 ###########################################################################
 ## AUDIO PATCH
 ##
-## TO ENABLE AUDIO WE WILL USE alsa-utils
-## UNMUTE. TO DO MANUALLY, RUN "alsamixer",
+## DEPENDS ON: alsa-utils
+##
+## UNMUTE. TO UNMUTE MANUALLY, RUN "alsamixer",
 ## USE RIGHT ARROW, AND PRESS "m" TO UNMUTE THE FOLLOWING:
 amixer -c 0 set 'Left Headphone Mixer Left DAC1' on
 amixer -c 0 set 'Right Headphone Mixer Right DAC1' on
@@ -86,12 +88,15 @@ amixer -c 0 set Speaker 70%
 ##
 ## PLUGGING-IN/UNPLUGGING HEADPHONES WILL NOT MUTE/UNMUTE THE SPEAKER
 ## THIS MUST BE CONTROLLED MANUALLY BY THE USER
+##
 ## SAVE SETTINGS AFTER UNMUTING HEADPHONES AND SPEAKER
 ## THIS ALSO CREATES A FILE SO THAT CHANGES ALWAYS PERSIST ACROSS REBOOTS
+## SO THIS ONLY NEEDS TO BE RUN ONCE
 alsactl store
 ##
 ## CREATE AUDIO CONFIGURATION FILE
 ## THIS ALLOWS MULTIPLE SOUND STREAMS AT THE SAME TIME
+## The "a" in asound.conf stands for alsa, and is not specific to this setup
 cat << EOF > /etc/asound.conf
 pcm.!default {
               type plug
@@ -169,55 +174,50 @@ systemctl enable lightdm
 
 ## Enable WiFi gui autostart now that lightdm is autostarting Xfce
 systemctl enable NetworkManager
-
 ## DO NOT START NetworkManager.service WITH wifi-menu RUNNING
 ## BECAUSE THEN THE SYSTEM WOULD HANG WHEN TRYING TO SHUT DOWN/REBOOT
-## AND THE CHROMEBOOK MIGHT THINK IT NEEDS TO REPAIR ITSELF
+## AND THEN CHROME OS MIGHT THINK IT NEEDS TO REPAIR ITSELF
 ## IN THAT CASE, DON'T LET IT DO ANYTHING, JUST HOLD POWER TO TURN OFF
-
-
-### DEPRECATED METHOD: WICD
-
+## AND IT SHOULD BE FINE
+##
+### DEPRECATED NETWORKING UTILITY: WICD
 ## INSTALL WICD
 # sudo pacman -S wicd wicd-gtk
-
 ## RUN WICD ONCE, NOW
 # sudo wicd
-
 ## ENABLE WIFI STARTING ON BOOT-UP
-# sudo systemctl enable wicd.service
+# sudo systemctl enable wicd
 ################################################################
 
 
 
+################################################################
+## OPTIONAL PACKAGES
+################################################################
 
-
-## ESSENTIAL AUDIO
-sudo pacman -S volumeicon xterm
-
-## ESSENTIAL IMAGE
-sudo pacman -S gpicview
-
-## AUDIO
-# pacman -S deadbeef audacity lmms
-
-
+## deadbeef: minimal yet full featured audio player
+## audacity: powerful audio editor and converter (add-ons not installed)
+## lmms: linux multimedia music studio for loops (not a DAW)
+##
+# pacman -Sy deadbeef audacity lmms
 
 ## Command line browsers
+##
 # sudo pacman -S links
 # sudo pacman -S lynx
 
-#################### OPENBOX ENVIRONMENT ###################
-
+############################################################
+## OPENBOX ENVIRONMENT
+##
 ## Openbox
 # sudo pacman -S openbox xorg-xinit
 # echo "exec openbox" > /home/a/.xinitrc
 # chown a:a /home/a/.xinitrc
-
+##
 ## menu.xml IS CURRENTLY  CONFIGURED TO DEPEND ON THE FOLLOWING COMMANDS:
 # firefox gmrun gedit terminator deluge deadbeef wicd-client thunar \
 # tint2 leafpad obmenux obconf tint2conf xterm 
-
+##
 ## OPENBOX AUTOSTART & MENU
 # mkdir -p /home/a/.config/openbox/
 # chown a:a /home/a/.config/
@@ -226,38 +226,32 @@ sudo pacman -S gpicview
 # chown a:a /home/a/.config/openbox/autostart
 # cp files/menu.xml /home/a/.config/openbox/menu.xml
 # chown a:a /home/a/.config/openbox/menu.xml
-
+##
 ## BASIC CUT/COPY/PASTE FUNCTIONALITY WITHOUT A DESKTOP ENVIRONMENT
 # sudo pacman -S parcellite
-
+##
 ## BASIC IMAGE VIEWER, PROGRAM RUNNER, SCREENSHOT
 # sudo pacman -S feh gmrun scrot
-
+##
 ## DESKTOP
 # sudo pacman -S xfdesktop
-
+##
 ## GUI FILE MANAGER
 # sudo pacman -S thunar
 # sudo pacman -S pcmanfm
-
+##
 ## TINT2
 # sudo pacman -S tint2
 # mkdir -p /home/a/.config/tint2/
 # chown a:a /home/a/.config/tint2/
 # cp files/tint2rc /home/a/.config/tint2/tint2rc
 # chown a:a /home/a/.config/tint2/tint2rc
-
+##
 ## THE GITHUB PROGRAM obmenux NEEDS pygtk
 # sudo pacman -S pygtk
 # sudo pacman -S obconf
-
 #########################################################
 
-
-
-
-
-### OPTIONAL PACKAGES
 
 ## TORRENTING
 # sudo pacman -S deluge
@@ -279,31 +273,28 @@ sudo pacman -S gpicview
 # sudo pacman -S speedcrunch
 
 ## VIDEO
-## VLC VIDEO ON THIS LAPTOP WITHOUT FULL MALI-T604 SUPPORT IS NOT RECOMMENDED
-## PARTIAL MALI-T604 SUPPORT FROM xf86-video-fbdev WITH CONFIG FILES WILL
-## ALLOW BASIC VIDEO FUNCTIONALITY:
-## YOUTUBE VIDEO WORKS
-## AND x264 VIDEO WORKS (AT LEAST AT LOW RESOLUTIONS)
-## x265 VIDEO IS KNOWN TO NOT WORK WITHOUT FULL MALI-T604 SUPPORT
-## vlc NEEDS qt4, BUT IT DOESN'T GET INSTALLED AUTOMATICALLY
+## mplayer: works well for mp4 and x264 video. not great but playable x265 if not high-res
+## Chrome OS won't even play x265
+## recommend converting video using ffmpeg instead of trying to watch x265
+# sudo pacman -S mplayer
+#
+## vlc is not recommended because it is too heavy. it won't work well.
+## if you must try it, it depends on qt4 but qt4 is not installed automatically.
 # sudo pacman -S vlc qt4
 
 ## DEVELOPMENT PACKAGES
-## base-devel INCLUDES gcc AND make WHICH ARE NECESSARY FOR YAOURT
-## x264 FOR VIDEO
-## lshw FOR LISTING HARDWARE
-## hardinfo FOR BROWSING KERNEL MODULES
-## cgpt for creating partition flags for chromebooks
+## base-devel: INCLUDES gcc AND make WHICH ARE NECESSARY FOR YAOURT
+## x264: FOR VIDEO
+## lshw: FOR LISTING HARDWARE
+## hardinfo: FOR BROWSING KERNEL MODULES
+## cgpt: for creating partition flags for chromebooks
 # sudo pacman -S cgpt base-devel x264 lshw hardinfo cmake gcc
 
-
-
-
-## LARGE PROGRAMS
-
-## IMAGE
+## HEAVY PROGRAMS
+##
+## IMAGE EDITOR
 ## sudo pacman -S gimp
-
+##
 ## OFFICE
 ## sudo pacman -S libreoffice
 
