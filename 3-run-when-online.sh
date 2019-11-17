@@ -32,6 +32,7 @@ dmesg -n 1
 ## networkmanager: networking backend (enabled below)
 ## nm-connection-editor: networking editor gui
 ## network-manager-applet: tray icon
+## blueman: bluetooth utility and frontend
 ## gpicview: lightweight image viewer
 ## mousepad: lightweight text editor and code syntax highlighter made for Xfce
 ## xorg-xinput: command line mouse and trackpad control (script included in extra)
@@ -40,7 +41,7 @@ dmesg -n 1
 ##
 pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm \
 firefox unzip zip xarchiver volumeicon xfce4 xorg-xinit lightdm lightdm-gtk-greeter \
-networkmanager nm-connection-editor network-manager-applet gpicview mousepad \
+networkmanager nm-connection-editor network-manager-applet blueman gpicview mousepad \
 xorg-xinput cgpt mplayer
 ###########################################################################
 
