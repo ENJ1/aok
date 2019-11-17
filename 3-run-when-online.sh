@@ -36,11 +36,12 @@ dmesg -n 1
 ## mousepad: lightweight text editor and code syntax highlighter made for Xfce
 ## xorg-xinput: command line mouse and trackpad control (script included in extra)
 ## cgpt: for creating partition flags for chromebooks (used by install script)
+## mplayer: install a video player that actually works. vlc is too heavy.
 ##
 pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm \
 firefox unzip zip xarchiver volumeicon xfce4 xorg-xinit lightdm lightdm-gtk-greeter \
 networkmanager nm-connection-editor network-manager-applet gpicview mousepad \
-xorg-xinput cgpt
+xorg-xinput cgpt mplayer
 ###########################################################################
 
 ###########################################################################
@@ -227,11 +228,7 @@ systemctl enable NetworkManager
 # sudo pacman -S speedcrunch
 
 ## VIDEO
-## mplayer: works well for mp4 and x264 video. not great but playable x265 if not high-res
-## Chrome OS won't even play x265
-## recommend converting video using ffmpeg instead of trying to watch x265
-# sudo pacman -S mplayer
-#
+##
 ## vlc is not recommended because it is too heavy. it won't work well.
 ## if you must try it, it depends on qt4 but qt4 is not installed automatically.
 # sudo pacman -S vlc qt4
@@ -241,7 +238,7 @@ systemctl enable NetworkManager
 ## x264: FOR VIDEO
 ## lshw: FOR LISTING HARDWARE
 ## hardinfo: FOR BROWSING KERNEL MODULES
-# sudo pacman -S cgpt base-devel x264 lshw hardinfo cmake gcc
+# sudo pacman -S base-devel x264 lshw hardinfo cmake gcc
 
 ## HEAVY PROGRAMS
 ##
