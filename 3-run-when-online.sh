@@ -214,6 +214,11 @@ systemctl enable NetworkManager
 ############################################################
 ## OPENBOX ENVIRONMENT
 ##
+## DEPENDS: files/menu.xml
+## DEPENDS: files/tint2rc
+## DEPENDS: files/brightness.conf
+## DEPENDS: files/b
+##
 ## Openbox
 # sudo pacman -S openbox xorg-xinit
 # echo "exec openbox" > /home/a/.xinitrc
