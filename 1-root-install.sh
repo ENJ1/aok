@@ -60,7 +60,7 @@ umount rootfs || echo -n
 mkfs.ext4 -F ${DEVICE}${PARTITION_2}
 mkdir -p rootfs
 mount ${DEVICE}${PARTITION_2} rootfs
-tar -xf distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
+tar --warning=no-unknown-keyword -xf distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 
 ## COPY CUSTOM SCRIPTS AND IMAGES
