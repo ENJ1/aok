@@ -48,7 +48,7 @@ echo "nameserver 1.1.1.1" > /etc/resolv.conf
 wifi-menu
 
 ## UNCOMMENT CLOSEST MIRROR, COMMENT MAIN
-nano /etc/pacman.d/mirrorlist
+#nano /etc/pacman.d/mirrorlist
 
 ## INITIALIZE PACKAGE MANAGER
 pacman-key --init
