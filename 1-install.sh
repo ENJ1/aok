@@ -69,6 +69,9 @@ install -o root -g root -m 0755 *.sh rootfs/root/
 cp -r files rootfs/root
 cp -r extra rootfs/root
 
+## Make extra scripts executable
+chmod +x rootfs/root/extra/*.sh
+
 ## Also install images where they should go
 ## DEPENDS: files/arch_linux_gnome_menu_icon_by_byamato.png
 ## DEPENDS: files/bright_background_light_texture_50370_1366x768.jpg
