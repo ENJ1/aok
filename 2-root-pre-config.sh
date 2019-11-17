@@ -27,9 +27,11 @@ gunzip /usr/share/kbd/keymaps/us-chrome-caps.map.gz
 echo "keycode 125 = Caps_Lock" >> /usr/share/kbd/keymaps/us-chrome-caps.map
 loadkeys /usr/share/kbd/keymaps/us-chrome-caps.map
 echo "KEYMAP=us-chrome-caps" > /etc/vconsole.conf
+#echo "The Search Key is now Caps Lock"
+#echo "Caps Lock is OFF"
 
 ## Change root password
-echo 'Enter a new root password'
+echo "Enter a new root password"
 passwd
 
 ## Set time zone to Pacific
