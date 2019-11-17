@@ -167,6 +167,17 @@ cp /usr/share/X11/xkb/symbols/pc-chrome-caps /usr/share/X11/xkb/symbols/pc
 #echo "keycode 133 = Caps_Lock" > ~/.Xmodmap
 ###########################################################################
 
+## Autostart volumeicon for all users
+cat << EOL > /etc/xdg/autostart/volumeicon.desktop
+[Desktop Entry]
+Name=Volume Icon
+Comment=Volume Icon Volume Control
+Icon=
+Exec=volumeicon
+Terminal=false
+Type=Application
+Categories=
+EOL
 
 ## Configure being able to run "startx" to load Xfce
 echo "exec startxfce4" > /home/a/.xinitrc
