@@ -309,8 +309,7 @@ systemctl enable NetworkManager
 echo ""
 echo "Done."
 echo ""
-#echo "Press space to reboot."
-
 
 ## REBOOT TO LOAD UPGRADED KERNEL, ETC
+read -p "Press enter to reboot"
 reboot
