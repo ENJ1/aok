@@ -38,11 +38,12 @@
 ## gmtp: needed for android file transfers
 ## android-file-transfer: needed for transferring files to/from android devices
 ## galculator: common calculator
+## gnome-packagekit: a software installer - a pacman (package manager) interface
 ##
 pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm \
 firefox unzip zip xarchiver volumeicon xfce4 xorg-xinit lightdm lightdm-gtk-greeter \
 networkmanager nm-connection-editor network-manager-applet blueman gpicview mousepad \
-xorg-xinput cgpt gnome-mplayer gmtp android-file-transfer galculator
+xorg-xinput cgpt gnome-mplayer gmtp android-file-transfer galculator gnome-packagekit
 ###########################################################################
 
 ###########################################################################
