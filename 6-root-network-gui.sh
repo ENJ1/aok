@@ -1,8 +1,5 @@
 #!/bin/bash -ev
 
-## USE ONLY UNTIL "networkmanager" IS INSTALLED
-sudo wifi-menu
-
 ## INSTALL "networkmanager", GUI INTERFACE, AND SYSTRAY ICON
 sudo pacman -S networkmanager nm-connection-editor network-manager-applet
 
