@@ -63,14 +63,13 @@ mount ${DEVICE}${PARTITION_2} rootfs
 tar --warning=no-unknown-keyword -xf distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 
-## COPY CUSTOM SCRIPTS AND IMAGES
-mkdir -p rootfs/aok
-install -o root -g root -m 0644 *.txt rootfs/aok/
-install -o root -g root -m 0755 *.sh rootfs/aok/
-cp -r files rootfs/aok
-cp -r extra rootfs/aok
+## Copy custom scripts, images, etc. to /root for easy access upon install
+install -o root -g root -m 0644 *.txt rootfs/root/
+install -o root -g root -m 0755 *.sh rootfs/root/
+cp -r files rootfs/root
+cp -r extra rootfs/root
 
-## Actually install images where they should go
+## Also install images where they should go
 ## DEPENDS: files/arch_linux_gnome_menu_icon_by_byamato.png
 ## DEPENDS: files/bright_background_light_texture_50370_1366x768.jpg
 
@@ -111,7 +110,7 @@ case "$FUTURE" in
   y|Y)
     mkdir rootfs
     mount ${DEVICE}${PARTITION_2} rootfs
-    rsync -ah --info=progress2 distro /rootfs/aok
+    rsync -ah --info=progress2 distro /rootfs/root
     umount rootfs
     sync
     rmdir rootfs
