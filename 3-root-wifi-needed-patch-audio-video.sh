@@ -1,6 +1,10 @@
 #!/bin/bash -ev
 
-## UNCOMMENT CLOSEST MIRROR, COMMENT MAIN
+## Run 'wifi-menu' before running this, so you can get online
+
+## Optionally, you can choose a closer mirror for faster downloads.
+## Sometimes the main mirror just doesn't work, so this might actually
+## be necessary.
 #nano /etc/pacman.d/mirrorlist
 
 ## DOWNLOAD DRIVER FOR PARTIAL MALI-T604 SUPPORT
@@ -100,9 +104,7 @@ pacman --noconfirm -Sy sudo
 echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 
 ## Exit message
-echo -e "\nIf you need to do advanced network administration, do that now.\n"
-echo "Otherwise, now is a good time to upgrade the system."
-echo "NOTICE: UPGRADING PACKAGES MAY REQUIRE MORE THAN THE AVAILABLE SPACE"
+echo "Now is a good time to upgrade the system, if there is enough storage space"
 echo "Run 'df -h' to view available space"
 echo "You may upgrade packages now with 'pacman -Syu', then 'reboot' when it is done."
 echo "Or you may skip this, and continue to the next script"
