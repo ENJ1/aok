@@ -211,58 +211,6 @@ systemctl enable NetworkManager
 ##
 # pacman -Sy deadbeef audacity lmms
 
-############################################################
-## OPENBOX ENVIRONMENT
-##
-## DEPENDS: files/menu.xml
-## DEPENDS: files/tint2rc
-## DEPENDS: files/brightness.conf
-## DEPENDS: files/b
-##
-## Openbox
-# sudo pacman -S openbox xorg-xinit
-# echo "exec openbox" > /home/a/.xinitrc
-# chown a:a /home/a/.xinitrc
-##
-## menu.xml IS CURRENTLY  CONFIGURED TO DEPEND ON THE FOLLOWING COMMANDS:
-# firefox gmrun gedit terminator deluge deadbeef wicd-client thunar \
-# tint2 leafpad obmenux obconf tint2conf xterm 
-##
-## OPENBOX AUTOSTART & MENU
-# mkdir -p /home/a/.config/openbox/
-# chown a:a /home/a/.config/
-# chown a:a /home/a/.config/openbox/
-# touch /home/a/.config/openbox/autostart
-# chown a:a /home/a/.config/openbox/autostart
-# cp files/menu.xml /home/a/.config/openbox/menu.xml
-# chown a:a /home/a/.config/openbox/menu.xml
-##
-## BASIC CUT/COPY/PASTE FUNCTIONALITY WITHOUT A DESKTOP ENVIRONMENT
-# sudo pacman -S parcellite
-##
-## BASIC IMAGE VIEWER, PROGRAM RUNNER, SCREENSHOT
-# sudo pacman -S feh gmrun scrot
-##
-## DESKTOP
-# sudo pacman -S xfdesktop
-##
-## GUI FILE MANAGER
-# sudo pacman -S thunar
-# sudo pacman -S pcmanfm
-##
-## TINT2
-# sudo pacman -S tint2
-# mkdir -p /home/a/.config/tint2/
-# chown a:a /home/a/.config/tint2/
-# cp files/tint2rc /home/a/.config/tint2/tint2rc
-# chown a:a /home/a/.config/tint2/tint2rc
-##
-## THE GITHUB PROGRAM obmenux NEEDS pygtk
-# sudo pacman -S pygtk
-# sudo pacman -S obconf
-#########################################################
-
-
 ## TORRENTING
 # sudo pacman -S deluge
 
