@@ -57,8 +57,9 @@ pacman-key --populate archlinuxarm
 ## NOTICE: UPGRADING PACKAGES MAY REQUIRE MORE THAN THE AVAILABLE SPACE
 pacman --noconfirm -Sy sudo
 
-## UNCOMMENT THE LINE BELOW THE LINE "## Same thing without a password"
-visudo
+## Append wheel group line to /etc/sudoers file through visudo
+## This allows root privilege to users who are members of the wheel group
+echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 
 ## CHOICE
 echo "upgrade packages now with 'pacman -Syu', and reboot..."
