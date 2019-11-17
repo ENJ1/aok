@@ -13,7 +13,7 @@ Developer Mode must be enabled already.
 5. sudo su
 6. cd /usr/local/aok
 7. chmod +x *.sh
-8. ./1-root-install.sh
+8. ./1-install.sh
 9. Reboot. CTRL-U, Login (User: root, Pass: root), "cd /aok", and run scripts 2 through 8.
 
 The script will ask for a root password, a user (user "a") password, and uncommenting the wheel group in vi.
