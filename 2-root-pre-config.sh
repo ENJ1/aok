@@ -1,9 +1,10 @@
 #!/bin/bash -e
 
-## DEPENDS: files/locale.gen
-## RUN THIS SCRIPT FIRST AFTER LOGGING IN TO NEW INSTALLATION
+## Run this script first upon logging into a new installation
 
-## Stop kernel messages from garbling the console
+## This script depends on files/locale.gen
+
+## Stop kernel messages from garbling the command line
 dmesg -n 1
 
 ## Remove the default alarm (Arch Linux ARM) account.
@@ -11,12 +12,25 @@ dmesg -n 1
 ## for the very first login, which is not applicable here.
 userdel -r alarm
 
+## Fix Caps Lock for the Virtual Console.
+## (The real console, without any Window Environment)
+##
+## These changes do not effect Caps Lock in a Window Environment,
+## and do not effect consoles run while in a Window Environment.
+##
+## If you have a non-US keyboard layout, replace "us" with your keyboard type,
+## but do not echo it to vconsole.conf until you are sure it works.
+## Using loadkeys is safe for testing. It takes effect immediately,
+## but does not apply permanent changes across reboots.
+cp /usr/share/kbd/keymaps/i386/qwerty/us.map.gz /usr/share/kbd/keymaps/us-chrome-caps.map.gz
+gunzip /usr/share/kbd/keymaps/us-chrome-caps.map.gz
+echo "keycode 125 = Caps_Lock" >> /usr/share/kbd/keymaps/us-chrome-caps.map
+loadkeys /usr/share/kbd/keymaps/us-chrome-caps.map
+echo "KEYMAP=us-chrome-caps" > /etc/vconsole.conf
+
 ## Change root password
 echo 'Enter a new root password'
 passwd
-
-## LOCALE
-## NOTICE: CAPS LOCK KEY FIX MAY OVERRIDE SETTINGS: US ONLY
 
 ## Set time zone to Pacific
 #ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
