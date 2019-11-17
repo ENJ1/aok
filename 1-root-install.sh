@@ -2,7 +2,6 @@
 
 # Run this script from within the aok folder
 # This should be /usr/local/aok within Chrome OS
-# Or elsewhere on other systems
 
 tools_check () {
 echo "Checking tools..."
