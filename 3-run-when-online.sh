@@ -1,10 +1,6 @@
 #!/bin/bash -e
 
-## Run 'wifi-menu' before running this, so you can get online
-
-## Optionally, you can choose a closer mirror for faster downloads.
-## Sometimes the main mirror doesn't work, so this may be necessary.
-#nano /etc/pacman.d/mirrorlist
+## This script depends on being online
 
 ###########################################################################
 ## UPGRADE AND INSTALL PACKAGES
