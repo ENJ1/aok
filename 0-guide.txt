@@ -41,3 +41,22 @@ IF YOU MODIFY THE USERNAME, YOU WILL HAVE TO MODIFY THE OTHER SCRIPT TO MATCH IT
 You probably REALLY want to run the "patch" stuff!!!
 The patch code get Arch Linux working nicely on the XE303C12.
 Everything else is just normal Arch Linux install stuff.
+
+The could be an issue if the battery is discharged completely.
+It may not remember to allow you to boot from the SD Card.
+If Chrome OS is installed on the eMMC (internal memory), then it may 'repair itself'
+and erase everything from the internal memory, and require logging in to Google's
+servers and starting as if from a new system.
+I'm not sure exactly what all the details are. Just try to avoid letting the battery
+discharge completely.
+Also, if Chrome OS is on the eMMC, there have been seemingly random times when it
+assumes there is an issue and attempts to repair itself. I'm not exactly sure what
+causes this, but again, it may erase everything within Chrome OS and start over.
+So it would be a good idea to back up any important files from Chrome OS, and
+generally not trusting Chrome OS to save any of your local files for you.
+
+I have also experienced an issue with gnome-packagekit, the gui package updater and
+package installer. After updating packages once, the Arch Linux system did not boot.
+Files should be recoverable by booting from Chrome OS and retrieving them, or by
+plugging the SD Card into a different system and retrieving them. But to avoid this
+issue, don't use gnome-packagekit, and always backup files before upgrading packages.
