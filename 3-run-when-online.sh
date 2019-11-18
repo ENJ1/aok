@@ -242,18 +242,17 @@ systemctl enable bluetooth
 
 ## DEVELOPMENT PACKAGES
 ## base-devel: INCLUDES gcc AND make WHICH ARE NECESSARY FOR YAOURT
-## x264: FOR VIDEO
 ## lshw: FOR LISTING HARDWARE
 ## hardinfo: FOR BROWSING KERNEL MODULES
-# sudo pacman -S base-devel x264 lshw hardinfo cmake gcc
+# sudo pacman -S base-devel lshw hardinfo cmake gcc
 
 ## HEAVY PROGRAMS
 ##
 ## IMAGE EDITOR
-## sudo pacman -S gimp
+# sudo pacman -S gimp
 ##
 ## OFFICE
-## sudo pacman -S libreoffice
+# sudo pacman -S libreoffice
 
 ## Now that that's all done, remove install help from the root bashrc
 cp /etc/skel/.bashrc /root
