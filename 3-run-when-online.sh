@@ -203,7 +203,7 @@ systemctl enable NetworkManager
 ## ENABLE WIFI STARTING ON BOOT-UP
 # sudo systemctl enable wicd
 
-# Enable Bluetooth
+# Enable Bluetooth user interface (different from turning bluetooth on)
 systemctl enable bluetooth
 
 
