@@ -77,11 +77,10 @@ echo "Done."
 echo
 echo "If you need to do advanced network administration, do that now."
 echo
-echo "You may want or need to use a closer mirror for downloading packages."
+echo "You may want or need to select local mirrors for downloading packages."
 echo "To do that, type 'nano /etc/pacman.d/mirrorlist' and press enter,"
-echo "then uncomment (remove the leading # character) from a closer mirror,"
+echo "then uncomment (remove the leading # character) any mirrors you prefer,"
 echo "save the file by pressing CTRL-O, then exit using CTRL-X"
-echo "You may also want to comment out (add a leading # character) to the line"
-echo "that has the default mirror, or a mirror that isn't working for you."
+echo "You may also want to comment out mirrors that are slow or don't work."
 echo
 echo "Run 'wifi-menu' to get online. Then run the next script."
