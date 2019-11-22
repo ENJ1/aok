@@ -41,7 +41,7 @@ cd distro
 ## it's a small file, so be impatient
 if ping -c 1 archlinuxarm.org > /dev/null; then
   curl --speed-time 5 --speed-limit 1000 -LO \
-  os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
   curl --speed-time 5 --speed-limit 1000 -LO \
   au.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
   curl --speed-time 5 --speed-limit 1000 -LO \
@@ -91,7 +91,7 @@ fi
 ## Check even if it doesn't exist, or download patiently
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
   if ping -c 1 archlinuxarm.org > /dev/null; then
-    curl -LO os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
     curl -LO au.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
     curl -LO br2.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
     curl -LO dk.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
