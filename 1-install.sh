@@ -79,9 +79,10 @@ if ping -c 1 archlinuxarm.org > /dev/null; then
   curl --speed-time 5 --speed-limit 1000 -LO \
   nj.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
   curl --speed-time 5 --speed-limit 1000 -LO \
-  fl.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  echo "Cannot download latest md5: all mirrors failed."
-  use_local_md5
+  fl.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
+    echo "Cannot download latest md5: all mirrors failed."
+    use_local_md5
+  }
   else
     echo "Cannot download latest md5: archlinuxarm.org not found."
     use_local_md5
