@@ -21,19 +21,73 @@ dd --version > /dev/null || { echo "dd not found. exiting."; exit 1; }
 echo "Tools check complete."
 }
 
-install_arch () {
-echo "Starting Arch Linux Installation..."
-crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
-mkdir -p distro
-cd distro
-curl -LO http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
+## Offline function, try using local md5 or quit
+use_local_md5 () {
   if [ -f ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ]; then
-    echo "Cannot download latest md5. Using existing local copy."
+    echo "Using existing local md5 file."
   else
-    echo "Cannot find md5 file. exiting."
+    echo "Cannot find md5 file. exiting. Check your Internet connection."
     exit 1
   fi
 }
+
+install_arch () {
+echo "Starting Arch Linux Installation..."
+mkdir -p distro
+cd distro
+
+
+## check if Internet and DNS is working before trying every mirror
+## command is repeated because curl is built without metalink support in chrome os
+if ping -c 1 archlinuxarm.org > /dev/null; then
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  au.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  br2.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  dk.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  de3.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  de.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  de4.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  de5.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  eu.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  gr.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  hu.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  nl.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  ru.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  sg.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  za.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  tw.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  il.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  ca.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  nj.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  curl --speed-time 5 --speed-limit 1000 -LO \
+  fl.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
+  echo "cannot download latest md5: all mirrors failed."
+  use_local_md5
+  else
+    echo "Cannot download latest md5: archlinuxarm.org not found."
+    use_local_md5
+fi
+
+## Check even if it doesn't exist
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
   curl -LO http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz
   md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5
@@ -120,6 +174,7 @@ echo "echo ''" >> rootfs/root/.bashrc
 umount rootfs
 sync
 rmdir rootfs
+crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
 echo
 echo "Arch Linux is Installed."
 echo
