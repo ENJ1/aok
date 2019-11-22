@@ -9,7 +9,7 @@ if [ "$EUID" != 0 ]; then
   echo "Root privilege not found, quitting."
   exit 1
 fi
-crossystem || echo "crossystem not found. OK."
+crossystem | grep dev || echo "crossystem not found. OK."
 curl -V
 ping -c 1 archlinuxarm.org || {
   echo "Cannot connect to archlinuxarm.org right now. Might use local data."
@@ -28,7 +28,7 @@ crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
 mkdir -p distro
 cd distro
 curl -LO http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
-  echo "Cannot download latest md5. Using existing local copy."
+  echo "Cannot download latest md5. Using existing local copy if it exists."
 }
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
   curl -LO http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz
