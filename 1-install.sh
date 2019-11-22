@@ -27,7 +27,12 @@ crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
 mkdir -p distro
 cd distro
 curl -LO http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
-  echo "Cannot download latest md5. Using existing local copy if it exists."
+  if [ -f ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ]; then
+    echo "Cannot download latest md5. Using existing local copy."
+  else
+    echo "Cannot find md5 file. exiting."
+    exit 1
+  fi
 }
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
   curl -LO http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz
