@@ -36,7 +36,6 @@ echo "Starting Arch Linux Installation..."
 mkdir -p distro
 cd distro
 
-
 ## check if Internet and DNS is working before trying every mirror
 ## command is repeated because curl is built without metalink support in chrome os.
 ## it's a small file, so be impatient
@@ -127,6 +126,9 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
 ## Now that everything is ready, truly get started
 cd -
 umount ${DEVICE}* || echo -n
+
+## Do not change the whitespace here, it is important
+## passing "y" in case it asks if sure. harmless if not asked.
 fdisk ${DEVICE} << END
 g
 n
@@ -143,6 +145,8 @@ n
 p
 w
 END
+
+## Set special flags needed by U-Boot. Don't let so-called-cgpt-errors break the script
 cgpt add -i 1 -P 10 -T 5 -S 1 ${DEVICE} || echo -n
 
 ## Avoid mkfs complaining if it's 'apparently in use by the system' but isn't
