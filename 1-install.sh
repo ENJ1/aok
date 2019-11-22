@@ -38,7 +38,8 @@ cd distro
 
 
 ## check if Internet and DNS is working before trying every mirror
-## command is repeated because curl is built without metalink support in chrome os
+## command is repeated because curl is built without metalink support in chrome os.
+## it's a small file, so be impatient
 if ping -c 1 archlinuxarm.org > /dev/null; then
   curl --speed-time 5 --speed-limit 1000 -LO \
   os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
@@ -80,21 +81,50 @@ if ping -c 1 archlinuxarm.org > /dev/null; then
   nj.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
   curl --speed-time 5 --speed-limit 1000 -LO \
   fl.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  echo "cannot download latest md5: all mirrors failed."
+  echo "Cannot download latest md5: all mirrors failed."
   use_local_md5
   else
     echo "Cannot download latest md5: archlinuxarm.org not found."
     use_local_md5
 fi
 
-## Check even if it doesn't exist
+## Check even if it doesn't exist, or download patiently
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
-  curl -LO http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz
-  md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5
-} || {
-  echo "Arch Linux distribution unavailable. Check your Internet connection."
-  exit 1
+  if ping -c 1 archlinuxarm.org > /dev/null; then
+    curl -LO os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO au.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO br2.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO dk.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO de3.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO de.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO de4.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO de5.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO eu.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO gr.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO hu.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO nl.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO ru.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO sg.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO za.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO tw.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO il.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO ca.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO nj.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
+    curl -LO fl.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz || {
+      echo "Couldn't download Arch Linux. Check your Internet connection reliability."
+      exit 1
+    }
+    md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
+      echo "Arch Linux download was corrupted. You may want to try again."
+      exit 1
+    }
+  else
+    echo "Arch Linux local copy unavailable. Can't download: Not online. Exiting."
+    exit 1
+  fi
 }
+
+## Now that everything is ready, truly get started
 cd -
 umount ${DEVICE}* || echo -n
 fdisk ${DEVICE} << END
