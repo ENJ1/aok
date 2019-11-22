@@ -10,16 +10,15 @@ if [ "$EUID" != 0 ]; then
   exit 1
 fi
 crossystem | grep dev || echo "crossystem not found. OK."
-curl -V
-ping -c 1 archlinuxarm.org || {
-  echo "Cannot connect to archlinuxarm.org right now. Might use local data."
-}
-md5sum --version
-umount -V
+curl -V > /dev/null || { echo "curl not found. exiting."; exit 1; }
+ping -c 1 archlinuxarm.org > /dev/null || echo "archlinuxarm.org not found. May use local data."
+md5sum --version > /dev/null || { echo "md5sum not found. exiting."; exit 1; }
+umount -V > /dev/null || { echo "umount not found. exiting."; exit 1; }
 fdisk -V
-cgpt add -h
-mkfs -V
-dd --version
+cgpt add -h > /dev/null || { echo "cgpt not found. exiting."; exit 1; }
+mkfs -V > /dev/null || { echo "mkfs not found. exiting."; exit 1; }
+dd --version > /dev/null || { echo "dd not found. exiting."; exit 1; }
+echo "Tools check complete."
 }
 
 install_arch () {
