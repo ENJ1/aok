@@ -198,6 +198,21 @@ mount ${DEVICE}${PARTITION_2} rootfs
 tar --warning=no-unknown-keyword -xf distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 
+## Add best mirrors to pacman mirrorlist
+if [ -f distro/bestmirrors.txt ]; then
+  ADD=1
+  MAX_MIRRORS=`cat distro/bestmirrors.txt | wc -l`
+  echo >> rootfs/etc/pacman.d/mirrorlist
+  echo "## Automatically added mirrors from AOK mirror testing" \
+      >> rootfs/etc/pacman.d/mirrorlist
+  while [ "$ADD" -le "$MAX_MIRRORS" ]; do
+    APPEND=`sed -n "${ADD}p" distro/bestmirrors.txt | sed $'s/.*\t//'`
+    echo 'Server = http://'${APPEND}'/$arch/$repo' \
+        >> rootfs/etc/pacman.d/mirrorlist
+    ADD=$[$ADD+1]
+  done
+fi
+
 ## Copy custom scripts, images, etc. to /root for easy access upon install
 install -o root -g root -m 0644 *.txt rootfs/root/
 install -o root -g root -m 0755 *.sh rootfs/root/
