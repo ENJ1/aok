@@ -197,11 +197,18 @@ cgpt add -i 1 -P 10 -T 5 -S 1 ${DEVICE} || echo -n
 ## Avoid mkfs complaining if it's 'apparently in use by the system' but isn't
 umount rootfs || echo -n
 
+## Set up filesystem, copy files, and if on ChromeOS then make sure to enable booting
 mkfs.ext4 -F ${DEVICE}${PARTITION_2}
 mkdir -p rootfs
 mount ${DEVICE}${PARTITION_2} rootfs
+echo "Copying Filesystem..."
 tar --warning=no-unknown-keyword -xf distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
+echo
+echo "Filesystem copy complete."
+echo "Copying Boot Partition..."
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
+echo "Boot Partition copy complete."
+crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
 
 ## Add best mirrors to pacman mirrorlist
 if [ -f distro/bestmirrors.txt ]; then
@@ -252,7 +259,8 @@ files/lightdm-gtk-greeter.conf \
 rootfs/etc/lightdm
 
 ## Now place a script on the Desktop
-install -o a -g a -m 0755 -D \
+## CURRENTLY A WORKAROUND, BUT SHOULD NOT BE OWNED BY ROOT!!!
+install -o root -g root -m 0755 -D \
 files/Setup-AOK-Style.sh \
 rootfs/home/a/Desktop
 
@@ -268,7 +276,6 @@ echo "echo" >> rootfs/root/.bashrc
 umount rootfs
 sync
 rmdir rootfs
-crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
 echo
 echo "Arch Linux Installation is complete."
 echo
