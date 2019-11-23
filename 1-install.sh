@@ -22,8 +22,8 @@ echo "Tools check complete."
 }
 
 
+## Test mirrors and end up with bestmirrors.txt
 test_mirrors () {
-## Test mirrors and end up with good mirror file
 echo "Testing mirrors..."
 
 ## Create or reset the working mirrors list file
@@ -132,7 +132,7 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
     ## Here's where to use a faster mirror from testing
     DOWNLOAD_COUNTER=1
     while [ $DOWNLOAD_COUNTER -le 5 ]; do
-      TRY_MIRROR=`sed -n "${DOWNLOAD_COUNTER}p" bestmirrors.txt | tr -d [:digit:] | tr -d '\t'`
+      TRY_MIRROR=`sed -n "${DOWNLOAD_COUNTER}p" bestmirrors.txt | sed $'s/.*\t//'`
       curl -LO ${TRY_MIRROR}/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz && DOWNLOAD_COUNTER=100 ||
           DOWNLOAD_COUNTER=$[$DOWNLOAD_COUNTER+1]
     done
