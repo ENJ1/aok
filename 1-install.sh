@@ -125,32 +125,19 @@ else
     use_local_md5
 fi
 
-## Check even if it doesn't exist, or download patiently
+## Check even if it doesn't exist, or try downloading
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
   if ping -c 1 archlinuxarm.org > /dev/null; then
   
-  ## Here's where to use a faster mirror from testing
-  
-    curl -LO mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO au.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO br2.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO dk.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO de3.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO de.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO de4.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO de5.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO eu.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO gr.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO hu.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO nl.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO ru.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO sg.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO za.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO tw.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO il.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO ca.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO nj.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
-    curl -LO fl.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz || {
+    ## Here's where to use a faster mirror from testing
+    DOWNLOAD_DONE=false
+    DOWNLOAD_ATTEMPT=1
+    while [ $DOWNLOAD_ATTEMPT -le 5 ]; do
+      TRY_MIRROR=`sed -n "${DOWNLOAD_ATTEMPT}p" bestmirrors.txt | tr -d [:digit:] | tr -d '\t'`
+      curl -LO ${TRY_MIRROR}/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz && DOWNLOAD_DONE=true ||
+      DOWNLOAD_ATTEMPT=$[$DOWNLOAD_ATTEMPT+1]
+    done
+    if [ "$DOWNLOAD_DONE" = false ]; then
       echo "Couldn't download Arch Linux. Check your Internet connection reliability."
       exit 1
     }
