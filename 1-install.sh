@@ -128,6 +128,9 @@ fi
 ## Check even if it doesn't exist, or download patiently
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
   if ping -c 1 archlinuxarm.org > /dev/null; then
+  
+  ## Here's where to use a faster mirror from testing
+  
     curl -LO mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
     curl -LO au.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
     curl -LO br2.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz ||
