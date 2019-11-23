@@ -258,12 +258,6 @@ install -o root -g root -m 0644 -D \
 files/lightdm-gtk-greeter.conf \
 rootfs/etc/lightdm
 
-## Now place a script on the Desktop
-## CURRENTLY A WORKAROUND, BUT SHOULD NOT BE OWNED BY ROOT!!!
-install -o root -g root -m 0755 -D \
-files/Setup-AOK-Style.sh \
-rootfs/home/a/Desktop
-
 ## Edit root bashrc to have welcome message
 echo "dmesg -n 1" >> rootfs/root/.bashrc
 echo "echo" >> rootfs/root/.bashrc
