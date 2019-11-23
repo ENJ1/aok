@@ -75,11 +75,14 @@ done
 
 if [ "$LOCAL_MIRROR_SUCCESS" ]; then
   echo
-  echo "Here are your best mirrors:"
+  echo "These are your current best mirrors:"
   echo -e "SPEED\tMIRROR"
 
   ## Sort human readable reverse (highest first) to a sorted file
   cat workingmirrors.txt.temp | sort -hr | tee bestmirrors.txt
+else
+  echo
+  echo "No working local mirrors found."
 fi
 
 ## Cleanup
