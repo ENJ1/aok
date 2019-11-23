@@ -21,6 +21,78 @@ dd --version > /dev/null || { echo "dd not found. exiting."; exit 1; }
 echo "Tools check complete."
 }
 
+
+test_mirrors () {
+## Test mirrors and end up with good mirror file
+echo "Testing mirrors..."
+
+## Create or reset the working mirrors list file
+echo -n > workingmirrors.txt
+
+## Declare an associative array.
+## Key: Variable-friendly subdomain name, Value: Speed
+declare -A MIRROR_SPEEDS
+
+## All local Arch Linux ARM mirrors, not the main load-balancing mirror
+## This is the list from https://archlinuxarm.org/about/mirrors
+## Plus the list provided in /etc/pacman.d/mirrorlist
+all_Mirrors=(au br2 dk de3 de de4 de5 de6 eu gr hu nl ru sg za tw ca.us nj.us fl.us il.us vn)
+
+## Try to download md5 file for each mirror, recording speeds
+for DOMAIN in ${all_Mirrors[@]}; do
+
+  ## Variable names can't have dots, so change it to an underscore
+  SAFE_DOMAIN=`echo $DOMAIN | sed --expression='s/\./_/'`
+
+  ## Create a new varaible based on the domain name, and set its value to Download Speed
+  ## A higher number is better. Domains that fail will have a null value.
+  MIRROR_SPEEDS+=([$SAFE_DOMAIN]=`curl --max-time 5 -LO \
+  $DOMAIN.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
+  2>&1 | grep $'\r100' | grep -o '[^ ]*$' || echo -n`)
+
+  ## What if it fails?
+  ## Using "|| echo -n" which will set the variable to null
+
+  ## What if it's a bad md5 file, like a 404?
+  ## It should contain the filename, and be only 1 line
+  if [ `grep ArchLinuxARM-armv7-chromebook-latest.tar.gz \
+      ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 | wc -l` -eq 1 ]; then
+
+    ## Save the working mirrors to a text file, Format: Speed (tab) Mirror
+    if [ -n "${MIRROR_SPEEDS[${SAFE_DOMAIN}]}" ]; then
+      echo -e "${MIRROR_SPEEDS[$SAFE_DOMAIN]}\t${DOMAIN}.mirror.archlinuxarm.org" \
+        | tee -a workingmirrors.txt
+      ## Save the best md5
+      cp -u ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
+          ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp
+      MIRROR_SUCCESS=true
+    else
+      echo -e "\t${DOMAIN}.mirror.archlinuxarm.org failed completely"
+    fi
+  else
+    echo -e "\t${DOMAIN}.mirror.archlinuxarm.org did not provide the correct file (Likely 404)"
+    ## Restore the best md5 if possible
+    cp ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp \
+        ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || :
+  fi
+  ## now i should have MIRROR_SPEEDS[au] which equals perhaps '180'
+  ## now i should have MIRROR_SPEEDS[de5] which equals perhaps '230'
+  ## now i should have MIRROR_SPEEDS[ca_us] which equals perhaps '' (null)
+  ## this array can be used later to extend functionality
+done
+
+echo
+echo "Here are your best mirrors:"
+echo -e "SPEED\tMIRROR"
+
+## Sort human readable reverse (highest first) to a sorted file
+cat workingmirrors.txt.temp | sort -hr | tee bestmirrors.txt || :
+
+## Cleanup
+rm -f ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp
+rm -f workingmirrors.txt.temp
+}
+
 ## Offline function, try using local md5 or quit
 use_local_md5 () {
   if [ -f ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ]; then
@@ -40,50 +112,15 @@ cd distro
 ## command is repeated because curl is built without metalink support in chrome os.
 ## it's a small file, so be impatient
 if ping -c 1 archlinuxarm.org > /dev/null; then
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  au.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  br2.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  dk.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  de3.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  de.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  de4.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  de5.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  eu.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  gr.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  hu.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  nl.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  ru.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  sg.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  za.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  tw.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  il.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  ca.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  nj.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ||
-  curl --speed-time 5 --speed-limit 1000 -LO \
-  fl.us.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
+  curl --max-time 10 -LO \
+      mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 && \
+      MIRROR_SUCCESS=true || :
+  test_mirrors
+  if "${MIRROR_SUCCESS}" -ne true; then
     echo "Cannot download latest md5: all mirrors failed."
     use_local_md5
-  }
-  else
+  fi
+else
     echo "Cannot download latest md5: archlinuxarm.org not found."
     use_local_md5
 fi
