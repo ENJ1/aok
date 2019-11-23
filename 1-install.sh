@@ -25,8 +25,9 @@ echo "Tools check complete."
 test_mirrors () {
 echo "Testing mirrors..."
 
-## Create or reset the working mirrors list file
+## Create or reset the working mirrors list file, and set local mirror status
 echo -n > workingmirrors.txt.temp
+LOCAL_MIRROR_SUCCESS=false
 
 ## All local Arch Linux ARM mirrors, not the main load-balancing mirror
 ## This is the list from https://archlinuxarm.org/about/mirrors
@@ -55,14 +56,15 @@ for SUBDOMAIN in ${all_Mirrors[@]}; do
       cp -u ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
           ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp
       MIRROR_SUCCESS=true
+      LOCAL_MIRROR_SUCCESS=true
     else
       echo -e "\t${SUBDOMAIN}.mirror.archlinuxarm.org failed completely"
     fi
   else
     echo -e "\t${SUBDOMAIN}.mirror.archlinuxarm.org did not provide the correct file (Likely 404)"
-    ## Restore the best md5 if possible
+    ## Restore the real (and best) md5 if one exists
     cp ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp \
-        ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || :
+        ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || echo -n
   fi
   ## now i should have MIRROR_SPEEDS[au] which equals perhaps '180'
   ## now i should have MIRROR_SPEEDS[de5] which equals perhaps '230'
@@ -70,17 +72,22 @@ for SUBDOMAIN in ${all_Mirrors[@]}; do
   ## this array can be used later to extend functionality
 done
 
-echo
-echo "Here are your best mirrors:"
-echo -e "SPEED\tMIRROR"
 
-## Sort human readable reverse (highest first) to a sorted file
-cat workingmirrors.txt.temp | sort -hr | tee bestmirrors.txt || :
+if [ "$LOCAL_MIRROR_SUCCESS" ]; then
+  echo
+  echo "Here are your best mirrors:"
+  echo -e "SPEED\tMIRROR"
+
+  ## Sort human readable reverse (highest first) to a sorted file
+  cat workingmirrors.txt.temp | sort -hr | tee bestmirrors.txt
+fi
 
 ## Cleanup
 rm -f ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp
 rm -f workingmirrors.txt.temp
 }
+
+
 
 ## Offline function, try using local md5 or quit
 use_local_md5 () {
@@ -93,20 +100,21 @@ use_local_md5 () {
 }
 
 install_arch () {
-echo "Starting Arch Linux Installation..."
+echo "Preparing files..."
 mkdir -p distro
 cd distro
 
 ## check if Internet and DNS is working before trying every mirror
 ## command is repeated because curl is built without metalink support in chrome os.
 ## it's a small file, so be impatient
+MIRROR_SUCCESS=false
 if ping -c 1 archlinuxarm.org > /dev/null; then
   curl --max-time 10 -LO \
       mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 && {
         cp -u ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
             ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp
         MIRROR_SUCCESS=true
-      } || :
+      } || echo -n
   test_mirrors
   if "${MIRROR_SUCCESS}" -ne true; then
     echo "Cannot download latest md5: all mirrors failed."
@@ -121,19 +129,29 @@ fi
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
   if ping -c 1 archlinuxarm.org > /dev/null; then
   
-    ## Here's where to use a faster mirror from testing
-    DOWNLOAD_COUNTER=1
-    while [ $DOWNLOAD_COUNTER -le 5 ]; do
-      TRY_MIRROR=`sed -n "${DOWNLOAD_COUNTER}p" bestmirrors.txt | sed $'s/.*\t//'`
-      curl -LO ${TRY_MIRROR}/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz && DOWNLOAD_COUNTER=100 ||
-          DOWNLOAD_COUNTER=$[$DOWNLOAD_COUNTER+1]
+    ## Here's where to use the fastest mirror from testing
+    DOWNLOADED=false
+    DL=1
+    MAX_MIRRORS=`cat bestmirrors.txt | wc -l`
+    while [ "$DL" -le "$MAX_MIRRORS" ]; do
+      TRY_MIRROR=`sed -n "${DL}p" bestmirrors.txt | sed $'s/.*\t//'`
+      curl -LO ${TRY_MIRROR}/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
+          && {
+            DOWNLOADED=true
+            break
+          } ||
+          DL=$[$DL+1]
     done
-    if [ "$DOWNLOAD_COUNTER" -le 99 ]; then
-      echo "Couldn't download Arch Linux. Check your Internet connection reliability."
-      exit 1
+    if [ ! "$DOWNLOADED" ]; then
+      ## Try the main load-balanced mirror as a last resort
+      curl -LO mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
+        || {
+          echo "Couldn't download Arch Linux. Check your Internet connection reliability."
+          exit 1
+        }
     }
     md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
-      echo "Arch Linux download was corrupted. You may want to try again."
+      echo "The Arch Linux download was corrupted. You may want to try again."
       exit 1
     }
   else
@@ -141,9 +159,10 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
     exit 1
   fi
 }
+cd -
 
 ## Now that everything is ready, truly get started
-cd -
+echo "Starting Arch Linux Installation..."
 umount ${DEVICE}* || echo -n
 
 ## Do not change the whitespace here, it is important
@@ -217,12 +236,12 @@ rootfs/home/a/Desktop
 
 ## Edit root bashrc to have welcome message
 echo "dmesg -n 1" >> rootfs/root/.bashrc
-echo "echo ''" >> rootfs/root/.bashrc
+echo "echo" >> rootfs/root/.bashrc
 echo "echo 'Welcome. To finish installing AOK, do the following:'"
 echo "echo '1. Type ./2-run-on-first-login.sh and press enter.'" >> rootfs/root/.bashrc
 echo "echo '2. Type wifi-menu and press enter to get online.'" >> rootfs/root/.bashrc
 echo "echo '3. Type ./3-run-when-online.sh and press enter.'" >> rootfs/root/.bashrc
-echo "echo ''" >> rootfs/root/.bashrc
+echo "echo" >> rootfs/root/.bashrc
 
 umount rootfs
 sync
@@ -301,4 +320,3 @@ case "$CHOICE" in
     echo "No changes made, quitting."
     ;;
 esac
-
