@@ -9,7 +9,7 @@ if [ "$EUID" != 0 ]; then
   echo "Root privilege not found, quitting."
   exit 1
 fi
-crossystem | grep dev || echo "crossystem not found. OK."
+crossystem hwid && echo || echo "crossystem not found. OK."
 curl -V > /dev/null || { echo "curl not found. exiting."; exit 1; }
 ping -c 1 archlinuxarm.org > /dev/null || echo "archlinuxarm.org not found. May use local data."
 md5sum --version > /dev/null || { echo "md5sum not found. exiting."; exit 1; }
