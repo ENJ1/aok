@@ -153,7 +153,7 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
           echo "Couldn't download Arch Linux. Check your Internet connection reliability."
           exit 1
         }
-    }
+    fi
     md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
       echo "The Arch Linux download was corrupted. You may want to try again."
       exit 1
