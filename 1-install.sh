@@ -85,6 +85,7 @@ fi
 ## Cleanup
 rm -f ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp
 rm -f workingmirrors.txt.temp
+echo "Mirrors testing complete."
 }
 
 
@@ -160,6 +161,7 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
   fi
 }
 cd -
+echo "File preparation complete."
 
 ## Now that everything is ready, truly get started
 echo "Starting Arch Linux Installation..."
@@ -248,12 +250,13 @@ sync
 rmdir rootfs
 crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
 echo
-echo "Arch Linux is Installed."
+echo "Arch Linux Installation is complete."
 echo
 echo "Would you also like to copy the Arch Linux Distro for future installs?"
 read -p "(y/N) > " FUTURE
 case "$FUTURE" in
   y|Y)
+    echo "Copying distro..."
     mkdir rootfs
     mount ${DEVICE}${PARTITION_2} rootfs
     rsync -ah --info=progress2 distro /rootfs/root
@@ -276,6 +279,7 @@ case "$REBOOT" in
   n|N|no|No|NO|nO)
       ;;
   *)
+      echo "Rebooting..."
       reboot
       ;;
 esac
