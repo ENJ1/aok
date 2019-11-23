@@ -73,7 +73,7 @@ for SUBDOMAIN in ${all_Mirrors[@]}; do
 done
 
 
-if [ "$LOCAL_MIRROR_SUCCESS" ]; then
+if [ "$LOCAL_MIRROR_SUCCESS" = true ]; then
   echo
   echo "These are your current best mirrors:"
   echo -e "SPEED\tMIRROR"
