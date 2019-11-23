@@ -27,7 +27,7 @@ test_mirrors () {
 echo "Testing mirrors..."
 
 ## Create or reset the working mirrors list file
-echo -n > workingmirrors.txt
+echo -n > workingmirrors.txt.temp
 
 ## Declare an associative array.
 ## Key: Variable-friendly subdomain name, Value: Speed
@@ -61,7 +61,7 @@ for DOMAIN in ${all_Mirrors[@]}; do
     ## Save the working mirrors to a text file, Format: Speed (tab) Mirror
     if [ -n "${MIRROR_SPEEDS[${SAFE_DOMAIN}]}" ]; then
       echo -e "${MIRROR_SPEEDS[$SAFE_DOMAIN]}\t${DOMAIN}.mirror.archlinuxarm.org" \
-        | tee -a workingmirrors.txt
+        | tee -a workingmirrors.txt.temp
       ## Save the best md5
       cp -u ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
           ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp
