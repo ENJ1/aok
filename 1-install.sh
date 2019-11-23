@@ -130,14 +130,13 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
   if ping -c 1 archlinuxarm.org > /dev/null; then
   
     ## Here's where to use a faster mirror from testing
-    DOWNLOAD_DONE=false
-    DOWNLOAD_ATTEMPT=1
-    while [ $DOWNLOAD_ATTEMPT -le 5 ]; do
-      TRY_MIRROR=`sed -n "${DOWNLOAD_ATTEMPT}p" bestmirrors.txt | tr -d [:digit:] | tr -d '\t'`
-      curl -LO ${TRY_MIRROR}/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz && DOWNLOAD_DONE=true ||
-      DOWNLOAD_ATTEMPT=$[$DOWNLOAD_ATTEMPT+1]
+    DOWNLOAD_COUNTER=1
+    while [ $DOWNLOAD_COUNTER -le 5 ]; do
+      TRY_MIRROR=`sed -n "${DOWNLOAD_COUNTER}p" bestmirrors.txt | tr -d [:digit:] | tr -d '\t'`
+      curl -LO ${TRY_MIRROR}/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz && DOWNLOAD_COUNTER=100 ||
+          DOWNLOAD_COUNTER=$[$DOWNLOAD_COUNTER+1]
     done
-    if [ "$DOWNLOAD_DONE" = false ]; then
+    if [ "$DOWNLOAD_COUNTER" -le 99 ]; then
       echo "Couldn't download Arch Linux. Check your Internet connection reliability."
       exit 1
     }
