@@ -21,7 +21,6 @@ dd --version > /dev/null || { echo "dd not found. exiting."; exit 1; }
 echo "Tools check complete."
 }
 
-
 ## Test mirrors and end up with bestmirrors.txt
 test_mirrors () {
 echo "Testing mirrors..."
@@ -29,25 +28,18 @@ echo "Testing mirrors..."
 ## Create or reset the working mirrors list file
 echo -n > workingmirrors.txt.temp
 
-## Declare an associative array.
-## Key: Variable-friendly subdomain name, Value: Speed
-declare -A MIRROR_SPEEDS
-
 ## All local Arch Linux ARM mirrors, not the main load-balancing mirror
 ## This is the list from https://archlinuxarm.org/about/mirrors
 ## Plus the list provided in /etc/pacman.d/mirrorlist
 all_Mirrors=(au br2 dk de3 de de4 de5 de6 eu gr hu nl ru sg za tw ca.us nj.us fl.us il.us vn)
 
 ## Try to download md5 file for each mirror, recording speeds
-for DOMAIN in ${all_Mirrors[@]}; do
-
-  ## Variable names can't have dots, so change it to an underscore
-  SAFE_DOMAIN=`echo $DOMAIN | sed --expression='s/\./_/'`
+for SUBDOMAIN in ${all_Mirrors[@]}; do
 
   ## Create a new varaible based on the domain name, and set its value to Download Speed
   ## A higher number is better. Domains that fail will have a null value.
-  MIRROR_SPEEDS+=([$SAFE_DOMAIN]=`curl --max-time 5 -LO \
-  $DOMAIN.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
+  CURRENT_SPEED=`curl --max-time 5 -LO \
+  ${SUBDOMAIN}.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
   2>&1 | grep $'\r100' | grep -o '[^ ]*$' || echo -n`)
 
   ## What if it fails?
@@ -59,18 +51,18 @@ for DOMAIN in ${all_Mirrors[@]}; do
       ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 | wc -l` -eq 1 ]; then
 
     ## Save the working mirrors to a text file, Format: Speed (tab) Mirror
-    if [ -n "${MIRROR_SPEEDS[${SAFE_DOMAIN}]}" ]; then
-      echo -e "${MIRROR_SPEEDS[$SAFE_DOMAIN]}\t${DOMAIN}.mirror.archlinuxarm.org" \
+    if [ -n "$CURRENT_SPEED" ]; then
+      echo -e "${CURRENT_SPEED}\t${SUBDOMAIN}.mirror.archlinuxarm.org" \
         | tee -a workingmirrors.txt.temp
       ## Save the best md5
       cp -u ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
           ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp
       MIRROR_SUCCESS=true
     else
-      echo -e "\t${DOMAIN}.mirror.archlinuxarm.org failed completely"
+      echo -e "\t${SUBDOMAIN}.mirror.archlinuxarm.org failed completely"
     fi
   else
-    echo -e "\t${DOMAIN}.mirror.archlinuxarm.org did not provide the correct file (Likely 404)"
+    echo -e "\t${SUBDOMAIN}.mirror.archlinuxarm.org did not provide the correct file (Likely 404)"
     ## Restore the best md5 if possible
     cp ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp \
         ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || :
@@ -113,8 +105,11 @@ cd distro
 ## it's a small file, so be impatient
 if ping -c 1 archlinuxarm.org > /dev/null; then
   curl --max-time 10 -LO \
-      mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 && \
-      MIRROR_SUCCESS=true || :
+      mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 && {
+        cp -u ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
+            ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp
+        MIRROR_SUCCESS=true
+      } || :
   test_mirrors
   if "${MIRROR_SUCCESS}" -ne true; then
     echo "Cannot download latest md5: all mirrors failed."
