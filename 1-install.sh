@@ -130,7 +130,7 @@ else
 fi
 
 ## Check even if it doesn't exist, or try downloading
-md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
+md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
   if ping -c 1 archlinuxarm.org > /dev/null; then
   
     ## Here's where to use the fastest mirror from testing
