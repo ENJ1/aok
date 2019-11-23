@@ -21,7 +21,7 @@ dd --version > /dev/null || { echo "dd not found. exiting."; exit 1; }
 echo "Tools check complete."
 }
 
-## Test mirrors and end up with bestmirrors.txt
+## Test mirrors and hopefully create bestmirrors.txt
 test_mirrors () {
 echo "Testing mirrors..."
 
@@ -36,7 +36,7 @@ all_Mirrors=(au br2 dk de3 de de4 de5 de6 eu gr hu nl ru sg za tw ca.us nj.us fl
 ## Try to download md5 file for each mirror, recording speeds
 for SUBDOMAIN in ${all_Mirrors[@]}; do
 
-  ## Create a new varaible based on the domain name, and set its value to Download Speed
+  ## Download md5, and save Current Speed from curl progress meter
   ## A higher number is better. Domains that fail will have a null value.
   CURRENT_SPEED=`curl --max-time 5 -LO \
   ${SUBDOMAIN}.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
@@ -47,7 +47,7 @@ for SUBDOMAIN in ${all_Mirrors[@]}; do
   if [ `grep ArchLinuxARM-armv7-chromebook-latest.tar.gz \
       ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 | wc -l` -eq 1 ]; then
 
-    ## Save the working mirrors to a text file, Format: Speed (tab) Mirror
+    ## Save the working mirror to a text file, Format: Speed (tab) Mirror
     if [ -n "$CURRENT_SPEED" ]; then
       echo -e "${CURRENT_SPEED}\t${SUBDOMAIN}.mirror.archlinuxarm.org" \
         | tee -a workingmirrors.txt.temp
