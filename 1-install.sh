@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# Run this script from within the aok folder
+# Run this script from within the aok folder (or where dependencies are available)
 # If using within Chrome OS, aok should be in /usr/local so it will work
 
 tools_check () {
