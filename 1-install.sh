@@ -41,7 +41,7 @@ for SUBDOMAIN in ${all_Mirrors[@]}; do
   ## A higher number is better. Domains that fail will have a null value.
   CURRENT_SPEED=`curl --max-time 5 -LO \
   ${SUBDOMAIN}.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
-  2>&1 | grep $'\r100' | grep -o '[^ ]*$' || echo -n`)
+  2>&1 | grep $'\r100' | grep -o '[^ ]*$' || echo -n`
 
   ## What if it's a bad md5 file, like a 404?
   ## It should contain the filename, and be only 1 line
