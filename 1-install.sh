@@ -131,6 +131,7 @@ fi
 
 ## Check even if it doesn't exist, or try downloading
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
+  echo "Attempting download..."
   if ping -c 1 archlinuxarm.org > /dev/null; then
   
     ## Here's where to use the fastest mirror from testing
@@ -154,6 +155,7 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
           exit 1
         }
     fi
+    echo "Download complete."
     md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
       echo "The Arch Linux download was corrupted. You may want to try again."
       exit 1
