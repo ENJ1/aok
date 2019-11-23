@@ -261,7 +261,7 @@ rootfs/etc/lightdm
 ## Edit root bashrc to have welcome message
 echo "dmesg -n 1" >> rootfs/root/.bashrc
 echo "echo" >> rootfs/root/.bashrc
-echo "echo 'Welcome. To finish installing AOK, do the following:'"
+echo "echo 'Welcome. To finish installing AOK, do the following:'" >> rootfs/root/.bashrc
 echo "echo '1. Type ./2-run-on-first-login.sh and press enter.'" >> rootfs/root/.bashrc
 echo "echo '2. Type wifi-menu and press enter to get online.'" >> rootfs/root/.bashrc
 echo "echo '3. Type ./3-run-when-online.sh and press enter.'" >> rootfs/root/.bashrc
