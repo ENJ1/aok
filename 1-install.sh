@@ -120,7 +120,7 @@ if ping -c 1 archlinuxarm.org > /dev/null; then
         MIRROR_SUCCESS=true
       } || echo -n
   test_mirrors
-  if "${MIRROR_SUCCESS}" -ne true; then
+  if [ "$MIRROR_SUCCESS" = false ]; then
     echo "Cannot download latest md5: all mirrors failed."
     use_local_md5
   fi
@@ -146,7 +146,7 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
           } ||
           DL=$[$DL+1]
     done
-    if [ ! "$DOWNLOADED" ]; then
+    if [ "$DOWNLOADED" = false ]; then
       ## Try the main load-balanced mirror as a last resort
       curl -LO mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
         || {
