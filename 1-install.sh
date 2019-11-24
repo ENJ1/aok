@@ -261,14 +261,15 @@ install -o root -g root -m 0644 -D \
 files/lightdm-gtk-greeter.conf \
 rootfs/etc/lightdm/lightdm-gtk-greeter.conf
 
-## Edit the root bashrc to have a welcome message.
-## THIS IS NOT WORKING RIGHT NOW
-echo "echo" >> rootfs/root/.bashrc
-echo "echo 'Welcome. To finish installing AOK, do the following:'" >> rootfs/root/.bashrc
-echo "echo '1. Type ./2-run-on-first-login.sh and press enter.'" >> rootfs/root/.bashrc
-echo "echo '2. Type wifi-menu and press enter to get online.'" >> rootfs/root/.bashrc
-echo "echo '3. Type ./3-run-when-online.sh and press enter.'" >> rootfs/root/.bashrc
-echo "echo" >> rootfs/root/.bashrc
+## Create a welcome message with instructions
+cat << EOF >> /etc/issue
+Welcome. To finish installing AOK, do the following:
+1. Login. The username is "root", and the default password is "root".
+2. Type "./2-run-on-first-login.sh" and press enter.
+3. Type "wifi-menu" and press enter to get online.
+4. Type "./3-run-when-online.sh" and press enter.
+
+EOF
 
 ## Finish up
 umount rootfs
@@ -295,9 +296,9 @@ case "$FUTURE" in
     ;;
 esac
 echo "Done."
+echo
 echo "Reboot and press CTRL-U to boot to SD Card, or CTRL-D to boot Internal Storage."
-echo "Username: root"
-echo "Password: root"
+echo
 echo "Would you like to reboot now? (Y/n)"
 read -p "> " REBOOT
 case "$REBOOT" in
