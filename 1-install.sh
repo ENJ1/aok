@@ -67,10 +67,6 @@ for SUBDOMAIN in ${all_Mirrors[@]}; do
     cp ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp \
         ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || echo -n
   fi
-  ## now i should have MIRROR_SPEEDS[au] which equals perhaps '180'
-  ## now i should have MIRROR_SPEEDS[de5] which equals perhaps '230'
-  ## now i should have MIRROR_SPEEDS[ca_us] which equals perhaps '' (null)
-  ## this array can be used later to extend functionality
 done
 
 
