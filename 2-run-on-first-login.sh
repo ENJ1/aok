@@ -33,11 +33,9 @@ echo
 echo "Enter a new root password"
 passwd
 
-## Set time zone to Pacific
-#ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
-
-## Let anyone set the time zone
-tzselect
+## Set the time zone interactively
+TIMEZONE=`tzselect`
+ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 
 ## Standard Arch Linux Recommendation, perhaps not necessary or needed
 hwclock --systohc
