@@ -253,6 +253,9 @@ systemctl enable bluetooth
 ## OFFICE
 # sudo pacman -S libreoffice
 
+## Remove old packages
+pacman --noconfirm -Sc
+
 ## Now that that's all done, restore the default login prompt
 echo "Arch Linux \r (\l)" > /etc/issue
 echo >> /etc/issue
