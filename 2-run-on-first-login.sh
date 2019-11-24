@@ -19,7 +19,8 @@ userdel -r alarm
 ## but do not echo it to vconsole.conf until you are sure it works.
 ## Using loadkeys is safe for testing. It takes effect immediately,
 ## but does not apply permanent changes across reboots.
-cp /usr/share/kbd/keymaps/i386/qwerty/us.map.gz /usr/share/kbd/keymaps/us-chrome-caps.map.gz
+cp /usr/share/kbd/keymaps/i386/qwerty/us.map.gz \
+    /usr/share/kbd/keymaps/us-chrome-caps.map.gz
 gunzip /usr/share/kbd/keymaps/us-chrome-caps.map.gz
 echo "keycode 125 = Caps_Lock" >> /usr/share/kbd/keymaps/us-chrome-caps.map
 loadkeys /usr/share/kbd/keymaps/us-chrome-caps.map
@@ -65,7 +66,8 @@ echo 'The default user account is just the letter "a"'
 echo 'Enter a new password for the "a" account'
 passwd a
 
-## Disable systemd-resolved DNS managment because it breaks Wi-Fi hotspot landing pages
+## Disable systemd-resolved DNS managment because it breaks Wi-Fi hotspot
+## landing pages
 systemctl disable systemd-resolved
 
 ## Put a classic resolv.conf file in place, instead of what is now a broken link
