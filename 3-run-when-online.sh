@@ -11,38 +11,40 @@ dmesg -n 1
 ## Sync repo, upgrade, and install packages without hassle
 ##
 ## sudo: needed to gain root privilege
+## unzip: basic utility
+## zip: basic utility
 ## xf86-video-fbdev: needed for Mali-T604 Graphics acceleration patch below
 ## alsa-utils: needed for auto (patch below); to unmute audio and keep unmuted
 ## xorg-server: needed for Xfce. chromebook caps (patch below)
-## ttf-dejavu: basic font pack
-## xterm: needed for volumeicon, and recommended for volumeicon because the window is small
-## firefox: needed for landing page redirection for public Wi-Fi Hotspots
-## unzip: basic utility
-## zip: basic utility
-## xarchiver: gui frontend for tar, zip, gzip, xz, etc.
-## volumeicon: volume gui. depends on xterm by default but won't automatically install it
 ## xfce4: Desktop Environment and all associated packages (gui config will be on desktop)
 ## xorg-xinit: start Xfce from command line (configured below)
 ## lightdm: autostart Xfce on bootup (enabled below)
 ## lightdm-gtk-greeter: login screen
+## ttf-dejavu: basic font pack
+## volumeicon: volume gui. depends on xterm by default but won't automatically install it
+## xterm: needed for volumeicon, and recommended for volumeicon because the window is small
 ## networkmanager: networking backend (enabled below)
 ## nm-connection-editor: networking editor gui
 ## network-manager-applet: tray icon
+## firefox: needed for landing page redirection for public Wi-Fi Hotspots
 ## blueman: bluetooth utility and frontend
-## gpicview: lightweight image viewer
 ## mousepad: lightweight text editor and code syntax highlighter made for Xfce
-## xorg-xinput: command line mouse and trackpad control (script included in extra)
-## cgpt: for creating partition flags for chromebooks (used by install script)
+## galculator: common calculator
+## gpicview: lightweight image viewer
+## xarchiver: gui frontend for tar, zip, gzip, xz, etc.
 ## gnome-mplayer: install a video player that actually works. vlc is too heavy.
 ## gmtp: needed for android file transfers
 ## android-file-transfer: needed for transferring files to/from android devices
-## galculator: common calculator
-## gnome-packagekit: a software installer - a pacman (package manager) interface
+## xorg-xinput: command line mouse and trackpad control (script included in extra)
+## vboot-utils: cgpt partition flags for chromebooks (used by install script)
 ##
-pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm \
-firefox unzip zip xarchiver volumeicon xfce4 xorg-xinit lightdm lightdm-gtk-greeter \
-networkmanager nm-connection-editor network-manager-applet blueman gpicview mousepad \
-xorg-xinput cgpt gnome-mplayer gmtp android-file-transfer galculator
+pacman -Syu --noconfirm sudo unzip zip xf86-video-fbdev alsa-utils xorg-server \
+xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu volumeicon xterm \
+networkmanager nm-connection-editor network-manager-applet firefox blueman \
+mousepad galculator gpicview xarchiver gnome-mplayer gmtp android-file-transfer \
+xorg-xinput vboot-utils
+
+
 ###########################################################################
 
 ###########################################################################
