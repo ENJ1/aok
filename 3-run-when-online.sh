@@ -43,8 +43,6 @@ xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu volumeicon xterm \
 networkmanager nm-connection-editor network-manager-applet firefox blueman \
 mousepad galculator gpicview xarchiver gnome-mplayer gmtp android-file-transfer \
 xorg-xinput vboot-utils
-
-
 ###########################################################################
 
 ###########################################################################
