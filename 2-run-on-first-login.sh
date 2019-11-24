@@ -4,6 +4,9 @@
 
 ## This script depends on files/locale.gen
 
+## Temporary console fix
+dmesg -n 1
+
 ## Remove the default alarm (Arch Linux ARM) account.
 ## This account is only needed if you have to use SSH to login remotely
 ## for the very first login, which is not applicable here.
