@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# Run this script from within the aok folder (or where dependencies are available)
+# Run this script from within the aok folder, or where dependencies are met
 # If using within Chrome OS, aok should be in /usr/local so it will work
 
 tools_check () {
@@ -11,7 +11,8 @@ if [ "$EUID" != 0 ]; then
 fi
 crossystem hwid && echo || echo "crossystem not found. OK."
 curl -V > /dev/null || { echo "curl not found. exiting."; exit 1; }
-ping -c 1 archlinuxarm.org > /dev/null || echo "archlinuxarm.org not found. May use local data."
+ping -c 1 archlinuxarm.org > /dev/null \
+  || echo "archlinuxarm.org not found. May use local data."
 md5sum --version > /dev/null || { echo "md5sum not found. exiting."; exit 1; }
 umount -V > /dev/null || { echo "umount not found. exiting."; exit 1; }
 fdisk -V
@@ -108,8 +109,8 @@ echo "Preparing files..."
 mkdir -p distro
 cd distro
 
-## check if Internet and DNS is working before trying every mirror
-## command is repeated because curl is built without metalink support in chrome os.
+## Check if Internet and DNS is working before trying every mirror
+## curl is built without metalink support in Chrome OS.
 ## it's a small file, so be impatient
 MIRROR_SUCCESS=false
 if ping -c 1 archlinuxarm.org > /dev/null; then
@@ -191,18 +192,20 @@ p
 w
 END
 
-## Set special flags needed by U-Boot. Don't let so-called-cgpt-errors break the script
+## Set special flags needed by U-Boot.
+## or echo -n. Don't let so-called-cgpt-errors break the script
 cgpt add -i 1 -P 10 -T 5 -S 1 ${DEVICE} || echo -n
 
 ## Avoid mkfs complaining if it's 'apparently in use by the system' but isn't
 umount rootfs || echo -n
 
-## Set up filesystem, copy files, and if on ChromeOS then make sure to enable booting
+## Set up filesystem, copy files, and if on ChromeOS then enable booting
 mkfs.ext4 -F ${DEVICE}${PARTITION_2}
 mkdir -p rootfs
 mount ${DEVICE}${PARTITION_2} rootfs
 echo "Copying Filesystem..."
-tar --warning=no-unknown-keyword -xf distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
+tar --warning=no-unknown-keyword -xf \
+distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
 echo
 echo "Filesystem copy complete."
 echo "Copying Boot Partition..."
