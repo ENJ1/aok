@@ -253,8 +253,9 @@ systemctl enable bluetooth
 ## OFFICE
 # sudo pacman -S libreoffice
 
-## Now that that's all done, remove install help from the root bashrc
-cp /etc/skel/.bashrc /root
+## Now that that's all done, restore the default login prompt
+echo "Arch Linux \r (\l)" > /etc/issue
+echo >> /etc/issue
 
 ## Exit message
 echo
