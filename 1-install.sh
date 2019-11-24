@@ -232,34 +232,29 @@ if [ -f distro/bestmirrors.txt ]; then
   done
 fi
 
-## Copy custom scripts, images, etc. to /root for easy access upon install
-install -o root -g root -m 0644 *.txt rootfs/root/
-install -o root -g root -m 0755 *.sh rootfs/root/
+## Bulk copy of custom content (will ALSO install in specific places)
+cp *.txt rootfs/root/
+install *.sh rootfs/root/
 cp -r files rootfs/root
 cp -r extra rootfs/root
-
-## Make extra scripts executable.
 chmod +x rootfs/root/extra/*.sh
 
-# Install a quiet gray background for use in Xfce.
-install -o root -g root -m 0644 -D \
-files/bright_background_light_texture_50370_1366x768.jpg \
-rootfs/usr/share/backgrounds/xfce/bright_background_light_texture_50370_1366x768.jpg
+# Copy quiet background for Xfce
+mkdir -p rootfs/usr/share/backgrounds/xfce
+cp files/bright_background_light_texture_50370_1366x768.jpg \
+    rootfs/usr/share/backgrounds/xfce
 
-## Install an Arch Linux icon for use in Xfce as a menu button.
-install -o root -g root -m 0644 -D \
-files/arch_linux_gnome_menu_icon_by_byamato.png \
-rootfs/usr/share/icons/arch_linux_gnome_menu_icon_by_byamato.png
+## Copy icon for Xfce
+mkdir -p rootfs/usr/share/icons
+cp files/arch_linux_gnome_menu_icon_by_byamato.png rootfs/usr/share/icons
 
-## Install a background for lightdm.
-install -o root -g root -m 0644 -D \
-files/linux_archlinux_os_blue_black_logo_30861_1366x768.jpg \
-rootfs/usr/share/pixmaps/linux_archlinux_os_blue_black_logo_30861_1366x768.jpg
+## Copy background for lightdm
+mkdir -p rootfs/usr/share/pixmaps
+cp files/linux_archlinux_os_blue_black_logo_30861_1366x768.jpg rootfs/usr/share/pixmaps
 
-## Install a configuration file for lightdm.
-install -o root -g root -m 0644 -D \
-files/lightdm-gtk-greeter.conf \
-rootfs/etc/lightdm/lightdm-gtk-greeter.conf
+## Copy lightdm config
+mkdir -p rootfs/etc/lightdm
+cp files/lightdm-gtk-greeter.conf rootfs/etc/lightdm
 
 ## Create a welcome message with instructions
 cat << EOF >> /etc/issue
