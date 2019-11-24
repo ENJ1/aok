@@ -42,7 +42,7 @@ dmesg -n 1
 pacman -Syu --noconfirm sudo xf86-video-fbdev alsa-utils xorg-server ttf-dejavu xterm \
 firefox unzip zip xarchiver volumeicon xfce4 xorg-xinit lightdm lightdm-gtk-greeter \
 networkmanager nm-connection-editor network-manager-applet blueman gpicview mousepad \
-xorg-xinput cgpt gnome-mplayer gmtp android-file-transfer galculator gnome-packagekit
+xorg-xinput cgpt gnome-mplayer gmtp android-file-transfer galculator
 ###########################################################################
 
 ###########################################################################
