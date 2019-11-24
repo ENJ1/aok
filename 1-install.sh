@@ -210,6 +210,10 @@ dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 echo "Boot Partition copy complete."
 crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
 
+## Don't let kernel messages garble the console; hide them instead.
+mkdir -p rootfs/etc/sysctl.d
+echo "kernel.printk = 3 3 3 3" >> rootfs/etc/sysctl.d/20-quiet-printk.conf
+
 ## Add best mirrors to pacman mirrorlist
 if [ -f distro/bestmirrors.txt ]; then
   ADD=1
@@ -231,35 +235,31 @@ install -o root -g root -m 0755 *.sh rootfs/root/
 cp -r files rootfs/root
 cp -r extra rootfs/root
 
-## Make extra scripts executable
+## Make extra scripts executable.
 chmod +x rootfs/root/extra/*.sh
 
-## Also install images where they should go
-## DEPENDS: files/arch_linux_gnome_menu_icon_by_byamato.png
-## DEPENDS: files/bright_background_light_texture_50370_1366x768.jpg
-
-# INSTALL TEXTURED GREY WALLPAPER
+# Install a quiet gray background for use in Xfce.
 install -o root -g root -m 0644 -D \
 files/bright_background_light_texture_50370_1366x768.jpg \
 rootfs/usr/share/backgrounds/xfce/bright_background_light_texture_50370_1366x768.jpg
 
-## ARCH LINUX ICON
+## Install an Arch Linux icon for use in Xfce as a menu button.
 install -o root -g root -m 0644 -D \
 files/arch_linux_gnome_menu_icon_by_byamato.png \
 rootfs/usr/share/icons/arch_linux_gnome_menu_icon_by_byamato.png
 
-## LIGHTDM LOGIN BACKGROUND
+## Install a background for lightdm.
 install -o root -g root -m 0644 -D \
 files/linux_archlinux_os_blue_black_logo_30861_1366x768.jpg \
 rootfs/usr/share/pixmaps/linux_archlinux_os_blue_black_logo_30861_1366x768.jpg
 
-## LIGHTDM BACKGROUND SETTINGS
+## Install a configuration file for lightdm.
 install -o root -g root -m 0644 -D \
 files/lightdm-gtk-greeter.conf \
 rootfs/etc/lightdm/lightdm-gtk-greeter.conf
 
-## Edit root bashrc to have welcome message
-echo "dmesg -n 1" >> rootfs/root/.bashrc
+## Edit the root bashrc to have a welcome message.
+## THIS IS NOT WORKING RIGHT NOW
 echo "echo" >> rootfs/root/.bashrc
 echo "echo 'Welcome. To finish installing AOK, do the following:'" >> rootfs/root/.bashrc
 echo "echo '1. Type ./2-run-on-first-login.sh and press enter.'" >> rootfs/root/.bashrc
@@ -267,6 +267,7 @@ echo "echo '2. Type wifi-menu and press enter to get online.'" >> rootfs/root/.b
 echo "echo '3. Type ./3-run-when-online.sh and press enter.'" >> rootfs/root/.bashrc
 echo "echo" >> rootfs/root/.bashrc
 
+## Finish up
 umount rootfs
 sync
 rmdir rootfs
