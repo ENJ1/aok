@@ -61,7 +61,7 @@ useradd -m -G wheel -s /bin/bash a
 ## Now place a script on the Desktop
 ## It would be better to have it set up automatically in advance
 install -o a -g a -m 0755 -D \
-files/Setup-AOK-Style.sh /home/a/Desktop
+files/Setup-AOK-Style.sh /home/a/Desktop/Setup-AOK-Style.sh
 
 ## Change password for the "a" account
 echo 'The default user account is just the letter "a"'
