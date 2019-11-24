@@ -239,22 +239,38 @@ cp -r files rootfs/root
 cp -r extra rootfs/root
 chmod +x rootfs/root/extra/*.sh
 
-# Copy quiet background for Xfce
+## ALSO, copy files to specific locations
+## Copy quiet background for Xfce
 mkdir -p rootfs/usr/share/backgrounds/xfce
 cp files/bright_background_light_texture_50370_1366x768.jpg \
     rootfs/usr/share/backgrounds/xfce
-
 ## Copy icon for Xfce
 mkdir -p rootfs/usr/share/icons
 cp files/arch_linux_gnome_menu_icon_by_byamato.png rootfs/usr/share/icons
-
 ## Copy background for lightdm
 mkdir -p rootfs/usr/share/pixmaps
 cp files/linux_archlinux_os_blue_black_logo_30861_1366x768.jpg rootfs/usr/share/pixmaps
-
 ## Copy lightdm config
 mkdir -p rootfs/etc/lightdm
 cp files/lightdm-gtk-greeter.conf rootfs/etc/lightdm
+
+## ALSO, Copy Global Xfce pre-configs
+## Copy desktop, panel, power settings
+mkdir -p rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
+cp files/xfce4-desktop.xml \
+    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
+cp files/xfce4-panel.xml \
+    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
+cp files/xfce4-power-manager.xml \
+    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
+## Copy volumeicon config
+mkdir -p rootfs/etc/skel/.config/volumeicon
+cp files/volumeicon \
+    rootfs/etc/skel/.config/volumeicon
+## Copy firefox launcher
+mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-8
+cp files/15745773551.desktop \
+    rootfs/etc/skel/.config/xfce4/panel/launcher-8
 
 ## Create a welcome message with instructions
 cat << EOF >> /etc/issue
