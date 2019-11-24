@@ -2,9 +2,6 @@
 
 ## This script depends on being online
 
-## Temporary console fix
-dmesg -n 1
-
 ###########################################################################
 ## UPGRADE AND INSTALL PACKAGES
 ##
