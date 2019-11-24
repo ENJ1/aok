@@ -150,12 +150,14 @@ echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(A
 ## IN THE LAYOUT SETTINGS OF YOUR DESKTOP ENVIRONMENT, THEN YOU
 ## WILL GET THE TRUE CHROMEBOOK EXPERIENCE: NO CAPS LOCK.
 ## Backup the original keyboard configuration file
+echo "Fixing Caps Lock for X11 Windowing"
 cp -n /usr/share/X11/xkb/symbols/pc /usr/share/X11/xkb/symbols/pc.bak
 ## Create a new custom file
 sed 's/key <LWIN> {\t\[ Super_L/key <LWIN> {\t\[ Caps_Lock/g' \
 /usr/share/X11/xkb/symbols/pc > /usr/share/X11/xkb/symbols/pc-chrome-caps
 ## Overwrite the old file with the new custom file
 cp /usr/share/X11/xkb/symbols/pc-chrome-caps /usr/share/X11/xkb/symbols/pc
+echo "Caps Lock for X11 Windows fixed."
 ## You must reboot for changes to take effect
 #reboot
 ## You can restore the original file at any time
