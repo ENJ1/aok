@@ -82,10 +82,4 @@ echo "Done."
 echo
 echo "If you need to do advanced network administration, do that now."
 echo
-echo "You may want or need to select local mirrors for downloading packages."
-echo "To do that, type 'nano /etc/pacman.d/mirrorlist' and press enter,"
-echo "then uncomment (remove the leading # character) any mirrors you prefer,"
-echo "save the file by pressing CTRL-O, then exit using CTRL-X"
-echo "You may also want to comment out mirrors that are slow or don't work."
-echo
 echo "Run 'wifi-menu' to get online. Then run the next script."
