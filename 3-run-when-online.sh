@@ -30,7 +30,6 @@
 ## gpicview: lightweight image viewer designed for LXDE
 ## engrampa: easy to use archive manager designed for MATE desktop
 ## mpv: video player, best performance, minimal ui
-## gmtp: needed for android file transfers
 ## android-file-transfer: needed for transferring files to/from android devices
 ## xorg-xinput: mouse and trackpad control (needed by script included in extra)
 ## vboot-utils: cgpt partition flags for chromebooks (used by install script)
@@ -38,9 +37,8 @@
 pacman -Syu --noconfirm sudo unzip zip xf86-video-fbdev alsa-utils xorg-server \
 xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu volumeicon xterm \
 networkmanager nm-connection-editor network-manager-applet firefox blueman \
-mousepad galculator gpicview engrampa mpv \
-gmtp android-file-transfer \
-xorg-xinput vboot-utils
+mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
+vboot-utils
 ###########################################################################
 
 ###########################################################################
