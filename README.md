@@ -34,17 +34,22 @@ Requirements:
 6. Type `sudo aok` and press enter (and DON'T click on Chrome OS pop-up messages when they appear!)
 7. Follow the instructions. (Reboot, login, and type `setup` to set it all up!)
 
+## Post-Installation Tips
+- To free up a lot of space (about 500 MB), run Terminal Emulator and type `sudo pacman -Scc`
+- To update the package list, run Terminal Emulator and type `sudo pacman -Sy`
+- To find new programs to install, run Terminal Emulator and type `sudo pacman -Ss thunderbird` for example
+- To install programs, run Terminal Emulator and type `sudo pacman -S thunderbird` for example
+- For more help with using Arch Linux, visit https://wiki.archlinux.org/
+
 ## Notes
 
 If you need to use a public Wi-Fi Hotspot with a Landing Page during setup, then see the WiFi Hotspot Help file in "extra".
 Once the system is installed, Landing Pages will work automatically.
 
-You may want to customize:
+You may want to customize the scripts to use:
   - Your locale
   - Your own username
   - Your own hostname
-
-IF YOU MODIFY THE USERNAME, YOU WILL HAVE TO MODIFY THE OTHER SCRIPT TO MATCH IT!!!
 
 You probably REALLY want to run the "patch" stuff!!!
 The patch code get Arch Linux working nicely on the XE303C12.
@@ -60,4 +65,5 @@ generally not trusting Chrome OS to save any of your local files for you.
 
 ## Thanks
 The upstream source for this distribution comes to you from archlinuxarm.org.
+
 https://archlinuxarm.org/platforms/armv7/samsung/samsung-chromebook
