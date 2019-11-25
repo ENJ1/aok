@@ -211,10 +211,9 @@ if [ -f distro/bestmirrors.txt ]; then
   done
 fi
 ## Bulk copy of custom content (will ALSO install in specific places)
-cp *.txt rootfs/root/
-install *.sh rootfs/root/
-cp -r files rootfs/root
-cp -r extra rootfs/root
+cp -r * rootfs/root/
+chmod +x rootfs/root/aok
+chmod +x rootfs/root/*.sh
 chmod +x rootfs/root/extra/*.sh
 ## ALSO, copy files to specific locations
 ## Copy quiet background for Xfce
