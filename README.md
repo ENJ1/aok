@@ -3,7 +3,7 @@
 "it's A-okay"
 
 ## What is this?
-A really easy way to get a real Operating System on your Chromebook.
+A really easy way to get a real Operating System on your Chromebook. It's a set of scripts and patches.
 - Fully automated. Easy for a beginner.
 - Pre-patched: 2D Graphics acceleration, Audio, Caps Lock, Bluetooth, WiFi, and more!
 - Clean Xfce environment out of the box, ready to use.
@@ -23,10 +23,11 @@ Pro Tip: You can press Ctrl-D (or Ctrl-U to boot from SD Card) as soon as the ba
 ## Installation Guide
 Requirements:
 - A Chromebook, Model XE303C12
-- 4 GB or larger SD Card. USB's won't work. The final install size is 2.9 GB.
+- Developer Mode enabled
+- 4 GB or larger SD Card (USB's won't work) The final install size is 2.9 GB
 - Internet (to download about 850 MB)
 
-1. Download Zip
+1. Download the Zip (green button)
 2. Unzip by opening aok-master.zip and dragging aok-master to Downloads
 3. Press CTRL+ALT+T for a crosh window
 4. Type `shell` and press enter
@@ -37,9 +38,8 @@ Requirements:
 ## Post-Installation Tips
 - To free up a lot of space (about 500 MB), run Terminal Emulator and type `sudo pacman -Scc`
 - To update the package list, run Terminal Emulator and type `sudo pacman -Sy`
-- To find new programs to install, run Terminal Emulator and type `sudo pacman -Ss thunderbird` for example
-- To install programs, run Terminal Emulator and type `sudo pacman -S thunderbird` for example
-- For more help with using Arch Linux, visit https://wiki.archlinux.org/
+- To install a program (package), run Terminal Emulator and type `sudo pacman -S thunderbird` for example
+- For help using Arch Linux, visit https://wiki.archlinux.org/
 
 ## Notes
 
