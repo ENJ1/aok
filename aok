@@ -214,12 +214,14 @@ fi
 mkdir -p rootfs/usr/local/bin
 install aok rootfs/usr/local/bin
 install setup rootfs/usr/local/bin
+install dim rootfs/usr/local/bin
 install extra/*.sh rootfs/usr/local/bin
 mkdir -p rootfs/usr/local/aok
 install aok rootfs/usr/local/aok
 install setup rootfs/usr/local/aok
 cp -r files rootfs/usr/local/aok
 cp -r extra rootfs/usr/local/aok
+chmod +x rootfs/usr/local/aok/extra/dim
 chmod +x rootfs/usr/local/aok/extra/*.sh
 ## ALSO, copy files to specific locations
 ## Copy quiet background for Xfce
