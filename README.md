@@ -59,3 +59,7 @@ assumes there is an issue and attempts to repair itself. I'm not exactly sure wh
 causes this, but again, it may erase everything within Chrome OS and start over.
 So it would be a good idea to back up any important files from Chrome OS, and
 generally not trusting Chrome OS to save any of your local files for you.
+
+## Thanks
+The upstream source for this distribution comes to you from archlinuxarm.org.
+https://archlinuxarm.org/platforms/armv7/samsung/samsung-chromebook
