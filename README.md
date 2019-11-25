@@ -55,13 +55,9 @@ You probably REALLY want to run the "patch" stuff!!!
 The patch code get Arch Linux working nicely on the XE303C12.
 Everything else is just normal Arch Linux install stuff.
 
-In rare cases, if the battery is discharged completely, it may not remember to allow you to boot from the SD Card. If Chrome OS is installed on the eMMC (internal memory), then it may 'repair itself' and erase everything from the internal memory, and require logging in to Google's servers and starting as if from a new system, all before you can get back to developer mode and enable booting from SD Card.
+In rare cases, if the battery is discharged completely, the Chromebook boot system may not remember to allow you to boot from the SD Card. If Chrome OS is installed on the eMMC (internal memory), then it may 'repair itself' and erase everything from the internal memory, and require logging in to Google's servers and starting as if from a new system, all before you can get back to developer mode and re-enable booting from the SD Card. This does not affect the integrity of the SD Card or your files on the SD Card.
 
-Also, if Chrome OS is on the eMMC, there have been seemingly random times when it
-assumes there is an issue and attempts to repair itself. I'm not exactly sure what
-causes this, but again, it may erase everything within Chrome OS and start over.
-So it would be a good idea to back up any important files from Chrome OS, and
-generally not trusting Chrome OS to save any of your local files for you.
+Also, if Chrome OS is on the eMMC, and you do something wild to crash Arch Linux, Chrome OS may attempts to repair itself. I'm not exactly sure what causes this, but again, it may erase everything within Chrome OS and start over. So it would be a good idea to back up any important files from Chrome OS, and generally not trusting Chrome OS to save any of your local files for you. This does not affect the integrity of the SD Card or your files on the SD Card.
 
 ## Thanks
 The upstream source for this distribution comes to you from archlinuxarm.org.
