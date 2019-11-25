@@ -15,11 +15,9 @@ Developer Mode must be enabled already.
 3. Press CTRL+ALT+T for a crosh window
 4. Type "shell" and press enter
 5. Type "sudo install -Dt /usr/local/bin ~/Downloads/aok-master/aok" and press enter
-6.
-7.
-8.
-9. Type "sudo aok" and press enter
+6. Type "sudo aok" and press enter
 
+Follow the instructions
 
 When you get online for the first time using "wifi-menu"...
 If the Wi-Fi Hotspot has a Landing Page, see the WiFi Hotspot Help file in "extra".
