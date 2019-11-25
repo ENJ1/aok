@@ -206,9 +206,11 @@ if [ -f distro/bestmirrors.txt ]; then
   while [ "$ADD" -le "$MAX_MIRRORS" ]; do
     APPEND=`sed -n "${ADD}p" distro/bestmirrors.txt | sed $'s/.*\t//'`
     echo 'Server = http://'${APPEND}'/$arch/$repo' \
-        >> rootfs/etc/pacman.d/mirrorlist
+        >> usemirrors.txt
     ADD=$[$ADD+1]
   done
+  ## append those mirrors to the TOP of the mirrorlist
+  cat usemirrors.txt rootfs/etc/pacman.d/mirrorlist > temp && mv temp rootfs/etc/pacman.d/mirrorlist
 fi
 ## Bulk copy of custom content (will ALSO install in specific places)
 mkdir -p rootfs/usr/local/bin
