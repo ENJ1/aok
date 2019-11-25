@@ -35,7 +35,7 @@ Developer Mode must be enabled already.
 6. Type `sudo aok` and press enter
 7. Follow instructions
 
-# Notes
+## Notes
 
 When you get online for the first time using "wifi-menu"...
 If the Wi-Fi Hotspot has a Landing Page, see the WiFi Hotspot Help file in "extra".
