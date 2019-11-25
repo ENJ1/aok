@@ -211,12 +211,16 @@ if [ -f distro/bestmirrors.txt ]; then
   done
 fi
 ## Bulk copy of custom content (will ALSO install in specific places)
-cp *.md rootfs/root/
-install aok rootfs/root/
-install *.sh rootfs/root/
-cp -r files rootfs/root
-cp -r extra rootfs/root
-chmod +x rootfs/root/extra/*.sh
+mkdir -p rootfs/usr/local/bin
+install aok rootfs/usr/local/bin
+install setup rootfs/usr/local/bin
+install extra/*.sh rootfs/usr/local/bin
+mkdir -p rootfs/usr/local/aok
+install aok rootfs/usr/local/aok
+install setup rootfs/usr/local/aok
+cp -r files rootfs/usr/local/aok
+cp -r extra rootfs/usr/local/aok
+chmod +x rootfs/usr/local/aok/extra/*.sh
 ## ALSO, copy files to specific locations
 ## Copy quiet background for Xfce
 mkdir -p rootfs/usr/share/backgrounds/xfce
@@ -252,9 +256,7 @@ cp files/15745773551.desktop \
 cat << EOF >> rootfs/etc/issue
 Welcome. To finish installing AOK, do the following:
 1. Login. The username is "root", and the default password is "root".
-2. Type "./2-run-on-first-login.sh" and press enter.
-3. Type "wifi-menu" and press enter to get online.
-4. Type "./3-run-when-online.sh" and press enter.
+2. After logging in, type "setup" and press enter.
 
 EOF
 ## Finish up
