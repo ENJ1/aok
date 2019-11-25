@@ -1,5 +1,13 @@
 
-# Arch Linux on the Samsung XE303C12
+# aok Arch Linux for the Samsung XE303C12
+aok as in A-okay
+
+## What is this?
+A really easy way to get a real Operating System on your Chromebook.
+- Fully automated. Easy for a beginner.
+- Pre-patched: 2D Graphics acceleration, Audio, Caps Lock, Bluetooth, WiFi, and more!
+- Clean Xfce environment out of the box, ready to use.
+
 ## Installation Guide
 Minimum Requirements: 4 GB or larger SD Card. USB's won't work.
 
