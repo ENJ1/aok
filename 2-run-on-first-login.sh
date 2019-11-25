@@ -71,10 +71,27 @@ echo "nameserver 1.1.1.1" > /etc/resolv.conf
 pacman-key --init
 pacman-key --populate archlinuxarm
 
-## Exit message
 echo
-echo "Done."
+echo "The offline setup is complete."
+echo 'If you can't get online now, press q, and press enter'
+echo 'then type "poweroff" to shut down'
 echo
-echo "If you need to do advanced network administration, do that now."
-echo
-echo "Run 'wifi-menu' to get online. Then run the next script."
+echo "Otherwise, just press enter to run wifi-menu."
+read -p "> " QUIT
+
+case "$QUIT" in
+  q|Q)
+    echo 'Type "./3-run-when-online.sh" and press enter to complete setup.'
+    echo 'Type "poweroff" to shut down'
+    echo 'Type "reboot" to boot to a differenet device'
+    exit 1
+    ;;
+  *)
+    wifi-menu
+    ;;
+esac
+
+## Running pacman right after wifi-menu leads to issues, so sleep for a few seconds
+echo "Preparing for network activity..."
+sleep 5
+./3-run-when-online.sh
