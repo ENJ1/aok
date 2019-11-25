@@ -1,6 +1,6 @@
 
 # aok Arch Linux for the Samsung XE303C12
-"A-okay"
+it's "A-okay"
 
 ## What is this?
 A really easy way to get a real Operating System on your Chromebook.
