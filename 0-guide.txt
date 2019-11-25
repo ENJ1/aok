@@ -22,15 +22,13 @@ Developer Mode must be enabled already.
 
 To run scripts after install:
 1. Login as "root", password "root"
-2. Type "cd /aok" and press enter
-3. Type "ls" and press enter to list the contents of the folder
-4. Type "./2-run-on-first-login.sh" and press enter to run the script.
-5. Get online by typing "wifi-menu" and pressing enter.
+2. Type "./2-run-on-first-login.sh" and press enter to run the script.
+3. Get online by typing "wifi-menu" and pressing enter.
      This will run a program that guides you to connecting to a Wi-Fi network.
      If the Wi-Fi Hotspot has a Landing Page, see the WiFi Hotspot Help file in "extra".
      Once the system is installed, Landing Pages will work automatically and a browser
      will be installed so you can visit the Landing Page and get online.
-5. Repeat the process for the next script, using that script name
+4. Repeat the process for the next script, using that script name
 
 You may want to customize script 2 with:
   - Your locale
