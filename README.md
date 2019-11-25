@@ -32,7 +32,7 @@ Developer Mode must be enabled already.
 3. Press CTRL+ALT+T for a crosh window
 4. Type `shell` and press enter
 5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok-master/aok` and press enter
-6. Type `sudo aok` and press enter
+6. Type `sudo aok` and press enter (and DON'T click on Chrome OS pop-up messages when they appear!)
 7. Follow instructions
 
 ## Notes
