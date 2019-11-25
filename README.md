@@ -7,6 +7,7 @@ A really easy way to get a real Operating System on your Chromebook. It's a set 
 - Fully automated. Easy for a beginner.
 - Pre-patched: 2D Graphics acceleration, Audio, Caps Lock, Bluetooth, WiFi, and more!
 - Clean Xfce environment out of the box, ready to use.
+- All brand-new up-to-date software.
 
 ## Enable Developer Mode
 1. Back up your files.
