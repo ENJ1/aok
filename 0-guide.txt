@@ -11,10 +11,10 @@ Recommended:
 Developer Mode must be enabled already.
 
 1. Download Zip
-2. Unzip by opening aok-halfway.zip and dragging aok-halfway to Downloads
+2. Unzip by opening aok-master.zip and dragging aok-master to Downloads
 3. Press CTRL+ALT+T for a crosh window
 4. Type "shell" and press enter
-5. Type "sudo install -Dt /usr/local/bin ~/Downloads/aok-halfway/aok" and press enter
+5. Type "sudo install -Dt /usr/local/bin ~/Downloads/aok-master/aok" and press enter
 6.
 7.
 8.
