@@ -9,6 +9,10 @@ if [ "$EUID" != 0 ]; then
   echo "Root privilege not found, quitting."
   exit 1
 fi
+## Copy aok files
+cp -r ~/Downloads/aok-halfway/. /usr/local/aok
+cd /usr/local/aok
+## Check for vboot-utils and more
 crossystem hwid && echo || echo "crossystem not found. OK."
 curl -V > /dev/null || { echo "curl not found. exiting."; exit 1; }
 ping -c 1 archlinuxarm.org > /dev/null \
@@ -25,30 +29,24 @@ echo "Tools check complete."
 ## Test mirrors and hopefully create bestmirrors.txt
 test_mirrors () {
 echo "Testing mirrors..."
-
 ## Create or reset the working mirrors list file, and set local mirror status
 echo -n > workingmirrors.txt.temp
 LOCAL_MIRROR_SUCCESS=false
-
 ## All local Arch Linux ARM mirrors, not the main load-balancing mirror
 ## This is the list from https://archlinuxarm.org/about/mirrors
 ## Plus the list provided in /etc/pacman.d/mirrorlist
 all_Mirrors=(au br2 dk de3 de de4 de5 de6 eu gr hu nl ru sg za tw ca.us nj.us fl.us il.us vn)
-
 ## Try to download md5 file for each mirror, recording speeds
 for SUBDOMAIN in ${all_Mirrors[@]}; do
-
   ## Download md5, and save Current Speed from curl progress meter
   ## A higher number is better. Domains that fail will have a null value.
   CURRENT_SPEED=`curl --max-time 5 -LO \
   ${SUBDOMAIN}.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
   2>&1 | grep $'\r100' | grep -o '[^ ]*$' || echo -n`
-
   ## What if it's a bad md5 file, like a 404?
   ## It should contain the filename, and be only 1 line
   if [ `grep ArchLinuxARM-armv7-chromebook-latest.tar.gz \
       ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 | wc -l` -eq 1 ]; then
-
     ## Save the working mirror to a text file, Format: Speed (tab) Mirror
     if [ -n "$CURRENT_SPEED" ]; then
       echo -e "${CURRENT_SPEED}\t${SUBDOMAIN}.mirror.archlinuxarm.org" \
@@ -68,8 +66,6 @@ for SUBDOMAIN in ${all_Mirrors[@]}; do
         ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || echo -n
   fi
 done
-
-
 if [ "$LOCAL_MIRROR_SUCCESS" = true ]; then
   echo
   echo "These are your current best mirrors:"
@@ -81,14 +77,11 @@ else
   echo
   echo "No working local mirrors found."
 fi
-
 ## Cleanup
 rm -f ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp
 rm -f workingmirrors.txt.temp
 echo "Mirrors testing complete."
 }
-
-
 
 ## Offline function, try using local md5 or quit
 use_local_md5 () {
@@ -104,7 +97,6 @@ install_arch () {
 echo "Preparing files..."
 mkdir -p distro
 cd distro
-
 ## Check if Internet and DNS is working before trying every mirror
 ## curl is built without metalink support in Chrome OS.
 ## it's a small file, so be impatient
@@ -125,12 +117,10 @@ else
     echo "Cannot download latest md5: archlinuxarm.org not found."
     use_local_md5
 fi
-
 ## Check even if it doesn't exist, or try downloading
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
   echo "Attempting download..."
   if ping -c 1 archlinuxarm.org > /dev/null; then
-  
     ## Here's where to use the fastest mirror from testing
     DOWNLOADED=false
     DL=1
@@ -164,11 +154,9 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
 }
 cd -
 echo "File preparation complete."
-
 ## Now that everything is ready, truly get started
 echo "Starting Arch Linux Installation..."
 umount ${DEVICE}* || echo -n
-
 ## Do not change the whitespace here, it is important
 ## passing "y" in case it asks if sure. harmless if not asked.
 fdisk ${DEVICE} << END
@@ -187,14 +175,11 @@ n
 p
 w
 END
-
 ## Set special flags needed by U-Boot.
 ## or echo -n. Don't let so-called-cgpt-errors break the script
 cgpt add -i 1 -P 10 -T 5 -S 1 ${DEVICE} || echo -n
-
 ## Avoid mkfs complaining if it's 'apparently in use by the system' but isn't
 umount rootfs || echo -n
-
 ## Set up filesystem, copy files, and if on ChromeOS then enable booting
 mkfs.ext4 -F ${DEVICE}${PARTITION_2}
 mkdir -p rootfs
@@ -208,11 +193,9 @@ echo "Copying Boot Partition..."
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 echo "Boot Partition copy complete."
 crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
-
 ## Don't let kernel messages garble the console; hide them instead.
 mkdir -p rootfs/etc/sysctl.d
 echo "kernel.printk = 3 3 3 3" >> rootfs/etc/sysctl.d/20-quiet-printk.conf
-
 ## Add best mirrors to pacman mirrorlist
 if [ -f distro/bestmirrors.txt ]; then
   ADD=1
@@ -227,14 +210,12 @@ if [ -f distro/bestmirrors.txt ]; then
     ADD=$[$ADD+1]
   done
 fi
-
 ## Bulk copy of custom content (will ALSO install in specific places)
 cp *.txt rootfs/root/
 install *.sh rootfs/root/
 cp -r files rootfs/root
 cp -r extra rootfs/root
 chmod +x rootfs/root/extra/*.sh
-
 ## ALSO, copy files to specific locations
 ## Copy quiet background for Xfce
 mkdir -p rootfs/usr/share/backgrounds/xfce
@@ -249,7 +230,6 @@ cp files/linux_archlinux_os_blue_black_logo_30861_1366x768.jpg rootfs/usr/share/
 ## Copy lightdm config
 mkdir -p rootfs/etc/lightdm
 cp files/lightdm-gtk-greeter.conf rootfs/etc/lightdm
-
 ## ALSO, Copy Global Xfce pre-configs
 ## Copy desktop, panel, power settings
 mkdir -p rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
@@ -267,7 +247,6 @@ cp files/volumeicon \
 mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-8
 cp files/15745773551.desktop \
     rootfs/etc/skel/.config/xfce4/panel/launcher-8
-
 ## Create a welcome message with instructions
 cat << EOF >> /etc/issue
 Welcome. To finish installing AOK, do the following:
@@ -277,7 +256,6 @@ Welcome. To finish installing AOK, do the following:
 4. Type "./3-run-when-online.sh" and press enter.
 
 EOF
-
 ## Finish up
 umount rootfs
 sync
@@ -326,7 +304,6 @@ echo "1) SD Card (/dev/mmcblk1)"
 echo "2) VirtualBox SD Card (/dev/sdb)"
 echo "q) Quit without making changes"
 echo
-
 read -p "> " CHOICE
 case "$CHOICE" in
   0)
