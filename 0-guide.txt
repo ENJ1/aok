@@ -11,26 +11,22 @@ Recommended:
 Developer Mode must be enabled already.
 
 1. Download Zip
-2. In Chrome OS, move the aok-master folder from the zip to Downloads
-3. CTRL+ALT+T for a crosh window, run "shell" for a shell
-4. as chronos, run "sudo cp -r ~/Downloads/aok-master/. /usr/local/aok"
-5. sudo su
-6. cd /usr/local/aok
-7. chmod +x *.sh
-8. ./1-install.sh
-9. Reboot. CTRL-U, Login (User: root, Pass: root), and follow directions (run 2 more scripts).
+2. Unzip by opening aok-master.zip and dragging aok-master to Downloads
+3. Press CTRL+ALT+T for a crosh window
+4. Type "shell" and press enter
+5. Type "sudo install -Dt /usr/local/bin ~/Downloads/aok-halfway/aok" and press enter
+6.
+7.
+8.
+9. Type "sudo aok" and press enter
 
-To run scripts after install:
-1. Login as "root", password "root"
-2. Type "./2-run-on-first-login.sh" and press enter to run the script.
-3. Get online by typing "wifi-menu" and pressing enter.
-     This will run a program that guides you to connecting to a Wi-Fi network.
-     If the Wi-Fi Hotspot has a Landing Page, see the WiFi Hotspot Help file in "extra".
-     Once the system is installed, Landing Pages will work automatically and a browser
-     will be installed so you can visit the Landing Page and get online.
-4. Repeat the process for the next script, using that script name
 
-You may want to customize script 2 with:
+When you get online for the first time using "wifi-menu"...
+If the Wi-Fi Hotspot has a Landing Page, see the WiFi Hotspot Help file in "extra".
+Once the system is installed, Landing Pages will work automatically.
+
+
+You may want to customize:
   - Your locale
   - Your own username
   - Your own hostname
@@ -52,9 +48,3 @@ assumes there is an issue and attempts to repair itself. I'm not exactly sure wh
 causes this, but again, it may erase everything within Chrome OS and start over.
 So it would be a good idea to back up any important files from Chrome OS, and
 generally not trusting Chrome OS to save any of your local files for you.
-
-I have also experienced an issue with gnome-packagekit, the gui package updater and
-package installer. After updating packages once, the Arch Linux system did not boot.
-Files should be recoverable by booting from Chrome OS and retrieving them, or by
-plugging the SD Card into a different system and retrieving them. But to avoid this
-issue, don't use gnome-packagekit, and always backup files before upgrading packages.
