@@ -1,28 +1,25 @@
 
-Arch Linux on the Samsung XE303C12
-Advanced Installation Guide
+# Arch Linux on the Samsung XE303C12
+## Installation Guide
+Minimum Requirements: 4 GB or larger SD Card. USB's won't work.
 
-Minimum Requirements:
-4 GB or larger SD Card. USB's won't work.
-
-Recommended:
-8 GB or larger SD Card.
+Recommended: 8 GB or larger SD Card.
 
 Developer Mode must be enabled already.
 
 1. Download Zip
 2. Unzip by opening aok-master.zip and dragging aok-master to Downloads
 3. Press CTRL+ALT+T for a crosh window
-4. Type "shell" and press enter
-5. Type "sudo install -Dt /usr/local/bin ~/Downloads/aok-master/aok" and press enter
-6. Type "sudo aok" and press enter
+4. Type `shell` and press enter
+5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok-master/aok` and press enter
+6. Type `sudo aok` and press enter
+7. Follow instructions
 
-Follow the instructions
+# Notes
 
 When you get online for the first time using "wifi-menu"...
 If the Wi-Fi Hotspot has a Landing Page, see the WiFi Hotspot Help file in "extra".
 Once the system is installed, Landing Pages will work automatically.
-
 
 You may want to customize:
   - Your locale
