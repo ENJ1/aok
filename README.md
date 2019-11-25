@@ -1,6 +1,6 @@
 
 # aok Arch Linux for the Samsung XE303C12
-it's "A-okay"
+"it's A-okay"
 
 ## What is this?
 A really easy way to get a real Operating System on your Chromebook.
@@ -21,11 +21,10 @@ Pro Tip: You can press Ctrl-D (or Ctrl-U to boot from SD Card) as soon as the ba
 
 
 ## Installation Guide
-Minimum Requirements: 4 GB or larger SD Card. USB's won't work.
-
-Recommended: 8 GB or larger SD Card.
-
-Developer Mode must be enabled already.
+Requirements:
+- A Chromebook, Model XE303C12
+- 4 GB or larger SD Card. USB's won't work. The final install size is 2.9 GB.
+- Internet (to download about 850 MB)
 
 1. Download Zip
 2. Unzip by opening aok-master.zip and dragging aok-master to Downloads
@@ -37,8 +36,7 @@ Developer Mode must be enabled already.
 
 ## Notes
 
-When you get online for the first time using "wifi-menu"...
-If the Wi-Fi Hotspot has a Landing Page, see the WiFi Hotspot Help file in "extra".
+If you need to use a public Wi-Fi Hotspot with a Landing Page during setup, then see the WiFi Hotspot Help file in "extra".
 Once the system is installed, Landing Pages will work automatically.
 
 You may want to customize:
