@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
-# Run this script from within the aok folder, or where dependencies are met
-# If using within Chrome OS, aok should be in /usr/local so it will work
+## This script depends on files in the directory "/home/chronos/user/Downloads/aok-master"
+## Or at least files in the directory "/usr/local/aok"
 
 tools_check () {
 echo "Checking tools..."
@@ -9,8 +9,19 @@ if [ "$EUID" != 0 ]; then
   echo "Root privilege not found, quitting."
   exit 1
 fi
-## Copy aok files
-cp -r /home/chronos/user/Downloads/aok-master/. /usr/local/aok
+## Copy aok files. Remove outdated ones if necessary.
+if [ -d "/home/chronos/user/Downloads/aok-master" ]; then
+  if [ -d "/usr/local/aok" ]; then
+    echo "Removing old aok scripts..."
+    cd /usr/local/aok
+    rm * || echo -n
+    rm -rf extra files || echo -n
+    ## Leave distro folder, it may contain ~443MB file that may still be good
+    cd -
+    echo "Old aok script removal complete."
+  fi
+  cp -r /home/chronos/user/Downloads/aok-master/. /usr/local/aok
+fi
 cd /usr/local/aok
 ## Check for vboot-utils and more
 crossystem hwid && echo || echo "crossystem not found. OK."
