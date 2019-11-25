@@ -248,7 +248,7 @@ mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-8
 cp files/15745773551.desktop \
     rootfs/etc/skel/.config/xfce4/panel/launcher-8
 ## Create a welcome message with instructions
-cat << EOF >> /etc/issue
+cat << EOF >> rootfs/etc/issue
 Welcome. To finish installing AOK, do the following:
 1. Login. The username is "root", and the default password is "root".
 2. Type "./2-run-on-first-login.sh" and press enter.
