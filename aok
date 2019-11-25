@@ -10,7 +10,7 @@ if [ "$EUID" != 0 ]; then
   exit 1
 fi
 ## Copy aok files
-cp -r ~/Downloads/aok-halfway/. /usr/local/aok
+cp -r /home/chronos/user/Downloads/aok-halfway/. /usr/local/aok
 cd /usr/local/aok
 ## Check for vboot-utils and more
 crossystem hwid && echo || echo "crossystem not found. OK."
