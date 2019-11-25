@@ -5,6 +5,9 @@
 ## This script depends on files/locale.gen
 cd /usr/local/aok
 
+
+offline_setup () {
+
 ## Remove the default alarm (Arch Linux ARM) account.
 ## This account is only needed if you have to use SSH to login remotely
 ## for the very first login, which is not applicable here.
@@ -56,6 +59,7 @@ EOF
 useradd -m -G wheel -s /bin/bash a
 
 ## Change password for the "a" account
+echo
 echo 'The default user account is just the letter "a"'
 echo 'Enter a new password for the "a" account'
 passwd a
@@ -72,12 +76,21 @@ echo "nameserver 1.1.1.1" > /etc/resolv.conf
 pacman-key --init
 pacman-key --populate archlinuxarm
 
+touch /root/.aok-offline-setup-done.temp
+
+}
+
+if [ ! -f /root/.aok-offline-setup-done.temp ]; then
+  offline_setup
+fi
+
 ## Run wifi-menu to get online
 wifi-menu
 
-## Running pacman right after wifi-menu leads to issues, so sleep for a few seconds
-echo "Preparing for network activity..."
-sleep 5
+## Using the network immediately after wifi-menu doesn't work
+## Must wait for at least 6 second. 5 seconds fails.
+echo "Waiting 10 seconds for network interface to be ready..."
+sleep 10
 
 
 ## This part of the script depends on being online
@@ -337,6 +350,10 @@ pacman --noconfirm -Sc
 ## Now that that's all done, restore the default login prompt
 echo "Arch Linux \r (\l)" > /etc/issue
 echo >> /etc/issue
+
+## Uninstall setup files
+rm /usr/local/bin/setup
+rm /root/.aok-offline-setup-done.temp
 
 ## Exit message
 echo
