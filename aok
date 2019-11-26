@@ -167,7 +167,7 @@ cd -
 echo "File preparation complete."
 ## Now that everything is ready, truly get started
 echo "Starting Arch Linux Installation..."
-umount ${DEVICE}* || echo -n
+umount ${DEVICE}* 2> /dev/null || echo -n
 ## Do not change the whitespace here, it is important
 ## passing "y" in case it asks if sure. harmless if not asked.
 fdisk ${DEVICE} << END
@@ -190,7 +190,7 @@ END
 ## or echo -n. Don't let so-called-cgpt-errors break the script
 cgpt add -i 1 -P 10 -T 5 -S 1 ${DEVICE} || echo -n
 ## Avoid mkfs complaining if it's 'apparently in use by the system' but isn't
-umount rootfs || echo -n
+umount rootfs 2> /dev/null || echo -n
 ## Set up filesystem, copy files, and if on ChromeOS then enable booting
 mkfs.ext4 -F ${DEVICE}${PARTITION_2}
 mkdir -p rootfs
