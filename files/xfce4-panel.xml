@@ -76,7 +76,7 @@
     </property>
     <property name="plugin-9" type="string" value="power-manager-plugin"/>
     <property name="plugin-12" type="string" value="clock">
-      <property name="digital-format" type="string" value="%I:%M %p"/>
+      <property name="digital-format" type="string" value="%l:%M %p"/>
     </property>
     <property name="plugin-13" type="string" value="separator">
       <property name="style" type="uint" value="0"/>
