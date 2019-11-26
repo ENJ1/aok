@@ -271,8 +271,7 @@ Type=Application
 EOL
 
 ## Configure being able to run "startx" to load Xfce
-echo "exec startxfce4" > /home/a/.xinitrc
-chown a:a /home/a/.xinitrc
+echo "exec startxfce4" > /etc/skel/.xinitrc
 
 ## Enable lightdm to load Xfce on boot
 systemctl enable lightdm
