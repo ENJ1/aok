@@ -190,7 +190,11 @@ n
 p
 w
 END
-} || partx -a ${DEVICE}
+} 2> /dev/null || {
+  echo "fdisk was unable to re-read partition table. Using partx to solve..."
+  partx -a ${DEVICE}
+  echo "partx complete."
+}
 ## If you're trying to install twice in a row, re-reading the partition
 ## Table may fail. In this case, don't let that break the script, just
 ## run partx and refresh partition table info.
