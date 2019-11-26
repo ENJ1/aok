@@ -107,13 +107,17 @@ sleep 10
 ## unzip: basic utility
 ## zip: basic utility
 ## xf86-video-fbdev: needed for Mali-T604 Graphics acceleration patch below
-## alsa-utils: needed for auto (patch below); to unmute audio and keep unmuted
 ## xorg-server: needed for Xfce. chromebook caps (patch below)
 ## xfce4: Desktop Environment and all associated packages
 ## xorg-xinit: start Xfce from command line (configured below)
 ## lightdm: autostart Xfce on bootup (enabled below)
 ## lightdm-gtk-greeter: login screen
 ## ttf-dejavu: basic font pack
+## alsa-utils: needed for auto (patch below); to unmute audio and keep unmuted
+## xfce4-pulseaudio-plugin: volume control panel applet
+## pavucontrol: volume control
+## pulseaudio: audio backend
+## pulseaudio-alsa: compatibility
 ## networkmanager: networking backend (enabled below)
 ## nm-connection-editor: networking editor gui
 ## network-manager-applet: tray icon
@@ -128,11 +132,12 @@ sleep 10
 ## xorg-xinput: mouse and trackpad control (needed by script included in extra)
 ## vboot-utils: cgpt partition flags for chromebooks (used by install script)
 ##
-pacman -Syu --noconfirm sudo unzip zip xf86-video-fbdev alsa-utils xorg-server \
+pacman -Syu --noconfirm sudo unzip zip xf86-video-fbdev xorg-server \
 xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu \
+alsa-utils xfce4-pulseaudio-plugin pavucontrol pulseaudio pulseaudio-alsa \
 networkmanager nm-connection-editor network-manager-applet firefox blueman \
 mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
-vboot-utils
+vboot-utils \
 ###########################################################################
 
 ###########################################################################
