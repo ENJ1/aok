@@ -247,19 +247,6 @@ systemctl enable lightdm
 
 ## Enable WiFi gui autostart now that lightdm is autostarting Xfce
 systemctl enable NetworkManager
-## DO NOT START NetworkManager.service WITH wifi-menu RUNNING
-## BECAUSE THEN THE SYSTEM WOULD HANG WHEN TRYING TO SHUT DOWN/REBOOT
-## AND THEN CHROME OS MIGHT THINK IT NEEDS TO REPAIR ITSELF
-## IN THAT CASE, DON'T LET IT DO ANYTHING, JUST HOLD POWER TO TURN OFF
-## AND IT SHOULD BE FINE
-##
-### DEPRECATED NETWORKING UTILITY: WICD
-## INSTALL WICD
-# sudo pacman -S wicd wicd-gtk
-## RUN WICD ONCE, NOW
-# sudo wicd
-## ENABLE WIFI STARTING ON BOOT-UP
-# sudo systemctl enable wicd
 
 # Enable Bluetooth user interface (different from turning bluetooth on)
 systemctl enable bluetooth
