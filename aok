@@ -168,7 +168,11 @@ echo "File preparation complete."
 ## Now that everything is ready, truly get started
 echo "Starting Arch Linux Installation..."
 umount ${DEVICE}* 2> /dev/null || echo -n
-## Do not change the whitespace here, it is important
+
+## Automate fdisk. I know sgdisk is preferred for scripting, but
+## This is done so you can understand it, learn from it, and use
+## it yourself if you want to.
+## Do not change the whitespace here, it is very important
 ## passing "y" in case it asks if sure. harmless if not asked.
 fdisk ${DEVICE} << END
 g
@@ -185,7 +189,11 @@ n
 
 p
 w
-END
+END || partx -a ${DEVICE}
+## If you're trying to install twice in a row, re-reading the partition
+## Table may fail. In this case, don't let that break the script, just
+## run partx and refresh partition table info.
+
 ## Set special flags needed by U-Boot.
 ## or echo -n. Don't let so-called-cgpt-errors break the script
 cgpt add -i 1 -P 10 -T 5 -S 1 ${DEVICE} || echo -n
