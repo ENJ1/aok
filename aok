@@ -342,7 +342,8 @@ echo "Select the device where you would like to install Arch Linux:"
 echo 
 echo "0) Laptop (/dev/mmcblk0)"
 echo "1) SD Card (/dev/mmcblk1)"
-echo "2) VirtualBox SD Card (/dev/sdb)"
+echo "a) USB Stick (/dev/sda). Some USB Sticks work, some don't"
+echo "b) VirtualBox SD Card (/dev/sdb) with newer fdisk version"
 echo "q) Quit without making changes"
 echo
 read -p "> " CHOICE
@@ -363,7 +364,15 @@ case "$CHOICE" in
     tools_check
     install_arch
     ;;
-  2)
+  a)
+    DEVICE='/dev/sda'
+    PARTITION_1='1'
+    PARTITION_2='2'
+    TYPE='65'
+    tools_check
+    install_arch
+    ;;
+  b)
     DEVICE='/dev/sdb'
     PARTITION_1='1'
     PARTITION_2='2'
