@@ -48,7 +48,7 @@ ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 hwclock --systohc
 
 ## nano /etc/locale.gen AND UNCOMMENT LOCALE, OR USE PREMADE FILE
-install -o root -g root -m 0644 files/locale.gen /etc/locale.gen
+cp files/locale.gen /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
