@@ -23,6 +23,7 @@
         <value type="int" value="12"/>
         <value type="int" value="13"/>
         <value type="int" value="14"/>
+        <value type="int" value="7"/>
       </property>
     </property>
     <property name="panel-2" type="empty">
@@ -47,6 +48,7 @@
       <property name="button-icon" type="string" value="arch_linux_gnome_menu_icon_by_byamato"/>
       <property name="button-title" type="string" value="Menu"/>
       <property name="show-button-title" type="bool" value="false"/>
+      <property name="custom-menu" type="bool" value="false"/>
     </property>
     <property name="plugin-2" type="string" value="tasklist">
       <property name="grouping" type="uint" value="1"/>
@@ -116,6 +118,9 @@
     <property name="plugin-10" type="string" value="separator">
       <property name="style" type="uint" value="0"/>
       <property name="expand" type="bool" value="false"/>
+    </property>
+    <property name="plugin-7" type="string" value="pulseaudio">
+      <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
     </property>
   </property>
 </channel>
