@@ -171,6 +171,8 @@ echo "needs_root_rights = yes" > /etc/X11/Xwrapper.config
 ##
 ## UNMUTE. TO UNMUTE MANUALLY, RUN "alsamixer",
 ## USE RIGHT ARROW, AND PRESS "m" TO UNMUTE THE FOLLOWING:
+## (alsamixer options won't load after pulseaudio is installed)
+## (in that case you muse use these amixer commands)
 amixer -c 0 set 'Left Headphone Mixer Left DAC1' on
 amixer -c 0 set 'Right Headphone Mixer Right DAC1' on
 amixer -c 0 set 'Left Speaker Mixer Left DAC1' on
@@ -182,6 +184,8 @@ amixer -c 0 set Headphone 70%
 amixer -c 0 set Speaker 70%
 ##
 ## PLUGGING-IN/UNPLUGGING HEADPHONES WILL NOT MUTE/UNMUTE THE SPEAKER
+## (with pulseaudio you can only run speaker or headphones not both,
+## and must manually change between the two)
 ## THIS MUST BE CONTROLLED MANUALLY BY THE USER
 ##
 ## SAVE SETTINGS AFTER UNMUTING HEADPHONES AND SPEAKER
@@ -189,34 +193,8 @@ amixer -c 0 set Speaker 70%
 ## SO THIS ONLY NEEDS TO BE RUN ONCE
 alsactl store
 ##
-## CREATE AUDIO CONFIGURATION FILE
-## THIS ALLOWS MULTIPLE SOUND STREAMS AT THE SAME TIME
-## The "a" in asound.conf stands for alsa, and is not specific to this setup
-cat << EOF > /etc/asound.conf
-pcm.!default {
-              type plug
-              slave.pcm "dmixer"
-}
-pcm.dmixer  {
-            type dmix
-        ipc_key 1024
-        slave {
-          pcm "hw:0,0"
-          period_time 0
-              period_size 1024
-          buffer_size 4096
-          rate 44100
-        }
-        bindings {
-          0 0
-          1 1
-        }
-}
-ctl.dmixer {
-       type hw
-       card 0
-}
-EOF
+## the package "pulseaudio-alsa" installs /etc/asound.conf, which is needed
+## at least for the ability to listen to multiple streams at once.
 ###########################################################################
 
 
