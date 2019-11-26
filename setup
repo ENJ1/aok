@@ -251,54 +251,6 @@ systemctl enable NetworkManager
 # Enable Bluetooth user interface (different from turning bluetooth on)
 systemctl enable bluetooth
 
-
-
-################################################################
-## OPTIONAL PACKAGES
-################################################################
-
-## Command line browsers
-##
-# sudo pacman -S links
-# sudo pacman -S lynx
-
-## AUDIO
-##
-## deadbeef: minimal yet full featured audio player
-## audacity: powerful audio editor and converter (add-ons not installed)
-## lmms: linux multimedia music studio for loops (not a DAW)
-##
-# pacman -Sy deadbeef audacity lmms
-
-## TORRENTING
-# sudo pacman -S deluge
-
-## COMMAND LINE DOWNLOAD UTILITY (OTHER THAN CURL)
-# sudo pacman -S wget
-
-## PDF
-## sudo pacman -S evince
-
-## VIDEO
-##
-## vlc is not recommended because it is too heavy. it won't work well.
-## if you must try it, it depends on qt4 but qt4 is not installed automatically.
-# sudo pacman -S vlc qt4
-
-## DEVELOPMENT PACKAGES
-## base-devel: INCLUDES gcc AND make WHICH ARE NECESSARY FOR YAOURT
-## lshw: FOR LISTING HARDWARE
-## hardinfo: FOR BROWSING KERNEL MODULES
-# sudo pacman -S base-devel lshw hardinfo cmake gcc
-
-## HEAVY PROGRAMS
-##
-## IMAGE EDITOR
-# sudo pacman -S gimp
-##
-## OFFICE
-# sudo pacman -S libreoffice
-
 ## Remove old packages
 pacman --noconfirm -Sc
 
