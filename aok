@@ -291,7 +291,7 @@ cp files/15745773551.desktop \
     rootfs/etc/skel/.config/xfce4/panel/launcher-8
 
 ## Don't show Mail Reader menu link
-mkdir -p /usr/share/applications
+mkdir -p rootfs/usr/share/applications
 cp files/exo-mail-reader.desktop \
     rootfs/usr/share/applications
 
