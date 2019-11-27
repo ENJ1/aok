@@ -291,11 +291,6 @@ mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-8
 cp files/15745773551.desktop \
     rootfs/etc/skel/.config/xfce4/panel/launcher-8
 
-## Don't show Mail Reader menu link
-mkdir -p rootfs/usr/share/applications
-cp files/exo-mail-reader.desktop \
-    rootfs/usr/share/applications
-
 ## Create a welcome message with instructions
 cat << EOF >> rootfs/etc/issue
 Welcome. To finish installing AOK, do the following:
