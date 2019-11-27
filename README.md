@@ -2,7 +2,7 @@
 # aok Arch Linux for ARMv7 Chromebooks
 "it's A-okay"
 
-## Supported Laptops
+## Supported Chromebooks
 - Samsung XE303C12
 - HP Chromebook 11 G1
 
