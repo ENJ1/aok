@@ -254,6 +254,11 @@ systemctl enable NetworkManager
 # Enable Bluetooth user interface (different from turning bluetooth on)
 systemctl enable bluetooth
 
+## Don't show Mail Reader menu link
+mkdir -p /usr/share/applications
+cp /usr/local/aok/files/exo-mail-reader.desktop \
+    /usr/share/applications
+
 ## Remove old packages
 pacman --noconfirm -Sc
 
