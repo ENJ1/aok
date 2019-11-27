@@ -193,12 +193,10 @@ w
 END
 } 2> /dev/null || {
   echo "fdisk was unable to re-read partition table. Using partx to solve..."
-  partx -a ${DEVICE}
-  echo "partx complete."
 }
-## If you're trying to install twice in a row, re-reading the partition
-## Table may fail. In this case, don't let that break the script, just
-## run partx and refresh partition table info.
+
+## Updating partition info, regardless of whether it's necessary or not
+partx -u ${DEVICE}
 
 ## Set special flags needed by U-Boot.
 ## or echo -n. Don't let so-called-cgpt-errors break the script
@@ -211,6 +209,9 @@ umount rootfs 2> /dev/null || echo -n
 ## Make filesystem
 ## Avoid mkfs complaining that it's 'apparently in use by the system' but isn't (-F -F)
 mkfs.ext4 -F -F ${DEVICE}${PARTITION_2}
+
+## Updating partition info, regardless of whether it's necessary or not
+partx -u ${DEVICE}
 
 ## Copy files
 mkdir -p rootfs
