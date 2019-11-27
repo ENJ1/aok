@@ -328,7 +328,7 @@ case "$FUTURE" in
 esac
 echo "Done."
 echo
-echo "Reboot and press CTRL-U to boot to SD Card, or CTRL-D to boot Internal Storage."
+echo "Reboot and press CTRL-U to boot SD Card or USB, or CTRL-D to boot Internal Storage."
 echo
 echo "Would you like to reboot now? (Y/n)"
 read -p "> " REBOOT
