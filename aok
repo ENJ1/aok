@@ -329,6 +329,9 @@ esac
 echo "Done."
 echo
 echo "Reboot and press CTRL-U to boot SD Card or USB, or CTRL-D to boot Internal Storage."
+if [ "$CHOICE" = a ]; then
+  echo "To boot from USB on a Samsung XE303C12, make sure the USB drive is in the black USB 2.0 Port"
+fi
 echo
 echo "Would you like to reboot now? (Y/n)"
 read -p "> " REBOOT
