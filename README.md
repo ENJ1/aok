@@ -25,7 +25,7 @@ Pro Tip: You can press Ctrl-D (or Ctrl-U to boot from SD Card) as soon as the ba
 Requirements:
 - A Chromebook, Model XE303C12
 - Developer Mode enabled
-- 4 GB or larger SD Card (USB's won't work) The final install size is 2.9 GB
+- 4 GB or larger SD Card (Some USB's might work, but not all) The final install size is 2.9 GB
 - Internet (to download about 850 MB)
 
 1. Download the Zip (green button)
