@@ -38,7 +38,7 @@ Requirements:
 6. Type `sudo aok` and press enter (and DON'T click on Chrome OS pop-up messages when they appear!)
 7. Follow the instructions. (Reboot, login, and type `setup` to set it all up!)
 
-* This USB Flash Drive is known to work. Many USB Flash drives do not work. 
+"*" This USB Flash Drive is known to work. Many USB Flash drives do not work. 
 
 ## Post-Installation Tips
 - To free up a lot of space (about 500 MB), run Terminal Emulator and type `sudo pacman -Scc`
