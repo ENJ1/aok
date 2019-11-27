@@ -92,6 +92,7 @@ fi
 rm -f ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp
 rm -f workingmirrors.txt.temp
 echo "Mirrors testing complete."
+echo "Do NOT click on Chrome OS pop-up messages when they appear!"
 }
 
 ## Offline function, try using local md5 or quit
@@ -328,10 +329,9 @@ case "$FUTURE" in
 esac
 echo "Done."
 echo
-echo "Reboot and press CTRL-U to boot SD Card or USB, or CTRL-D to boot Internal Storage."
-if [ "$CHOICE" = a ]; then
-  echo "To boot from USB on a Samsung XE303C12, make sure the USB drive is in the black USB 2.0 Port"
-fi
+echo "To boot from USB on a Samsung XE303C12, make sure the USB drive is in the black USB 2.0 Port"
+echo
+echo "Reboot and press CTRL-U to boot USB or SD Card, or CTRL-D to boot Internal Storage."
 echo
 echo "Would you like to reboot now? (Y/n)"
 read -p "> " REBOOT
