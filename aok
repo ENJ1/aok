@@ -204,11 +204,15 @@ END
 ## or echo -n. Don't let so-called-cgpt-errors break the script
 cgpt add -i 1 -P 10 -T 5 -S 1 ${DEVICE} || echo -n
 
-## Avoid mkfs complaining if it's 'apparently in use by the system' but isn't
+## Extra umounting, just in case
+umount ${DEVICE}* 2> /dev/null || echo -n
 umount rootfs 2> /dev/null || echo -n
-## Set up filesystem, copy files, and if on ChromeOS then enable booting
-mkfs.ext4 -F ${DEVICE}${PARTITION_2}
 
+## Make filesystem
+## Avoid mkfs complaining that it's 'apparently in use by the system' but isn't (-F -F)
+mkfs.ext4 -F -F ${DEVICE}${PARTITION_2}
+
+## Copy files
 mkdir -p rootfs
 mount ${DEVICE}${PARTITION_2} rootfs
 echo "Copying Filesystem..."
@@ -219,10 +223,14 @@ echo "Filesystem copy complete."
 echo "Copying Boot Partition..."
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 echo "Boot Partition copy complete."
+
+## If on ChromeOS then enable booting
 crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
+
 ## Don't let kernel messages garble the console; hide them instead.
 mkdir -p rootfs/etc/sysctl.d
 echo "kernel.printk = 3 3 3 3" >> rootfs/etc/sysctl.d/20-quiet-printk.conf
+
 ## Add best mirrors to pacman mirrorlist
 if [ -f distro/bestmirrors.txt ]; then
   ADD=1
