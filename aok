@@ -14,8 +14,8 @@ if [ -d "/home/chronos/user/Downloads/aok-master" ]; then
   if [ -d "/usr/local/aok" ]; then
     echo "Removing old aok scripts..."
     cd /usr/local/aok
-    rm * || echo -n
-    rm -rf extra files || echo -n
+    rm * 2> /dev/null || echo -n
+    rm -rf extra files 2> /dev/null || echo -n
     ## Leave distro folder, it may contain ~443MB file that may still be good
     cd -
     echo "Old aok script removal complete."
