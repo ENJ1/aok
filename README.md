@@ -1,15 +1,16 @@
 
 # aok Arch Linux for ARMv7 Chromebooks
-## - Samsung XE303C12
-## - HP Chromebook 11 G1
 "it's A-okay"
+
+## Supported Laptops
+- Samsung XE303C12
+- HP Chromebook 11 G1
 
 ## What is this?
 A really easy way to get a real Operating System on your Chromebook. It's a set of scripts and patches.
 - Fully automated. Easy for a beginner.
 - Pre-patched: 2D Graphics acceleration, Audio, Caps Lock, Bluetooth, WiFi, and more!
 - Clean Xfce environment out of the box, ready to use.
-- All brand-new up-to-date software.
 
 ## Enable Developer Mode
 1. Back up your files.
