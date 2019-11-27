@@ -1,5 +1,7 @@
 
-# aok Arch Linux for the Samsung XE303C12 and HP Chromebook 11 G1
+# aok Arch Linux for ARMv7 Exynos 5250 Chromebooks
+## - Samsung XE303C12
+## - HP Chromebook 11 G1
 "it's A-okay"
 
 ## What is this?
