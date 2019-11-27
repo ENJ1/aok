@@ -14,8 +14,8 @@ if [ -d "/home/chronos/user/Downloads/aok-master" ]; then
   if [ -d "/usr/local/aok" ]; then
     echo "Removing old aok scripts..."
     cd /usr/local/aok
-    rm * || echo -n
-    rm -rf extra files || echo -n
+    rm * 2> /dev/null || echo -n
+    rm -rf extra files 2> /dev/null || echo -n
     ## Leave distro folder, it may contain ~443MB file that may still be good
     cd -
     echo "Old aok script removal complete."
@@ -92,6 +92,7 @@ fi
 rm -f ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.temp
 rm -f workingmirrors.txt.temp
 echo "Mirrors testing complete."
+echo "Do NOT click on Chrome OS pop-up messages when they appear!"
 }
 
 ## Offline function, try using local md5 or quit
@@ -167,10 +168,14 @@ cd -
 echo "File preparation complete."
 ## Now that everything is ready, truly get started
 echo "Starting Arch Linux Installation..."
-umount ${DEVICE}* || echo -n
-## Do not change the whitespace here, it is important
+umount ${DEVICE}* 2> /dev/null || echo -n
+
+## Automate fdisk. I know sgdisk is preferred for scripting, but
+## This is done so you can understand it, learn from it, and use
+## it yourself if you want to.
+## Do not change the whitespace here, it is very important
 ## passing "y" in case it asks if sure. harmless if not asked.
-fdisk ${DEVICE} << END
+{ fdisk ${DEVICE} << END
 g
 n
 
@@ -186,13 +191,29 @@ n
 p
 w
 END
+} 2> /dev/null || {
+  echo "fdisk was unable to re-read partition table. Using partx to solve..."
+}
+
+## Updating partition info, regardless of whether it's necessary or not
+partx -u ${DEVICE}
+
 ## Set special flags needed by U-Boot.
 ## or echo -n. Don't let so-called-cgpt-errors break the script
 cgpt add -i 1 -P 10 -T 5 -S 1 ${DEVICE} || echo -n
-## Avoid mkfs complaining if it's 'apparently in use by the system' but isn't
-umount rootfs || echo -n
-## Set up filesystem, copy files, and if on ChromeOS then enable booting
-mkfs.ext4 -F ${DEVICE}${PARTITION_2}
+
+## Extra umounting, just in case
+umount ${DEVICE}* 2> /dev/null || echo -n
+umount rootfs 2> /dev/null || echo -n
+
+## Make filesystem
+## Avoid mkfs complaining that it's 'apparently in use by the system' but isn't (-F -F)
+mkfs.ext4 -F -F ${DEVICE}${PARTITION_2}
+
+## Updating partition info, regardless of whether it's necessary or not
+partx -u ${DEVICE}
+
+## Copy files
 mkdir -p rootfs
 mount ${DEVICE}${PARTITION_2} rootfs
 echo "Copying Filesystem..."
@@ -203,10 +224,14 @@ echo "Filesystem copy complete."
 echo "Copying Boot Partition..."
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 echo "Boot Partition copy complete."
+
+## If on ChromeOS then enable booting
 crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
+
 ## Don't let kernel messages garble the console; hide them instead.
 mkdir -p rootfs/etc/sysctl.d
 echo "kernel.printk = 3 3 3 3" >> rootfs/etc/sysctl.d/20-quiet-printk.conf
+
 ## Add best mirrors to pacman mirrorlist
 if [ -f distro/bestmirrors.txt ]; then
   ADD=1
@@ -223,12 +248,17 @@ if [ -f distro/bestmirrors.txt ]; then
   ## append those mirrors to the TOP of the mirrorlist
   cat usemirrors.txt rootfs/etc/pacman.d/mirrorlist > temp && mv temp rootfs/etc/pacman.d/mirrorlist
 fi
+
 ## Bulk copy of custom content (will ALSO install in specific places)
+
+## Install aok, setup, dim, and anything else
 mkdir -p rootfs/usr/local/bin
 install aok rootfs/usr/local/bin
 install setup rootfs/usr/local/bin
 install extra/dim rootfs/usr/local/bin
 install extra/*.sh rootfs/usr/local/bin
+
+## Copy everything except distro to aok folder
 mkdir -p rootfs/usr/local/aok
 install aok rootfs/usr/local/aok
 install setup rootfs/usr/local/aok
@@ -236,21 +266,28 @@ cp -r files rootfs/usr/local/aok
 cp -r extra rootfs/usr/local/aok
 chmod +x rootfs/usr/local/aok/extra/dim
 chmod +x rootfs/usr/local/aok/extra/*.sh
+
 ## ALSO, copy files to specific locations
+
 ## Copy quiet background for Xfce
 mkdir -p rootfs/usr/share/backgrounds/xfce
 cp files/bright_background_light_texture_50370_1366x768.jpg \
     rootfs/usr/share/backgrounds/xfce
-## Copy icon for Xfce
+    
+## Copy Arch Linux icon for Xfce menu
 mkdir -p rootfs/usr/share/icons
 cp files/arch_linux_gnome_menu_icon_by_byamato.png rootfs/usr/share/icons
+
 ## Copy background for lightdm
 mkdir -p rootfs/usr/share/pixmaps
 cp files/linux_archlinux_os_blue_black_logo_30861_1366x768.jpg rootfs/usr/share/pixmaps
+
 ## Copy lightdm config
 mkdir -p rootfs/etc/lightdm
 cp files/lightdm-gtk-greeter.conf rootfs/etc/lightdm
+
 ## ALSO, Copy Global Xfce pre-configs
+
 ## Copy desktop, panel, power settings
 mkdir -p rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
 cp files/xfce4-desktop.xml \
@@ -259,14 +296,12 @@ cp files/xfce4-panel.xml \
     rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
 cp files/xfce4-power-manager.xml \
     rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
-## Copy volumeicon config
-mkdir -p rootfs/etc/skel/.config/volumeicon
-cp files/volumeicon \
-    rootfs/etc/skel/.config/volumeicon
+
 ## Copy firefox launcher
 mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-8
 cp files/15745773551.desktop \
     rootfs/etc/skel/.config/xfce4/panel/launcher-8
+
 ## Create a welcome message with instructions
 cat << EOF >> rootfs/etc/issue
 Welcome. To finish installing AOK, do the following:
@@ -300,7 +335,9 @@ case "$FUTURE" in
 esac
 echo "Done."
 echo
-echo "Reboot and press CTRL-U to boot to SD Card, or CTRL-D to boot Internal Storage."
+echo "To boot from USB on a Samsung XE303C12, make sure the USB drive is in the black USB 2.0 Port"
+echo
+echo "Reboot and press CTRL-U to boot USB or SD Card, or CTRL-D to boot Internal Storage."
 echo
 echo "Would you like to reboot now? (Y/n)"
 read -p "> " REBOOT
@@ -319,7 +356,8 @@ echo "Select the device where you would like to install Arch Linux:"
 echo 
 echo "0) Laptop (/dev/mmcblk0)"
 echo "1) SD Card (/dev/mmcblk1)"
-echo "2) VirtualBox SD Card (/dev/sdb)"
+echo "a) USB Stick (/dev/sda). Some USB Sticks work, some don't"
+echo "b) VirtualBox SD Card (/dev/sdb) with newer fdisk version"
 echo "q) Quit without making changes"
 echo
 read -p "> " CHOICE
@@ -340,7 +378,15 @@ case "$CHOICE" in
     tools_check
     install_arch
     ;;
-  2)
+  a)
+    DEVICE='/dev/sda'
+    PARTITION_1='1'
+    PARTITION_2='2'
+    TYPE='65'
+    tools_check
+    install_arch
+    ;;
+  b)
     DEVICE='/dev/sdb'
     PARTITION_1='1'
     PARTITION_2='2'

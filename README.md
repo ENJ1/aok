@@ -1,5 +1,7 @@
 
-# aok Arch Linux for the Samsung XE303C12
+# aok Arch Linux for ARMv7 Chromebooks
+## - Samsung XE303C12
+## - HP Chromebook 11 G1
 "it's A-okay"
 
 ## What is this?
@@ -23,9 +25,9 @@ Pro Tip: You can press Ctrl-D (or Ctrl-U to boot from SD Card) as soon as the ba
 
 ## Installation Guide
 Requirements:
-- A Chromebook, Model XE303C12
+- A Chromebook: Sumsung XE303C12 or HP Chromebook 11 G1
 - Developer Mode enabled
-- 4 GB or larger SD Card (USB's won't work) The final install size is 2.9 GB
+- 4 GB or larger SD Card, or a Sandisk SDCZ430-032G USB Flash drive*. The final install size is 2.9 GB
 - Internet (to download about 850 MB)
 
 1. Download the Zip (green button)
@@ -35,6 +37,8 @@ Requirements:
 5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok-master/aok` and press enter
 6. Type `sudo aok` and press enter (and DON'T click on Chrome OS pop-up messages when they appear!)
 7. Follow the instructions. (Reboot, login, and type `setup` to set it all up!)
+
+\* This USB Flash Drive is known to work. Many USB Flash drives do not work. 
 
 ## Post-Installation Tips
 - To free up a lot of space (about 500 MB), run Terminal Emulator and type `sudo pacman -Scc`

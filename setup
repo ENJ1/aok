@@ -2,16 +2,17 @@
 
 ## Run this script first upon logging into a new installation
 
-## This script depends on files/locale.gen
+## This script depends on "files/locale.gen" and more
 cd /usr/local/aok
 
-
 offline_setup () {
-
 ## Remove the default alarm (Arch Linux ARM) account.
 ## This account is only needed if you have to use SSH to login remotely
 ## for the very first login, which is not applicable here.
-userdel -r alarm || echo -n
+## The alarm account does not have mail, so
+## silence the mail spool removal error message by using "2> /dev/null"
+## and if somehow there is no user, then don't worry about it
+userdel -r alarm 2> /dev/null || echo -n
 
 ## Fix Caps Lock for the Virtual Console.
 ## (The real console, without any Window Environment)
@@ -45,7 +46,7 @@ ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 hwclock --systohc
 
 ## nano /etc/locale.gen AND UNCOMMENT LOCALE, OR USE PREMADE FILE
-install -o root -g root -m 0644 files/locale.gen /etc/locale.gen
+cp files/locale.gen /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
@@ -104,15 +105,17 @@ sleep 10
 ## unzip: basic utility
 ## zip: basic utility
 ## xf86-video-fbdev: needed for Mali-T604 Graphics acceleration patch below
-## alsa-utils: needed for auto (patch below); to unmute audio and keep unmuted
 ## xorg-server: needed for Xfce. chromebook caps (patch below)
 ## xfce4: Desktop Environment and all associated packages
 ## xorg-xinit: start Xfce from command line (configured below)
 ## lightdm: autostart Xfce on bootup (enabled below)
 ## lightdm-gtk-greeter: login screen
 ## ttf-dejavu: basic font pack
-## volumeicon: volume gui. depends on xterm by default but won't auto-install
-## xterm: needed for volumeicon, good because the window is small
+## alsa-utils: needed for auto (patch below); to unmute audio and keep unmuted
+## xfce4-pulseaudio-plugin: volume control panel applet
+## pavucontrol: volume control
+## pulseaudio: audio backend
+## pulseaudio-alsa: compatibility
 ## networkmanager: networking backend (enabled below)
 ## nm-connection-editor: networking editor gui
 ## network-manager-applet: tray icon
@@ -127,11 +130,12 @@ sleep 10
 ## xorg-xinput: mouse and trackpad control (needed by script included in extra)
 ## vboot-utils: cgpt partition flags for chromebooks (used by install script)
 ##
-pacman -Syu --noconfirm sudo unzip zip xf86-video-fbdev alsa-utils xorg-server \
-xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu volumeicon xterm \
+pacman -Syu --noconfirm sudo unzip zip xf86-video-fbdev xorg-server \
+xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu \
+alsa-utils xfce4-pulseaudio-plugin pavucontrol pulseaudio pulseaudio-alsa \
 networkmanager nm-connection-editor network-manager-applet firefox blueman \
 mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
-vboot-utils
+vboot-utils \
 ###########################################################################
 
 ###########################################################################
@@ -170,6 +174,8 @@ echo "needs_root_rights = yes" > /etc/X11/Xwrapper.config
 ##
 ## UNMUTE. TO UNMUTE MANUALLY, RUN "alsamixer",
 ## USE RIGHT ARROW, AND PRESS "m" TO UNMUTE THE FOLLOWING:
+## (alsamixer options won't load after pulseaudio is installed)
+## (in that case you muse use these amixer commands)
 amixer -c 0 set 'Left Headphone Mixer Left DAC1' on
 amixer -c 0 set 'Right Headphone Mixer Right DAC1' on
 amixer -c 0 set 'Left Speaker Mixer Left DAC1' on
@@ -181,6 +187,8 @@ amixer -c 0 set Headphone 70%
 amixer -c 0 set Speaker 70%
 ##
 ## PLUGGING-IN/UNPLUGGING HEADPHONES WILL NOT MUTE/UNMUTE THE SPEAKER
+## (with pulseaudio you can only run speaker or headphones not both,
+## and must manually change between the two)
 ## THIS MUST BE CONTROLLED MANUALLY BY THE USER
 ##
 ## SAVE SETTINGS AFTER UNMUTING HEADPHONES AND SPEAKER
@@ -188,34 +196,8 @@ amixer -c 0 set Speaker 70%
 ## SO THIS ONLY NEEDS TO BE RUN ONCE
 alsactl store
 ##
-## CREATE AUDIO CONFIGURATION FILE
-## THIS ALLOWS MULTIPLE SOUND STREAMS AT THE SAME TIME
-## The "a" in asound.conf stands for alsa, and is not specific to this setup
-cat << EOF > /etc/asound.conf
-pcm.!default {
-              type plug
-              slave.pcm "dmixer"
-}
-pcm.dmixer  {
-            type dmix
-        ipc_key 1024
-        slave {
-          pcm "hw:0,0"
-          period_time 0
-              period_size 1024
-          buffer_size 4096
-          rate 44100
-        }
-        bindings {
-          0 0
-          1 1
-        }
-}
-ctl.dmixer {
-       type hw
-       card 0
-}
-EOF
+## the package "pulseaudio-alsa" installs /etc/asound.conf, which is needed
+## at least for the ability to listen to multiple streams at once.
 ###########################################################################
 
 
@@ -260,89 +242,22 @@ echo "Caps Lock for X11 Windows fixed."
 #echo "keycode 133 = Caps_Lock" > ~/.Xmodmap
 ###########################################################################
 
-## Autostart volumeicon for all users
-cat << EOL > /etc/xdg/autostart/volumeicon.desktop
-[Desktop Entry]
-Name=Volume Icon
-Comment=Volume Control
-Exec=volumeicon
-Terminal=false
-Type=Application
-EOL
-
 ## Configure being able to run "startx" to load Xfce
-echo "exec startxfce4" > /home/a/.xinitrc
-chown a:a /home/a/.xinitrc
+echo "exec startxfce4" > /etc/skel/.xinitrc
 
 ## Enable lightdm to load Xfce on boot
 systemctl enable lightdm
 
 ## Enable WiFi gui autostart now that lightdm is autostarting Xfce
 systemctl enable NetworkManager
-## DO NOT START NetworkManager.service WITH wifi-menu RUNNING
-## BECAUSE THEN THE SYSTEM WOULD HANG WHEN TRYING TO SHUT DOWN/REBOOT
-## AND THEN CHROME OS MIGHT THINK IT NEEDS TO REPAIR ITSELF
-## IN THAT CASE, DON'T LET IT DO ANYTHING, JUST HOLD POWER TO TURN OFF
-## AND IT SHOULD BE FINE
-##
-### DEPRECATED NETWORKING UTILITY: WICD
-## INSTALL WICD
-# sudo pacman -S wicd wicd-gtk
-## RUN WICD ONCE, NOW
-# sudo wicd
-## ENABLE WIFI STARTING ON BOOT-UP
-# sudo systemctl enable wicd
 
 # Enable Bluetooth user interface (different from turning bluetooth on)
 systemctl enable bluetooth
 
-
-
-################################################################
-## OPTIONAL PACKAGES
-################################################################
-
-## Command line browsers
-##
-# sudo pacman -S links
-# sudo pacman -S lynx
-
-## AUDIO
-##
-## deadbeef: minimal yet full featured audio player
-## audacity: powerful audio editor and converter (add-ons not installed)
-## lmms: linux multimedia music studio for loops (not a DAW)
-##
-# pacman -Sy deadbeef audacity lmms
-
-## TORRENTING
-# sudo pacman -S deluge
-
-## COMMAND LINE DOWNLOAD UTILITY (OTHER THAN CURL)
-# sudo pacman -S wget
-
-## PDF
-## sudo pacman -S evince
-
-## VIDEO
-##
-## vlc is not recommended because it is too heavy. it won't work well.
-## if you must try it, it depends on qt4 but qt4 is not installed automatically.
-# sudo pacman -S vlc qt4
-
-## DEVELOPMENT PACKAGES
-## base-devel: INCLUDES gcc AND make WHICH ARE NECESSARY FOR YAOURT
-## lshw: FOR LISTING HARDWARE
-## hardinfo: FOR BROWSING KERNEL MODULES
-# sudo pacman -S base-devel lshw hardinfo cmake gcc
-
-## HEAVY PROGRAMS
-##
-## IMAGE EDITOR
-# sudo pacman -S gimp
-##
-## OFFICE
-# sudo pacman -S libreoffice
+## Don't show Mail Reader menu link
+mkdir -p /usr/share/applications
+cp /usr/local/aok/files/exo-mail-reader.desktop \
+    /usr/share/applications
 
 ## Remove old packages
 pacman --noconfirm -Sc
