@@ -183,7 +183,7 @@ n
 +16M
 y
 t
-${TYPE}
+FE3A2A5D-4F32-41A7-B725-ACCC3285A309
 n
 
 
@@ -351,13 +351,14 @@ case "$REBOOT" in
 esac
 }
 
+lsblk
 echo
 echo "Select the device where you would like to install Arch Linux:"
 echo 
-echo "0) Laptop (/dev/mmcblk0)"
+echo "0) Laptop (/dev/mmcblk0). Do not run this from ChromeOS"
 echo "1) SD Card (/dev/mmcblk1)"
 echo "a) USB Stick (/dev/sda). Some USB Sticks work, some don't"
-echo "b) VirtualBox SD Card (/dev/sdb) with newer fdisk version"
+echo "b) Second USB Stick or VirtualBox SD Card (/dev/sdb)"
 echo "q) Quit without making changes"
 echo
 read -p "> " CHOICE
@@ -366,7 +367,6 @@ case "$CHOICE" in
     DEVICE='/dev/mmcblk0'
     PARTITION_1='p1'
     PARTITION_2='p2'
-    TYPE='65'
     tools_check
     install_arch
     ;;
@@ -374,7 +374,6 @@ case "$CHOICE" in
     DEVICE='/dev/mmcblk1'
     PARTITION_1='p1'
     PARTITION_2='p2'
-    TYPE='65'
     tools_check
     install_arch
     ;;
@@ -382,7 +381,6 @@ case "$CHOICE" in
     DEVICE='/dev/sda'
     PARTITION_1='1'
     PARTITION_2='2'
-    TYPE='65'
     tools_check
     install_arch
     ;;
@@ -390,7 +388,6 @@ case "$CHOICE" in
     DEVICE='/dev/sdb'
     PARTITION_1='1'
     PARTITION_2='2'
-    TYPE='64'
     tools_check
     install_arch
     ;;
