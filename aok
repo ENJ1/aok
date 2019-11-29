@@ -175,7 +175,7 @@ umount ${DEVICE}* 2> /dev/null || echo -n
 ## it yourself if you want to.
 ## Do not change the whitespace here, it is very important
 ## passing "y" in case it asks if sure. harmless if not asked.
-{ fdisk ${DEVICE} << END
+{ fdisk ${DEVICE} << "END"
 g
 n
 
@@ -303,7 +303,7 @@ cp files/15745773551.desktop \
     rootfs/etc/skel/.config/xfce4/panel/launcher-8
 
 ## Create a welcome message with instructions
-cat << EOF >> rootfs/etc/issue
+cat << "EOF" >> rootfs/etc/issue
 Welcome. To finish installing AOK, do the following:
 1. Login. The username is "root", and the default password is "root".
 2. After logging in, type "setup" and press enter.
