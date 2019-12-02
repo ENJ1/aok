@@ -323,7 +323,7 @@ case "$FUTURE" in
     echo "Copying distro..."
     mkdir rootfs
     mount ${DEVICE}${PARTITION_2} rootfs
-    rsync -ah --info=progress2 distro /rootfs/root
+    cp -r distro rootfs/usr/local/aok/
     umount rootfs
     sync
     rmdir rootfs
