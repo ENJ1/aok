@@ -61,9 +61,9 @@ You probably REALLY want to run the "patch" stuff!!!
 The patch code get Arch Linux working nicely on the XE303C12.
 Everything else is just normal Arch Linux install stuff.
 
-In rare cases, if the battery is discharged completely, the Chromebook boot system may not remember to allow you to boot from the SD Card. If Chrome OS is installed on the eMMC (internal memory), then it may 'repair itself' and erase everything from the internal memory, and require logging in to Google's servers and starting as if from a new system, all before you can get back to developer mode and re-enable booting from the SD Card. This does not affect the integrity of the SD Card or your files on the SD Card.
+After booting from SD/USB, only mount the eMMC with `mount -o ro,noload /dev/mmcblk0pY /mnt` where `Y` is a partition number and `/mnt` is the folder you want to mount it to. Mounting the eMMC in any other way may cause Chrome OS to "repair itself" upon next boot, ERASING ALL USER DATA ON THE eMMC.
 
-Also, if Chrome OS is on the eMMC, and you do something wild to crash Arch Linux, Chrome OS may attempts to repair itself. I'm not exactly sure what causes this, but again, it may erase everything within Chrome OS and start over. So it would be a good idea to back up any important files from Chrome OS, and generally not trusting Chrome OS to save any of your local files for you. This does not affect the integrity of the SD Card or your files on the SD Card.
+It might be true that in rare cases, if the battery is discharged completely for a long period of time, the Chromebook boot system may not remember to allow you to boot from the SD Card. If Chrome OS is installed on the eMMC (internal memory), then it may "repair itself" and erase everything from the internal memory, and require logging in to Google's servers and starting as if from a new system, all before you can get back to developer mode and re-enable booting from the SD Card. This does not affect the integrity of the SD Card or your files on the SD Card.
 
 ## Thanks
 The upstream source for this distribution comes to you from archlinuxarm.org.
