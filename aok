@@ -101,7 +101,7 @@ for SUBDOMAIN in ${all_Mirrors[@]}; do
   fi
 done
 
-## Create bestmirors.txt if possible
+## Create bestmirrors.txt if possible
 if [ "$LOCAL_MIRROR_SUCCESS" = true ]; then
   echo
   echo "These are your current best mirrors:"
