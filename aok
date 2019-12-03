@@ -17,22 +17,23 @@ if [ "$EUID" != 0 ]; then
   exit 1
 fi
 
-## Copy aok files. Remove outdated ones if necessary.
+## Automatic copy for ChromeOS users
 if [ -d "/home/chronos/user/Downloads/aok-master" ]; then
-  if [ -d "/usr/local/aok" ]; then
-    echo "Removing old aok scripts..."
-    cd /usr/local/aok
-    rm * 2> /dev/null || echo -n
-    rm -rf extra files 2> /dev/null || echo -n
-    ## Leave distro folder, it may contain ~443MB file that may still be good
-    cd -
-    echo "Old aok script removal complete."
-  fi
+  ## Copy files and create /usr/local/aok if it doesn't already exist
   cp -r /home/chronos/user/Downloads/aok-master/. /usr/local/aok
 fi
 
 ## Change directory to /usr/local/aok for the rest of the script
-cd /usr/local/aok
+cd /usr/local/aok || {
+  ## Not a ChromeOS user. Directory location unknown. Give instructions.
+  echo "You must copy the contents of aok-master to /usr/local/aok"
+  echo "i.e., from within the aok-master directory, run:"
+  echo "  sudo mkdir -p /usr/local/aok"
+  echo "  sudo cp -r * /usr/local/aok"
+  echo
+  echo "Quitting"
+  exit 1
+}
 
 ## Check for vboot-utils and more
 crossystem hwid && echo || echo "crossystem not found. OK."
