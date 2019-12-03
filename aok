@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-## This script depends on files in the directory:
-## "/home/chronos/user/Downloads/aok-master"
-## Or at least files in the directory "/usr/local/aok"
+## This script depends on the aok-master.zip files (unzipped) in one of these locations:
+## /home/chronos/user/Downloads/aok-master
+## /usr/local/aok
 
 ## Developer Note: curl is built without metalink support in Chrome OS,
 ## so the curl commands used here do not require metalink support
@@ -26,8 +26,10 @@ fi
 ## Change directory to /usr/local/aok for the rest of the script
 cd /usr/local/aok || {
   ## Not a ChromeOS user. Directory location unknown. Give instructions.
+  echo "ERROR: /usr/local/aok Not Found."
+  echo
   echo "You must copy the contents of aok-master to /usr/local/aok"
-  echo "i.e., from within the aok-master directory, run:"
+  echo "i.e., from within the extracted aok-master directory, run:"
   echo "  sudo mkdir -p /usr/local/aok"
   echo "  sudo cp -r * /usr/local/aok"
   echo
