@@ -438,15 +438,30 @@ esac
 
 ## Script starts here
 lsblk
-echo
-echo "Select what to erase and install Arch Linux on:"
-echo 
-echo "0) eMMC, erase ChromeOS  /dev/mmcblk0  Must be running from SD/USB already"
-echo "1) SD Card               /dev/mmcblk1  4GB+ needed"
-echo "a) USB Drive             /dev/sda      4GB+ needed. For compatible USB's."
-echo "b) Second USB Drive      /dev/sdb      or VirtualBox SD Card"
-echo "q) Quit"
-echo
+
+if [ $(uname -p | grep ARMv7) ]; then
+  echo
+  echo "Select what to ERASE and install Arch Linux on:"
+  echo 
+  echo "0) eMMC, erase ChromeOS  /dev/mmcblk0  Must be running from SD/USB already"
+  echo "1) SD Card               /dev/mmcblk1  4GB+ needed"
+  echo "a) USB Drive             /dev/sda      4GB+ needed. For compatible USB's."
+  echo "b) Second USB Drive      /dev/sdb      or VirtualBox SD Card"
+  echo "q) Quit"
+  echo
+else
+  echo
+  echo "Select what to ERASE and install Arch Linux on:"
+  echo 
+  echo "0) /dev/mmcblk0"
+  echo "1) /dev/mmcblk1"
+  echo "a) /dev/sda"
+  echo "b) /dev/sdb"
+  echo "c) /dev/sdc"
+  echo "q) Quit"
+  echo
+fi
+
 read -p "> " CHOICE
 case "$CHOICE" in
   0)
@@ -472,6 +487,13 @@ case "$CHOICE" in
     ;;
   b)
     DEVICE='/dev/sdb'
+    PARTITION_1='1'
+    PARTITION_2='2'
+    tools_check
+    install_arch
+    ;;
+  c)
+    DEVICE='/dev/sdc'
     PARTITION_1='1'
     PARTITION_2='2'
     tools_check
