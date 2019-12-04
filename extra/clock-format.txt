@@ -1,3 +1,0 @@
-
-clock format: %l:%M (from %R)
-
