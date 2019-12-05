@@ -54,7 +54,9 @@ cd /usr/local/aok || {
 }
 
 ## Check for vboot-utils and more
+## crossystem fwid should show Veyron if it's a veyron board
 crossystem hwid && echo || echo "crossystem not found. OK."
+crossystem fwid && echo || echo "crossystem not found. OK."
 curl -V > /dev/null || { echo "curl not found. exiting." ; exit 1; }
 ping -c 1 archlinuxarm.org > /dev/null \
   || echo "archlinuxarm.org not found. May use local data."
