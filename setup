@@ -138,6 +138,11 @@ mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
 vboot-utils \
 ###########################################################################
 
+## Veyron support (ASUS Chromebook C201, Flip C100P and other makes and models)
+if [ $(crossystem fwid | grep -i veyron) ]; then
+  pacman -S firmware-veyron
+fi
+
 ###########################################################################
 ## VIDEO PATCH
 ##
