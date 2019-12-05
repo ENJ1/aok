@@ -242,9 +242,6 @@ echo "Caps Lock for X11 Windows fixed."
 #echo "keycode 133 = Caps_Lock" > ~/.Xmodmap
 ###########################################################################
 
-## Configure being able to run "startx" to load Xfce
-echo "exec startxfce4" > /etc/skel/.xinitrc
-
 ## Enable lightdm to load Xfce on boot
 systemctl enable lightdm
 
