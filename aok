@@ -383,6 +383,9 @@ mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-8
 cp files/15745773551.desktop \
     rootfs/etc/skel/.config/xfce4/panel/launcher-8
 
+## Configure being able to run "startx" to load Xfce
+echo "exec startxfce4" > rootfs/etc/skel/.xinitrc
+
 ## Create a welcome message with instructions
 cat << "EOF" >> rootfs/etc/issue
 Welcome. To finish installing AOK, do the following:
