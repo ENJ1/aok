@@ -39,7 +39,7 @@ echo "Enter a new root password"
 passwd
 
 ## Set the time zone interactively
-TIMEZONE=`tzselect`
+TIMEZONE=$(tzselect)
 ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 
 ## Standard Arch Linux Recommendation, perhaps not necessary or needed
