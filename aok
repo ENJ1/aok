@@ -336,7 +336,7 @@ partx -u ${DEVICE}
 
 ## Set special flags needed by U-Boot.
 ## or echo -n. Don't let so-called-cgpt-errors break the script
-cgpt add -i 1 -P 10 -T 5 -S 1 ${DEVICE} || echo -n
+cgpt add -i 1 -S 1 -T 5 -P 10 -l KERN-A ${DEVICE} || echo -n
 
 ## Extra umounting, just in case
 umount ${DEVICE}* 2> /dev/null || echo -n
