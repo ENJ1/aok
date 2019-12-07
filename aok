@@ -14,10 +14,11 @@ if [ $(uname -p | grep ARMv7) ]; then
   echo
   echo "Select what to ERASE and install Arch Linux on:"
   echo 
-  echo "0) eMMC, erase ChromeOS  /dev/mmcblk0  Must be running from SD/USB already"
-  echo "1) SD Card               /dev/mmcblk1  4GB+ needed"
-  echo "a) USB Drive             /dev/sda      4GB+ needed. For compatible USB's."
-  echo "b) Second USB Drive      /dev/sdb      or VirtualBox SD Card"
+  echo "0) /dev/mmcblk0  eMMC, erase ChromeOS   Must be running from SD/USB already"
+  echo "1) /dev/mmcblk1  SD Card                4GB+ needed"
+  echo "a) /dev/sda      USB Drive              4GB+ needed. For compatible USB's."
+  echo "b) /dev/sdb      Second USB Drive       or VirtualBox SD Card"
+  echo
   echo "q) Quit"
   echo
 else
@@ -29,6 +30,7 @@ else
   echo "a) /dev/sda"
   echo "b) /dev/sdb"
   echo "c) /dev/sdc"
+  echo
   echo "q) Quit"
   echo
 fi
@@ -39,26 +41,31 @@ case "$CHOICE" in
     DEVICE='/dev/mmcblk0'
     PARTITION_1='p1'
     PARTITION_2='p2'
+    PARTITION_3='p3'
     ;;
   1)
     DEVICE='/dev/mmcblk1'
     PARTITION_1='p1'
     PARTITION_2='p2'
+    PARTITION_3='p3'
     ;;
   a)
     DEVICE='/dev/sda'
     PARTITION_1='1'
     PARTITION_2='2'
+    PARTITION_3='3'
     ;;
   b)
     DEVICE='/dev/sdb'
     PARTITION_1='1'
     PARTITION_2='2'
+    PARTITION_3='3'
     ;;
   c)
     DEVICE='/dev/sdc'
     PARTITION_1='1'
     PARTITION_2='2'
+    PARTITION_3='3'
     ;;
   *)
     echo "No changes made, quitting."
@@ -300,16 +307,20 @@ echo "Starting Arch Linux Installation..."
 umount ${DEVICE}* 2> /dev/null || echo -n
 
 ## Automate fdisk.
-## Normally sgdisk is preferred for scripting, but documentation is scarce.
-## This method is easier to understand, modify, and use as needed.
+## This automatically sizes the root partition 
 
 ## Do not change the whitespace here, it is very important.
 ## Each blank line represents accepting the default by just pressing enter.
 ## Passing "y" in case it asks about signatures. Harmless if not asked.
-## The GUID used is for "ChromeOS kernel", which may be menu option 65 or 64 or
-## something else, depending on what version of fdisk is being used.
 
-## You may want to add a secondary kernel partition (and also copy the kernel)
+## g: new gpt partition table
+## n: new gpt partition
+## (blank line): accept the default, i.e., start at 2048 for partition 1
+## +16M: 16 MiB partition
+## y: yes to wipe filesystem signatures if necessary
+## p: print table
+## w: write and exit
+
 ## You may also want to add a swap drive (and enable swap)
 { fdisk ${DEVICE} << "END"
 g
@@ -318,8 +329,11 @@ n
 
 +16M
 y
-t
-FE3A2A5D-4F32-41A7-B725-ACCC3285A309
+n
+
+
++16M
+y
 n
 
 
@@ -334,9 +348,12 @@ END
 ## Updating partition info, regardless of whether it's necessary or not
 partx -u ${DEVICE}
 
-## Set special flags needed by U-Boot.
+## Set partition type here with -t, instead of in fdisk
+## Set special flags needed by U-Boot, and add labels to be user friendly
 ## or echo -n. Don't let so-called-cgpt-errors break the script
-cgpt add -i 1 -S 1 -T 5 -P 10 -l KERN-A ${DEVICE} || echo -n
+cgpt add -i 1 -t kernel -S 1 -T 5 -P 10 -l KERN-A ${DEVICE} || echo -n
+cgpt add -i 2 -t kernel -S 1 -T 5 -P 5 -l KERN-B ${DEVICE} || echo -n
+cgpt add -i 3 -t data -l Root ${DEVICE} || echo -n
 
 ## Extra umounting, just in case
 umount ${DEVICE}* 2> /dev/null || echo -n
@@ -344,23 +361,24 @@ umount rootfs 2> /dev/null || echo -n
 
 ## Make filesystem
 ## Avoid mkfs complaining that it's 'apparently in use by the system' but isn't
-mkfs.ext4 -F -F ${DEVICE}${PARTITION_2}
+mkfs.ext4 -F -F ${DEVICE}${PARTITION_3}
 
 ## Updating partition info, regardless of whether it's necessary or not
 partx -u ${DEVICE}
 
 ## Copy files. Current directory is aok. Creating aok/rootfs for mounting
 mkdir -p rootfs
-mount ${DEVICE}${PARTITION_2} rootfs
+mount ${DEVICE}${PARTITION_3} rootfs
 echo "Copying Filesystem..."
 ## Ignore unimportant SCHILY.fflags warnings
 tar --warning=no-unknown-keyword -xf \
 distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
 echo
 echo "Filesystem copy complete."
-echo "Copying Boot Partition..."
+echo "Copying Boot Partitions..."
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
-echo "Boot Partition copy complete."
+dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_2} status=progress
+echo "Boot Partition copies complete."
 
 ## If on ChromeOS then enable booting
 crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
@@ -470,7 +488,7 @@ case "$FUTURE" in
   y|Y)
     echo "Copying distro..."
     mkdir rootfs
-    mount ${DEVICE}${PARTITION_2} rootfs
+    mount ${DEVICE}${PARTITION_3} rootfs
     cp -r distro rootfs/usr/local/aok/
     umount rootfs
     sync
