@@ -7,8 +7,8 @@
 ## Developer Note: curl is built without metalink support in Chrome OS,
 ## so the curl commands used here do not require metalink support
 
-## Script starts here
-lsblk
+## Show some possibilities
+lsblk | grep '^[Aa-Zz]' | grep -v -E -- 'loop|boot|ram|rpmb'
 
 if [ "$(uname -p | grep ARMv7)" ]; then
   echo
