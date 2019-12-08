@@ -264,7 +264,12 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
     ## Here's where to use the fastest mirror from testing
     while [ "$DL" -le "$MAX_MIRRORS" ]; do
       TRY_MIRROR=$(sed -n "${DL}p" bestmirrors.txt | sed $'s/.*\t//')
+      
+      ## Try to download the root filesystem with 3 packages for wifi-menu
       curl -LO ${TRY_MIRROR}/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
+          && curl -LO ${TRY_MIRROR}/armv7h/core/netctl-1.20-2-any.pkg.tar.xz \
+          && curl -LO ${TRY_MIRROR}/armv7h/core/openresolv-3.9.2-2-any.pkg.tar.xz \
+          && curl -LO ${TRY_MIRROR}/armv7h/core/dhcpcd-8.1.2-1-armv7h.pkg.tar.xz \
           && {
             DOWNLOADED=true
             break
@@ -275,6 +280,9 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
     ## Try the main load-balanced mirror as a last resort
     if [ "$DOWNLOADED" = false ]; then
       curl -LO mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
+          && curl -LO mirror.archlinuxarm.org/armv7h/core/netctl-1.20-2-any.pkg.tar.xz \
+          && curl -LO mirror.archlinuxarm.org/armv7h/core/openresolv-3.9.2-2-any.pkg.tar.xz \
+          && curl -LO mirror.archlinuxarm.org/armv7h/core/dhcpcd-8.1.2-1-armv7h.pkg.tar.xz \
           || {
         echo "Couldn't download Arch Linux. Check your Internet connection reliability."
         exit 1
@@ -404,6 +412,14 @@ if [ -f 'distro/bestmirrors.txt' ]; then
 fi
 
 ## Bulk copy of custom content (will ALSO install in specific places)
+
+## Copy offline packages
+## Especially need these 3 files for wifi-menu
+#distro/netctl-1.20-2-any.pkg.tar.xz
+#distro/openresolv-3.9.2-2-any.pkg.tar.xz
+#distro/dhcpcd-8.1.2-1-armv7h.pkg.tar.xz
+mkdir -p rootfs/var/cache/pacman/pkg
+cp distro/*.pkg.tar.xz rootfs/var/cache/pacman/pkg
 
 ## Install aok, setup, dim, and anything else
 mkdir -p rootfs/usr/local/bin
