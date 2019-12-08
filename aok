@@ -361,6 +361,7 @@ partx -u ${DEVICE}
 mkdir -p rootfs
 mount ${DEVICE}${PARTITION_2} rootfs
 echo "Copying Filesystem..."
+
 ## Ignore unimportant SCHILY.fflags warnings
 tar --warning=no-unknown-keyword -xf \
 distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
