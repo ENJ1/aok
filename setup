@@ -85,16 +85,16 @@ if [ ! -f '/root/.aok-offline-setup-done.temp' ]; then
   offline_setup
 fi
 
-install_wifimenu_offline () {
+## Deprecated: Now in Dec 8, 2019 release (wasn't in Dec 3 release)
+#install_wifimenu_offline () {
 ## Install 3 packages for wifi-menu to work (netctl needs openresolv)
-pacman -S --noconfirm netctl dhcpcd
+#pacman -S --noconfirm netctl dhcpcd
+#touch /root/.aok-wifi-menu-done.temp
+#}
 
-touch /root/.aok-wifi-menu-done.temp
-}
-
-if [ ! -f '/root/.aok-wifi-menu-done.temp' ]; then
-  install_wifimenu_offline
-fi
+#if [ ! -f '/root/.aok-wifi-menu-done.temp' ]; then
+#  install_wifimenu_offline
+#fi
 
 
 ## Run wifi-menu to get online
