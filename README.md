@@ -1,6 +1,6 @@
 **DECEMBER 8, 2019 UPDATE:**  
 Although the December 3, 2019 Arch Linux ARM release **does not** have wifi-menu,  
-aok linux **does** have wifi-menu pre-installed by default.  
+AOK Linux **does** have wifi-menu pre-installed by default.  
 
 
 # AOK Linux for the XE303C12 Chromebook
