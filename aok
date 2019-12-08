@@ -307,41 +307,31 @@ echo "Starting Arch Linux Installation..."
 umount ${DEVICE}* 2> /dev/null || echo -n
 
 ## Automate fdisk.
-## This automatically sizes the root partition 
-
+## This automatically sizes the root partition.
 ## Do not change the whitespace here, it is very important.
 ## Each blank line represents accepting the default by just pressing enter.
-## Passing "y" in case it asks about signatures. Harmless if not asked.
 
 ## g: new gpt partition table
 ## n: new gpt partition
 ## (blank line): accept the default, i.e., start at 2048 for partition 1
 ## +16M: 16 MiB partition
-## y: yes to wipe filesystem signatures if necessary
 ## p: print table
 ## w: write and exit
 
 ## You may also want to add a swap drive (and enable swap)
-{ fdisk ${DEVICE} << "END"
+{ fdisk --wipe always ${DEVICE} << "END"
 g
 n
 
 
 +16M
-y
-n
-
-
-+16M
-y
 n
 
 
 
-p
 w
 END
-} 2> /dev/null || {
+} &> /dev/null || {
   echo "fdisk was unable to re-read partition table. Using partx to solve..."
 }
 
@@ -352,8 +342,8 @@ partx -u ${DEVICE}
 ## Set special flags needed by U-Boot, and add labels to be user friendly
 ## or echo -n. Don't let so-called-cgpt-errors break the script
 cgpt add -i 1 -t kernel -S 1 -T 5 -P 10 -l KERN-A ${DEVICE} || echo -n
-cgpt add -i 2 -t kernel -S 1 -T 5 -P 5 -l KERN-B ${DEVICE} || echo -n
-cgpt add -i 3 -t data -l Root ${DEVICE} || echo -n
+#cgpt add -i 2 -t kernel -S 1 -T 5 -P 5 -l KERN-B ${DEVICE} || echo -n
+cgpt add -i 2 -t data -l Root ${DEVICE} || echo -n
 
 ## Extra umounting, just in case
 umount ${DEVICE}* 2> /dev/null || echo -n
@@ -361,14 +351,14 @@ umount rootfs 2> /dev/null || echo -n
 
 ## Make filesystem
 ## Avoid mkfs complaining that it's 'apparently in use by the system' but isn't
-mkfs.ext4 -F -F ${DEVICE}${PARTITION_3}
+mkfs.ext4 -F -F ${DEVICE}${PARTITION_2}
 
 ## Updating partition info, regardless of whether it's necessary or not
 partx -u ${DEVICE}
 
 ## Copy files. Current directory is aok. Creating aok/rootfs for mounting
 mkdir -p rootfs
-mount ${DEVICE}${PARTITION_3} rootfs
+mount ${DEVICE}${PARTITION_2} rootfs
 echo "Copying Filesystem..."
 ## Ignore unimportant SCHILY.fflags warnings
 tar --warning=no-unknown-keyword -xf \
@@ -488,7 +478,7 @@ case "$FUTURE" in
   y|Y)
     echo "Copying distro..."
     mkdir rootfs
-    mount ${DEVICE}${PARTITION_3} rootfs
+    mount ${DEVICE}${PARTITION_2} rootfs
     cp -r distro rootfs/usr/local/aok/
     umount rootfs
     sync
