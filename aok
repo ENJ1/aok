@@ -366,11 +366,13 @@ echo "Copying Filesystem..."
 tar --warning=no-unknown-keyword -xf \
 distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
 echo
-echo "Filesystem copy complete."
+echo "Filesystem copy complete pending sync"
 echo "Copying Boot Partition..."
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 #dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_2} status=progress
-echo "Boot Partition copy complete."
+echo "Boot Partition copy complete pending sync"
+
+echo "Pre-configuring system and syncing..."
 
 ## If on ChromeOS then enable booting
 crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
