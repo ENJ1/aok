@@ -87,8 +87,6 @@ fi
 install_wifimenu_offline () {
 ## Install 3 packages for wifi-menu to work (netctl needs openresolv)
 pacman -S --noconfirm netctl dhcpcd
-systemctl enable dhcpcd
-systemctl is-active --quiet dhcpcd || systemctl start dhcpcd
 
 touch /root/.aok-wifi-menu-done.temp
 }
