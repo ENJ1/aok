@@ -2,14 +2,15 @@
 Pronounced "A-okay"
 
 ## What is this?
-A really easy way to get a real Operating System on your Chromebook. It's a set of scripts and patches.
+A really easy way to get a real Operating System on your Chromebook. It's a set of scripts with a few files.
 - Fully automated. Easy for a beginner.
-- Pre-patched: 2D Graphics acceleration, Audio, Caps Lock, WiFi, etc.
+- Pre-configured: 2D Graphics acceleration, Audio, Caps Lock, WiFi, etc.
 - Clean Xfce environment with Firefox out of the box, ready to use.
 
 ## Supported Chromebooks
 - Samsung XE303C12
 - HP Chromebook 11 G1
+- and more, see Wiki
 
 ## Enable Developer Mode
 1. Back up your files.
@@ -56,7 +57,7 @@ You may want to customize the scripts to use:
   - Your own username
   - Your own hostname
 
-You probably REALLY want to run the "patch" stuff!!!
+You probably REALLY want to run the "pre-config" stuff!!!
 The patch code get Arch Linux working nicely on the XE303C12.
 Everything else is just normal Arch Linux install stuff.
 
