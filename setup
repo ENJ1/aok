@@ -78,12 +78,23 @@ pacman-key --init
 pacman-key --populate archlinuxarm
 
 touch /root/.aok-offline-setup-done.temp
-
 }
 
-if [ ! -f /root/.aok-offline-setup-done.temp ]; then
+if [ ! -f '/root/.aok-offline-setup-done.temp' ]; then
   offline_setup
 fi
+
+install_wifimenu_offline () {
+## Install 3 packages for wifi-menu to work (netctl needs openresolv)
+pacman --no-confirm -S netctl dhcpcd
+systemctl enable dhcpcd
+touch /root/.aok-wifi-menu-done.temp
+}
+
+if [ ! -f '/root/.aok-wifi-menu-done.temp' ]; then
+  install_wifimenu_offline
+fi
+
 
 ## Run wifi-menu to get online
 wifi-menu
@@ -271,6 +282,7 @@ echo >> /etc/issue
 ## Uninstall setup files
 rm /usr/local/bin/setup
 rm /root/.aok-offline-setup-done.temp
+rm /root/.aok-wifi-menu-done.temp
 
 ## Exit message
 echo
