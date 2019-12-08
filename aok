@@ -286,21 +286,21 @@ try_downloading_file () {
 }
 
 
+## Deprecated: wifi-menu and dependencies now included in Dec 8, 2019 release
+#if [ ! -f 'netctl-1.20-2-any.pkg.tar.xz' ]; then
+#  FILE_NEEDED='/armv7h/core/netctl-1.20-2-any.pkg.tar.xz'
+#  try_downloading_file
+#fi
 
-if [ ! -f 'netctl-1.20-2-any.pkg.tar.xz' ]; then
-  FILE_NEEDED='/armv7h/core/netctl-1.20-2-any.pkg.tar.xz'
-  try_downloading_file
-fi
+#if [ ! -f 'openresolv-3.9.2-2-any.pkg.tar.xz' ]; then
+#  FILE_NEEDED='/armv7h/core/openresolv-3.9.2-2-any.pkg.tar.xz'
+#  try_downloading_file
+#fi
 
-if [ ! -f 'openresolv-3.9.2-2-any.pkg.tar.xz' ]; then
-  FILE_NEEDED='/armv7h/core/openresolv-3.9.2-2-any.pkg.tar.xz'
-  try_downloading_file
-fi
-
-if [ ! -f 'dhcpcd-8.1.2-1-armv7h.pkg.tar.xz' ]; then
-  FILE_NEEDED='/armv7h/core/dhcpcd-8.1.2-1-armv7h.pkg.tar.xz'
-  try_downloading_file
-fi
+#if [ ! -f 'dhcpcd-8.1.2-1-armv7h.pkg.tar.xz' ]; then
+#  FILE_NEEDED='/armv7h/core/dhcpcd-8.1.2-1-armv7h.pkg.tar.xz'
+#  try_downloading_file
+#fi
 
 ## Check md5 against file even if it doesn't exist, or try downloading
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
@@ -423,13 +423,14 @@ fi
 
 ## Bulk copy of custom content (will ALSO install in specific places)
 
-## Copy offline packages
+## Copy offline packages (deprecated: now included in latest release)
 ## Especially need these 3 files for wifi-menu
-#distro/netctl-1.20-2-any.pkg.tar.xz
-#distro/openresolv-3.9.2-2-any.pkg.tar.xz
-#distro/dhcpcd-8.1.2-1-armv7h.pkg.tar.xz
-mkdir -p rootfs/var/cache/pacman/pkg
-cp distro/*.pkg.tar.xz rootfs/var/cache/pacman/pkg
+## distro/netctl-1.20-2-any.pkg.tar.xz
+## distro/openresolv-3.9.2-2-any.pkg.tar.xz
+## distro/dhcpcd-8.1.2-1-armv7h.pkg.tar.xz
+##
+#mkdir -p rootfs/var/cache/pacman/pkg
+#cp distro/*.pkg.tar.xz rootfs/var/cache/pacman/pkg
 
 ## Install aok, setup, dim, and anything else
 mkdir -p rootfs/usr/local/bin
