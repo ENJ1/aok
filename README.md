@@ -1,3 +1,5 @@
+UPDATE: the setup script is down right now because archlinuxarm.org decided NOT to include netctl which is needed for wifi-menu
+
 # aok Arch Linux for ARMv7 Chromebooks
 Pronounced "A-okay"
 
