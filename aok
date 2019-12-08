@@ -10,7 +10,7 @@
 ## Script starts here
 lsblk
 
-if [ $(uname -p | grep ARMv7) ]; then
+if [ "$(uname -p | grep ARMv7)" ]; then
   echo
   echo "Select what to ERASE and install Arch Linux on:"
   echo 
@@ -85,7 +85,7 @@ fi
 
 ## Safety check
 if [ "$DEVICE" = '/dev/mmcblk0' ]; then
-  if [ $(grep -i 'chrome' /etc/os-release) ]; then
+  if [ "$(grep -i 'chrome' /etc/os-release)" ]; then
     echo "ChromeOS detected. Your selection is not supported."
     echo
     echo "You have selected to install to /dev/mmcblk0"
@@ -146,7 +146,7 @@ MIRROR_SUCCESS=false
 
 ## Offline function, try using local md5 or quit
 use_local_md5 () {
-  if [ -f ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ]; then
+  if [ -f 'ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5' ]; then
     echo "Using existing local md5 file."
   else
     echo "Cannot find md5 file. exiting. Check your Internet connection."
@@ -156,7 +156,7 @@ use_local_md5 () {
 
 
 ## Check if Internet and DNS are working before testing any mirror
-if [ $(ping -c 1 archlinuxarm.org > /dev/null) ]; then
+if [ "$(ping -c 1 archlinuxarm.org > /dev/null)" ]; then
 
   ## Allow 10 seconds to download the md5 from main mirror
   curl --max-time 10 -LO \
@@ -254,7 +254,7 @@ fi
 ## Check md5 against file even if it doesn't exist, or try downloading
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
   echo "Attempting download..."
-  if [ $(ping -c 1 archlinuxarm.org > /dev/null) ]; then
+  if [ "$(ping -c 1 archlinuxarm.org > /dev/null)" ]; then
 
     ## Get ready to try downloading from every working local mirror
     DOWNLOADED=false
@@ -388,7 +388,7 @@ mkdir -p rootfs/etc/sysctl.d
 echo "kernel.printk = 3 3 3 3" >> rootfs/etc/sysctl.d/20-quiet-printk.conf
 
 ## Add best mirrors to pacman mirrorlist
-if [ -f distro/bestmirrors.txt ]; then
+if [ -f 'distro/bestmirrors.txt' ]; then
   ADD=1
   MAX_MIRRORS=$(cat distro/bestmirrors.txt | wc -l)
   echo > usemirrors.txt
