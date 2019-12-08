@@ -104,14 +104,14 @@ sleep 10
 ## sudo: needed to gain root privilege
 ## unzip: basic utility
 ## zip: basic utility
-## xf86-video-fbdev: needed for Mali-T604 Graphics acceleration patch below
-## xorg-server: needed for Xfce. chromebook caps (patch below)
+## xf86-video-fbdev: needed for Mali-T604 Graphics acceleration pre-config below
+## xorg-server: needed for Xfce. chromebook caps (pre-config below)
 ## xfce4: Desktop Environment and all associated packages
 ## xorg-xinit: start Xfce from command line (configured below)
 ## lightdm: autostart Xfce on bootup (enabled below)
 ## lightdm-gtk-greeter: login screen
 ## ttf-dejavu: basic font pack
-## alsa-utils: needed for auto (patch below); to unmute audio and keep unmuted
+## alsa-utils: needed for auto (pre-config below); to unmute audio and keep unmuted
 ## xfce4-pulseaudio-plugin: volume control panel applet
 ## pavucontrol: volume control
 ## pulseaudio: audio backend
@@ -144,7 +144,7 @@ if [ $(crossystem fwid | grep -i veyron) ]; then
 fi
 
 ###########################################################################
-## VIDEO PATCH
+## VIDEO PRE-CONFIG
 ##
 ## DEPENDS ON: xf86-video-fbdev
 ##
@@ -173,7 +173,7 @@ echo "needs_root_rights = yes" > /etc/X11/Xwrapper.config
 ###########################################################################
 
 ###########################################################################
-## AUDIO PATCH
+## AUDIO PRE-CONFIG
 ##
 ## DEPENDS ON: alsa-utils
 ##
@@ -218,7 +218,7 @@ echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(A
 
 
 ###########################################################################
-## CAPS LOCK PATCH (FOR WINDOW ENVIRONMENT NOT CONSOLE)
+## CAPS LOCK PRE-CONFIG (FOR WINDOW ENVIRONMENT NOT CONSOLE)
 ##
 ## THIS WILL PROVIDE CAPS LOCK GLOBALLY, FOR ALL USERS, EVEN AT LOGIN.
 ## THIS CHANGES THE CONFIGURATION FOR "Generic 105-key PC (intl.)" AND
