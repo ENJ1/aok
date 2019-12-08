@@ -1,4 +1,7 @@
-UPDATE: the setup script is down right now because archlinuxarm.org decided NOT to include netctl on their december 3, 2019 release, which is needed for wifi-menu
+DECEMBER 8, 2019 UPDATE:  
+Although the latest Arch Linux ARM release does not have wifi-menu,  
+aok linux now makes sure wifi-menu *is* pre-installed by default.  
+
 
 # aok Arch Linux for ARMv7 Chromebooks
 Pronounced "A-okay"
