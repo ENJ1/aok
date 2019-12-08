@@ -1,5 +1,5 @@
 ## UPDATE: OpenSUSE has images.
-https://en.opensuse.org/HCL:ARMChromebook
+https://en.opensuse.org/HCL:ARMChromebook  
 They have also contributed to the Linux Kernel for the XE303C12, providing support for 3D Graphics with the ARM Mali-T604 GPU.
 
 
