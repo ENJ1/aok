@@ -249,60 +249,70 @@ fi
 
 
 
-
-
-## Check md5 against file even if it doesn't exist, or try downloading
-md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
+try_downloading_file () {
   echo "Attempting download..."
   if [ "$(ping -c 1 archlinuxarm.org)" ]; then
-
     ## Get ready to try downloading from every working local mirror
     DOWNLOADED=false
     DL=1
     MAX_MIRRORS=$(cat bestmirrors.txt | wc -l)
-
     ## Here's where to use the fastest mirror from testing
     while [ "$DL" -le "$MAX_MIRRORS" ]; do
       TRY_MIRROR=$(sed -n "${DL}p" bestmirrors.txt | sed $'s/.*\t//')
-      
       ## Try to download the root filesystem with 3 packages for wifi-menu
-      curl -LO ${TRY_MIRROR}/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
-          && curl -LO ${TRY_MIRROR}/armv7h/core/netctl-1.20-2-any.pkg.tar.xz \
-          && curl -LO ${TRY_MIRROR}/armv7h/core/openresolv-3.9.2-2-any.pkg.tar.xz \
-          && curl -LO ${TRY_MIRROR}/armv7h/core/dhcpcd-8.1.2-1-armv7h.pkg.tar.xz \
+      curl -LO ${TRY_MIRROR}${FILE_NEEDED} \
           && {
             DOWNLOADED=true
             break
           } ||
           DL=$[$DL+1]
     done
-
     ## Try the main load-balanced mirror as a last resort
     if [ "$DOWNLOADED" = false ]; then
-      curl -LO mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
-          && curl -LO mirror.archlinuxarm.org/armv7h/core/netctl-1.20-2-any.pkg.tar.xz \
-          && curl -LO mirror.archlinuxarm.org/armv7h/core/openresolv-3.9.2-2-any.pkg.tar.xz \
-          && curl -LO mirror.archlinuxarm.org/armv7h/core/dhcpcd-8.1.2-1-armv7h.pkg.tar.xz \
+      curl -LO mirror.archlinuxarm.org${FILE_NEEDED} \
           || {
         echo "Couldn't download Arch Linux. Check your Internet connection reliability."
         exit 1
       }
     fi
-
     ## Final md5 test after any downloads
-    echo "Download complete."
-    md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
-      echo "The Arch Linux download was corrupted. You may want to try again."
-      exit 1
-    }
-
+    echo "Download of one file complete."
   ## No ping response from archlinuxarm.org
   else
-    echo "Arch Linux local copy unavailable."
+    echo "Arch Linux local files unavailable."
     echo "No ping response from archlinuxarm.org. Exiting."
     exit 1
   fi
 }
+
+
+
+if [ ! -f 'netctl-1.20-2-any.pkg.tar.xz' ]; then
+  FILE_NEEDED='/armv7h/core/netctl-1.20-2-any.pkg.tar.xz'
+  try_downloading_file
+fi
+
+if [ ! -f 'openresolv-3.9.2-2-any.pkg.tar.xz' ]; then
+  FILE_NEEDED='/armv7h/core/openresolv-3.9.2-2-any.pkg.tar.xz'
+  try_downloading_file
+fi
+
+if [ ! -f 'dhcpcd-8.1.2-1-armv7h.pkg.tar.xz' ]; then
+  FILE_NEEDED='/armv7h/core/dhcpcd-8.1.2-1-armv7h.pkg.tar.xz'
+  try_downloading_file
+fi
+
+## Check md5 against file even if it doesn't exist, or try downloading
+md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
+  FILE_NEEDED='/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz'
+  try_downloading_file
+  md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
+    echo "The Arch Linux download was corrupted. You may want to try again."
+    exit 1
+  }
+}
+
+
 
 ## Return to aok from aok/distro
 cd -
