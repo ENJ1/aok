@@ -4,9 +4,14 @@
 Pronounced "A-okay"
 
 ## What is this?
-A really easy way to get a real Operating System on your Chromebook. It's a set of scripts with a few files.
+- A User-Friendly Linux Distro for certain ARMv7 laptops, based one Arch Linux ARM and Xfce.
+- The **easiest** and **fastest** way to get a full Linux Distro on an old Chromebook.
+- AOK Linux is a set of scripts with a few extra files. Packages are from archlinuxarm.org
+
+## Features
 - Fully automated. Easy for a beginner.
-- Pre-configured: 2D Graphics acceleration, Audio, Caps Lock, WiFi, etc.
+- Mirror checking for improved 24/7 reliability.
+- Pre-configured: 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
 - Clean Xfce environment with Firefox out of the box, ready to use.
 
 ## Supported Chromebooks
