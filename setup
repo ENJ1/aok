@@ -5,7 +5,11 @@
 ## This script depends on "files/locale.gen" and more
 cd /usr/local/aok
 
-offline_setup () {
+## Prevent offline setup from being done again
+## Especially useful because wifi and networks are unreliable,
+## meaning this script may need to be re-run after a network failure
+if [ ! -f '/root/.aok-offline-setup-done.temp' ]; then
+
 ## Remove the default alarm (Arch Linux ARM) account.
 ## This account is only needed if you have to use SSH to login remotely
 ## for the very first login, which is not applicable here.
@@ -57,7 +61,11 @@ cat << EOF > /etc/hosts
 ::1		localhost
 127.0.1.1	ok.localdomain	ok
 EOF
-useradd -m -G wheel -s /bin/bash a
+
+## If the offline part of the script doesn't finish, this
+## may need to be run through again, so if this account
+## already exists, then don't let that error break the script
+useradd -m -G wheel -s /bin/bash a || echo -n
 
 ## Change password for the "a" account
 echo
@@ -79,11 +87,9 @@ pacman-key --init
 pacman-key --populate archlinuxarm
 
 touch /root/.aok-offline-setup-done.temp
-}
-
-if [ ! -f '/root/.aok-offline-setup-done.temp' ]; then
-  offline_setup
 fi
+
+
 
 ## Deprecated: Now in Dec 8, 2019 release (wasn't in Dec 3 release)
 #install_wifimenu_offline () {
