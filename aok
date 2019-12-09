@@ -333,7 +333,6 @@ umount ${DEVICE}* 2> /dev/null || echo -n
 ## n: new gpt partition
 ## (blank line): accept the default, i.e., start at 2048 for partition 1
 ## +16M: 16 MiB partition
-## p: print table
 ## w: write and exit
 
 ## You may also want to add a swap drive (and enable swap)
