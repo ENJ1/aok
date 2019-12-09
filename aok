@@ -119,6 +119,20 @@ esac
 
 
 ## Safety checks
+if [ "$DEVICE" = '/dev/mmcblk0' ]; then
+  if [ "$(grep -i 'chrome' /etc/os-release)" ]; then
+    echo "ChromeOS detected. Your selection is not supported."
+    echo
+    echo "You have selected to install to /dev/mmcblk0"
+    echo "but it appears you may currently be using /dev/mmcblk0"
+    echo
+    echo "To install Arch Linux on the eMMC Internal Memory"
+    echo "(replacing ChromeOS),"
+    echo "first install Arch Linux to SD or USB,"
+    echo "and then boot from that installation."
+    exit 67
+  fi
+fi
 
 ## Check target capacity
 SIZER=$(lsblk -o SIZE -bnd $DEVICE)
@@ -155,21 +169,6 @@ case "$RELEASE_CHOICE"
     NEW_RELEASE=false
     ;;
 esac
-
-if [ "$DEVICE" = '/dev/mmcblk0' ]; then
-  if [ "$(grep -i 'chrome' /etc/os-release)" ]; then
-    echo "ChromeOS detected. Your selection is not supported."
-    echo
-    echo "You have selected to install to /dev/mmcblk0"
-    echo "but it appears you may currently be using /dev/mmcblk0"
-    echo
-    echo "To install Arch Linux on the eMMC Internal Memory"
-    echo "(replacing ChromeOS),"
-    echo "first install Arch Linux to SD or USB,"
-    echo "and then boot from that installation."
-    exit 67
-  fi
-fi
 
 
 echo "Copying AOK setup files..."
