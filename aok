@@ -86,6 +86,20 @@ case "$CONFIRM" in
     ;;
 esac
 
+echo
+echo "The latest Arch Linux ARM release is recommended."
+echo "Alternatively, you may use a Dec 8, 2019 backup release."
+echo
+read -p "Use the latest release? [Y/n]" RELEASE_CHOICE
+case "$RELEASE_CHOICE"
+  [yY]|[yY][eE][sS])
+    NEW_RELEASE=true
+    ;;
+  *)
+    NEW_RELEASE=false
+    ;;
+esac
+
 if [ "$EUID" != 0 ]; then
   echo "Root privilege not found, quitting."
   exit 66
@@ -266,7 +280,7 @@ check_md5 () {
 }
 
 get_from_dropbox () {
-  echo "Attempting download of Latest AOK Verified Stable Release from dropbox..."
+  echo "Attempting download of AOK Verified Backup Release from dropbox..."
   curl -LO \
       https://dl.dropboxusercontent.com/s/gca6lst2llqoqg2/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
       && md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak || {
@@ -307,8 +321,12 @@ try_downloading_file () {
 
 ## Check md5 against file even if it doesn't exist, or try downloading
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
-  FILE_NEEDED='/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz'
-  try_downloading_file
+  if [ "$NEW_RELEASE" = true ]; then
+    FILE_NEEDED='/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz'
+    try_downloading_file
+  else
+    get_from_dropbox
+  fi
 }
 
 ## Return to aok from aok/distro
