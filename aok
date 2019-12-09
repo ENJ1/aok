@@ -120,6 +120,17 @@ esac
 
 ## Safety checks
 
+## Check target capacity
+SIZER=$(lsblk -o SIZE -bnd $DEVICE)
+if [ "$SIZER" -lt 3000000000 ]; then
+  echo "3 GB capacity is required on target device for installation"
+  echo "$(expr $SIZER / 1000000000) GB capacity on $DEVICE - too small, exiting."
+  exit 78
+else
+  echo "$(expr $SIZER / 1000000000) GB capacity on ${DEVICE}. OK."
+fi
+
+## Ask for confirmation
 echo
 read -p "Any data on ${DEVICE} will be erased. Are you sure? [y/N] " CONFIRM
 case "$CONFIRM" in
