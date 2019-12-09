@@ -134,6 +134,21 @@ if [ "$DEVICE" = '/dev/mmcblk0' ]; then
   fi
 fi
 
+## Ask what version to use
+echo
+echo "The latest Arch Linux ARM release is recommended."
+echo "Alternatively, you may use a Dec 8, 2019 backup release."
+echo
+read -p "Use the latest release? [Y/n]" RELEASE_CHOICE
+case "$RELEASE_CHOICE"
+  [yY]|[yY][eE][sS])
+    NEW_RELEASE=true
+    ;;
+  *)
+    NEW_RELEASE=false
+    ;;
+esac
+
 ## Check target capacity
 SIZER=$(lsblk -o SIZE -bnd $DEVICE)
 if [ "$SIZER" -lt 3000000000 ]; then
@@ -156,19 +171,6 @@ case "$CONFIRM" in
     ;;
 esac
 
-echo
-echo "The latest Arch Linux ARM release is recommended."
-echo "Alternatively, you may use a Dec 8, 2019 backup release."
-echo
-read -p "Use the latest release? [Y/n]" RELEASE_CHOICE
-case "$RELEASE_CHOICE"
-  [yY]|[yY][eE][sS])
-    NEW_RELEASE=true
-    ;;
-  *)
-    NEW_RELEASE=false
-    ;;
-esac
 
 
 echo "Copying AOK setup files..."
