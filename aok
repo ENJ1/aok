@@ -10,6 +10,44 @@
 ## Show some possibilities
 lsblk | grep '^[Aa-Zz]' | grep -v -E -- 'loop|boot|ram|rpmb'
 
+## Show USB compatibility if possible
+{
+USB_DEVICE_COUNT=$(lsblk | grep '^sd' | wc -l)
+while [ "$USB_DEVICE_COUNT" -gt 0 ]; do
+  THIS_DEVICE=$(lsblk | grep '^sd' | head -c 3)
+  ## grep the tail to make sure it's the most current info
+  USB_MODE=$(dmesg | grep "$THIS_DEVICE" | grep 'Mode Sense' | tail -n 1 | \
+      sed 's/.*Mode\ Sense:\ //')
+  case "$USB_MODE" in
+    "23 00 00 00")
+      COMPATIBILITY="known to be compatible"
+      ;;
+    "43 00 00 00")
+      COMPATIBILITY="known to be either compatible or incompatible"
+      ;;
+    "45 00 00 00")
+      COMPATIBILITY="known to be incompatible"
+      ;;
+    *)
+      COMPATIBILITY="unknown"
+      ;;
+  esac
+  echo "Not all USB drives are compatible."
+  echo "The USB drive at /dev/${THIS_DEVICE} has a Mode Sense of ${USB_MODE},"
+  echo "    which is ${COMPATIBILITY}."
+  USB_DEVICE_COUNT=$[$USB_DEVICE_COUNT-1]
+done
+
+echo
+
+OTHER_DEVICE_COUNT=$(lsblk | grep '^mmcblk' | grep -v -E -- 'loop|boot|ram|rpmb' | wc -l)
+while [ "$OTHER_DEVICE_COUNT" -gt 0 ]; do
+  THIS_DEVICE=$(lsblk | grep '^mmcblk' | head -c 7)
+  echo "The drive at /dev/$THIS_DEVICE is compatible, as all block devices are."
+  OTHER_DEVICE_COUNT=$[$OTHER_DEVICE_COUNT-1]
+done
+} || echo -n
+
 if [ "$(uname -p | grep ARMv7)" ]; then
   echo
   echo "Select what to ERASE and install Arch Linux on:"
