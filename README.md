@@ -49,7 +49,7 @@ Requirements:
 \* This USB Flash Drive is known to work. Many USB Flash drives do not work. 
 
 ## Post-Installation Tips
-- To free up a lot of space (about 500 MB), run Terminal Emulator and type `sudo pacman -Scc`
+- To free up space (up to 500 MB), run Terminal Emulator and type `sudo pacman -Scc`
 - To update the package list, run Terminal Emulator and type `sudo pacman -Sy`
 - To install a program (package), run Terminal Emulator and type `sudo pacman -S thunderbird` for example
 - For help using Arch Linux, visit https://wiki.archlinux.org/
