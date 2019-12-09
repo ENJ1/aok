@@ -57,7 +57,7 @@ if [ "$(uname -p | grep ARMv7)" ]; then
   echo "0) /dev/mmcblk0  eMMC, erase ChromeOS   Must be running from SD/USB already"
   echo "1) /dev/mmcblk1  SD Card                4GB+ needed"
   echo "a) /dev/sda      USB Drive              4GB+ needed. For compatible USB's."
-  echo "b) /dev/sdb      Second USB Drive       or VirtualBox SD Card"
+  echo "b) /dev/sdb      Second USB Drive       4GB+ needed. For compatible USB's."
   echo
   echo "q) Quit"
   echo
