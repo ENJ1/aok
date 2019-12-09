@@ -1,7 +1,7 @@
-![2019-12-08-143018_1366x768_scrot](https://user-images.githubusercontent.com/11820866/70398181-a080b100-19cd-11ea-82db-439739f46dbc.png)
-
 # AOK Linux for the XE303C12 Chromebook
 Pronounced "A-okay"
+
+![2019-12-08-143018_1366x768_scrot](https://user-images.githubusercontent.com/11820866/70398181-a080b100-19cd-11ea-82db-439739f46dbc.png)
 
 ## What is this?
 - A User-Friendly Linux Distro for certain ARMv7 laptops, based one Arch Linux ARM and Xfce.
