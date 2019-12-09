@@ -68,7 +68,7 @@ case "$CHOICE" in
     ;;
   *)
     echo "No changes made. Quitting."
-    exit 1
+    exit 65
     ;;
 esac
 
@@ -88,7 +88,7 @@ esac
 
 if [ "$EUID" != 0 ]; then
   echo "Root privilege not found, quitting."
-  exit 1
+  exit 66
 fi
 
 if [ "$DEVICE" = '/dev/mmcblk0' ]; then
@@ -102,7 +102,7 @@ if [ "$DEVICE" = '/dev/mmcblk0' ]; then
     echo "(replacing ChromeOS),"
     echo "first install Arch Linux to SD or USB,"
     echo "and then boot from that installation."
-    exit 1
+    exit 67
   fi
 fi
 
@@ -124,7 +124,7 @@ cd /usr/local/aok || {
   echo "  sudo cp -r * /usr/local/aok"
   echo
   echo "Quitting"
-  exit 1
+  exit 68
 }
 echo "AOK setup files copied."
 
@@ -134,15 +134,15 @@ echo "Checking tools..."
 crossystem hwid && echo || echo "crossystem not found. OK."
 ## crossystem fwid should show Veyron if it's a veyron board
 crossystem fwid && echo || echo "crossystem not found. OK."
-curl -V > /dev/null || { echo "curl not found. exiting."; exit 1; }
+curl -V > /dev/null || { echo "curl not found. exiting."; exit 69; }
 ping -c 1 archlinuxarm.org > /dev/null \
   || echo "archlinuxarm.org not found. May use local data."
-md5sum --version > /dev/null || { echo "md5sum not found. exiting."; exit 1; }
-umount -V > /dev/null || { echo "umount not found. exiting."; exit 1; }
+md5sum --version > /dev/null || { echo "md5sum not found. exiting."; exit 70; }
+umount -V > /dev/null || { echo "umount not found. exiting."; exit 71; }
 fdisk -V
-cgpt add -h > /dev/null || { echo "cgpt not found. exiting."; exit 1; }
-mkfs -V > /dev/null || { echo "mkfs not found. exiting."; exit 1; }
-dd --version > /dev/null || { echo "dd not found. exiting."; exit 1; }
+cgpt add -h > /dev/null || { echo "cgpt not found. exiting."; exit 72; }
+mkfs -V > /dev/null || { echo "mkfs not found. exiting."; exit 73; }
+dd --version > /dev/null || { echo "dd not found. exiting."; exit 74; }
 echo "Tools check complete."
 
 
@@ -161,7 +161,7 @@ use_local_md5 () {
     echo "Using existing local md5 file."
   else
     echo "Cannot find md5 file. Quitting."
-    exit 1
+    exit 75
   fi
 }
 
@@ -271,7 +271,7 @@ get_from_dropbox () {
       https://dl.dropboxusercontent.com/s/gca6lst2llqoqg2/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
       && md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak || {
         echo "Couldn't download Arch Linux. Perhaps the Internet connection is not reliable."
-        exit 1
+        exit 76
       }
 }
 
