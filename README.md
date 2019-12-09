@@ -69,7 +69,7 @@ The patch code get Arch Linux working nicely on the XE303C12.
 Everything else is just normal Arch Linux install stuff.
 
 If you want to copy files from ChromeOS, then after booting from SD/USB, only mount the eMMC read-only without loading the journaling system, for example:  
-`mount -o ro,noload /dev/mmcblk0p1 /mnt` Mounting the eMMC in any other way may cause Chrome OS to "repair itself" upon next boot, ERASING ALL USER DATA ON THE eMMC. If you want to copy files from AOK Linux to ChromeOS, then on ChromeOS do this:  
+`sudo mount -o ro,noload /dev/mmcblk0p1 /mnt` Mounting the eMMC in any other way may cause Chrome OS to "repair itself" upon next boot, ERASING ALL USER DATA ON THE eMMC. If you want to copy files from AOK Linux to ChromeOS, then on ChromeOS do this:  
 ```
 mkdir -p /usr/local/mount
 sudo mount -o noload /dev/mmcblk1 /usr/local/mount
