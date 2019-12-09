@@ -13,6 +13,9 @@ lsblk | grep '^[Aa-Zz]' | grep -v -E -- 'loop|boot|ram|rpmb'
 ## Show USB compatibility if possible
 {
 USB_DEVICE_COUNT=$(lsblk | grep '^sd' | wc -l)
+if [ "$USB_DEVICE_COUNT" -gt 0 ]; then
+echo "Not all USB drives are compatible."
+fi
 while [ "$USB_DEVICE_COUNT" -gt 0 ]; do
   THIS_DEVICE=$(lsblk | grep '^sd' | head -c 3)
   ## grep the tail to make sure it's the most current info
@@ -32,7 +35,6 @@ while [ "$USB_DEVICE_COUNT" -gt 0 ]; do
       COMPATIBILITY="unknown"
       ;;
   esac
-  echo "Not all USB drives are compatible."
   echo "The USB drive at /dev/${THIS_DEVICE} has a Mode Sense of ${USB_MODE},"
   echo "    which is ${COMPATIBILITY}."
   USB_DEVICE_COUNT=$[$USB_DEVICE_COUNT-1]
