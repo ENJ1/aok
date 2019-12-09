@@ -41,49 +41,56 @@ case "$CHOICE" in
     DEVICE='/dev/mmcblk0'
     PARTITION_1='p1'
     PARTITION_2='p2'
-    PARTITION_3='p3'
     ;;
   1)
     DEVICE='/dev/mmcblk1'
     PARTITION_1='p1'
     PARTITION_2='p2'
-    PARTITION_3='p3'
     ;;
   a)
     DEVICE='/dev/sda'
     PARTITION_1='1'
     PARTITION_2='2'
-    PARTITION_3='3'
     ;;
   b)
     DEVICE='/dev/sdb'
     PARTITION_1='1'
     PARTITION_2='2'
-    PARTITION_3='3'
     ;;
   c)
     DEVICE='/dev/sdc'
     PARTITION_1='1'
     PARTITION_2='2'
-    PARTITION_3='3'
+    ;;
+  q)
+    echo "No changes made."
+    exit 0
     ;;
   *)
-    echo "No changes made, quitting."
+    echo "No changes made. Quitting."
     exit 1
     ;;
 esac
 
 
-## Check tools and copy files
-echo "Checking tools..."
+## Safety checks
 
-## Check if run with sudo or as root
+echo
+read -p "Any data on ${DEVICE} will be erased. Are you sure? [y/N] " CONFIRM
+case "$CONFIRM" in
+  [yY]|[yY][eE][sS])
+    ;;
+  *)
+    echo "No changes made."
+    exit 0
+    ;;
+esac
+
 if [ "$EUID" != 0 ]; then
   echo "Root privilege not found, quitting."
   exit 1
 fi
 
-## Safety check
 if [ "$DEVICE" = '/dev/mmcblk0' ]; then
   if [ "$(grep -i 'chrome' /etc/os-release)" ]; then
     echo "ChromeOS detected. Your selection is not supported."
@@ -99,12 +106,13 @@ if [ "$DEVICE" = '/dev/mmcblk0' ]; then
   fi
 fi
 
+
+echo "Copying AOK setup files..."
 ## Automatic copy for ChromeOS users
 if [ -d "/home/chronos/user/Downloads/aok-master" ]; then
   ## Copy files and create /usr/local/aok if it doesn't already exist
   cp -r /home/chronos/user/Downloads/aok-master/. /usr/local/aok
 fi
-
 ## Change directory to /usr/local/aok for the rest of the script
 cd /usr/local/aok || {
   ## Not a ChromeOS user. Directory location unknown. Give instructions.
@@ -118,10 +126,13 @@ cd /usr/local/aok || {
   echo "Quitting"
   exit 1
 }
+echo "AOK setup files copied."
 
-## Check for vboot-utils and more
-## crossystem fwid should show Veyron if it's a veyron board
+
+## Check for necessary tools
+echo "Checking tools..."
 crossystem hwid && echo || echo "crossystem not found. OK."
+## crossystem fwid should show Veyron if it's a veyron board
 crossystem fwid && echo || echo "crossystem not found. OK."
 curl -V > /dev/null || { echo "curl not found. exiting."; exit 1; }
 ping -c 1 archlinuxarm.org > /dev/null \
@@ -132,14 +143,13 @@ fdisk -V
 cgpt add -h > /dev/null || { echo "cgpt not found. exiting."; exit 1; }
 mkfs -V > /dev/null || { echo "mkfs not found. exiting."; exit 1; }
 dd --version > /dev/null || { echo "dd not found. exiting."; exit 1; }
-
 echo "Tools check complete."
 
 
 
 ## Installation process. Already working in /usr/local/ok
 
-echo "Preparing files..."
+echo "Preparing distribution files..."
 cd distro
 ## Save the included md5 file in case of a dropbox download
 cp ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak
@@ -154,7 +164,6 @@ use_local_md5 () {
     exit 1
   fi
 }
-
 
 ## Check if Internet and DNS are working before testing any mirror
 if [ "$(ping -c 1 archlinuxarm.org)" ]; then
@@ -249,89 +258,68 @@ else
 fi
 
 
+
+## Get the distro if md5 doesn't match
+
+check_md5 () {
+  md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status
+}
+
 get_from_dropbox () {
   echo "Attempting download of Latest AOK Verified Stable Release from dropbox..."
-  curl -LO https://dl.dropboxusercontent.com/s/gca6lst2llqoqg2/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
-      || {
-    echo "Couldn't download Arch Linux. Perhaps the Internet connection is not reliable."
-    exit 1
-    }
+  curl -LO \
+      https://dl.dropboxusercontent.com/s/gca6lst2llqoqg2/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
+      && md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak || {
+        echo "Couldn't download Arch Linux. Perhaps the Internet connection is not reliable."
+        exit 1
+      }
 }
 
 try_downloading_file () {
-  echo "Attempting download..."
-  if [ "$(ping -c 1 archlinuxarm.org)" ]; then
-    ## Get ready to try downloading from every working local mirror
-    DOWNLOADED=false
-    DL=1
-    MAX_MIRRORS=$(cat bestmirrors.txt | wc -l)
-    ## Here's where to use the fastest mirror from testing
-    while [ "$DL" -le "$MAX_MIRRORS" ]; do
-      TRY_MIRROR=$(sed -n "${DL}p" bestmirrors.txt | sed $'s/.*\t//')
-      ## Try to download the root filesystem with 3 packages for wifi-menu
-      curl -LO ${TRY_MIRROR}${FILE_NEEDED} \
-          && {
-            DOWNLOADED=true
-            break
-          } ||
-          DL=$[$DL+1]
-    done
-    ## Try the main load-balanced mirror as a last resort
-    if [ "$DOWNLOADED" = false ]; then
-      echo "Couldn't reach any mirrors, trying main archlinuxarm.org site..."
-      curl -LO mirror.archlinuxarm.org${FILE_NEEDED} \
-          && DOWNLOADED=true \
-          || {
-            echo "Couldn't download from archlinuxarm.org."
-            get_from_dropbox
-          }
-    fi
-    echo "Download of one file complete."
-  else
-    ## No ping response from archlinuxarm.org
-    echo "Arch Linux local files unavailable."
-    echo "No ping response from archlinuxarm.org. Exiting."
-    exit 1
+  echo "Attempting distribution download..."
+  ## Get ready to try downloading from every working local mirror
+  DOWNLOADED=false
+  DL=1
+  MAX_MIRRORS=$(cat bestmirrors.txt | wc -l)
+  ## Here's where to use the fastest mirror from testing
+  while [ "$DL" -le "$MAX_MIRRORS" ]; do
+    TRY_MIRROR=$(sed -n "${DL}p" bestmirrors.txt | sed $'s/.*\t//')
+    ## Try to download the root filesystem with 3 packages for wifi-menu
+    curl -LO ${TRY_MIRROR}${FILE_NEEDED} \
+        && {
+          check_md5 && DOWNLOADED=true && break
+        } ||
+        DL=$[$DL+1]
+  done
+  ## Try the main load-balanced mirror as a last resort
+  if [ "$DOWNLOADED" = false ]; then
+    echo "Couldn't reach any mirrors, trying main archlinuxarm.org site..."
+    curl -LO mirror.archlinuxarm.org${FILE_NEEDED} \
+        && check_md5 \
+        || {
+          echo "Couldn't download from archlinuxarm.org."
+          get_from_dropbox
+        }
   fi
+  ## Must have a good file at this point
+  echo "Distribution download complete."
 }
-
-
-## Deprecated: wifi-menu and dependencies now included in Dec 8, 2019 release
-#if [ ! -f 'netctl-1.20-2-any.pkg.tar.xz' ]; then
-#  FILE_NEEDED='/armv7h/core/netctl-1.20-2-any.pkg.tar.xz'
-#  try_downloading_file
-#fi
-
-#if [ ! -f 'openresolv-3.9.2-2-any.pkg.tar.xz' ]; then
-#  FILE_NEEDED='/armv7h/core/openresolv-3.9.2-2-any.pkg.tar.xz'
-#  try_downloading_file
-#fi
-
-#if [ ! -f 'dhcpcd-8.1.2-1-armv7h.pkg.tar.xz' ]; then
-#  FILE_NEEDED='/armv7h/core/dhcpcd-8.1.2-1-armv7h.pkg.tar.xz'
-#  try_downloading_file
-#fi
 
 ## Check md5 against file even if it doesn't exist, or try downloading
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
   FILE_NEEDED='/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz'
   try_downloading_file
-  md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || {
-    echo "The Arch Linux download was corrupted. You may want to try again."
-    exit 1
-  }
 }
-
-
 
 ## Return to aok from aok/distro
 cd -
+echo "Distribution files ready."
 
-echo "File preparation complete."
 
 
-## Tools and files exist. Start installation.
+
 echo "Starting Arch Linux Installation..."
+
 umount ${DEVICE}* 2> /dev/null || echo -n
 
 ## Automate fdisk.
@@ -369,7 +357,6 @@ partx -u ${DEVICE}
 ## Set special flags needed by U-Boot, and add labels to be user friendly
 ## or echo -n. Don't let so-called-cgpt-errors break the script
 cgpt add -i 1 -t kernel -S 1 -T 5 -P 10 -l KERN-A ${DEVICE} || echo -n
-#cgpt add -i 2 -t kernel -S 1 -T 5 -P 5 -l KERN-B ${DEVICE} || echo -n
 cgpt add -i 2 -t data -l Root ${DEVICE} || echo -n
 
 ## Extra umounting, just in case
@@ -389,7 +376,7 @@ mkdir -p rootfs
 mount ${DEVICE}${PARTITION_2} rootfs
 echo "Copying Filesystem..."
 
-## Ignore unimportant SCHILY.fflags warnings
+## Ignore harmless SCHILY.fflags warnings
 tar --warning=no-unknown-keyword -xf \
 distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
 echo
@@ -398,6 +385,9 @@ echo "Copying Boot Partition..."
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 #dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_2} status=progress
 echo "Boot Partition copy complete pending sync"
+
+
+
 
 echo "Pre-configuring system and syncing..."
 
@@ -430,16 +420,9 @@ if [ -f 'distro/bestmirrors.txt' ]; then
       && mv newmirrorlist.tmp rootfs/etc/pacman.d/mirrorlist
 fi
 
-## Bulk copy of custom content (will ALSO install in specific places)
 
-## Copy offline packages (deprecated: now included in latest release)
-## Especially need these 3 files for wifi-menu
-## distro/netctl-1.20-2-any.pkg.tar.xz
-## distro/openresolv-3.9.2-2-any.pkg.tar.xz
-## distro/dhcpcd-8.1.2-1-armv7h.pkg.tar.xz
-##
-#mkdir -p rootfs/var/cache/pacman/pkg
-#cp distro/*.pkg.tar.xz rootfs/var/cache/pacman/pkg
+
+## Bulk copy of custom content (will ALSO install in specific places)
 
 ## Install aok, setup, dim, and anything else
 mkdir -p rootfs/usr/local/bin
@@ -512,10 +495,9 @@ rmdir rootfs
 echo
 echo "Arch Linux Installation is complete."
 echo
-echo "Would you also like to copy the Arch Linux Distro for future installs?"
-read -p "(y/N) > " FUTURE
+read -p "Copy distro file to new drive for future installs? [y/N] " FUTURE
 case "$FUTURE" in
-  y|Y)
+  [yY]|[yY][eE][sS])
     echo "Copying distro..."
     mkdir rootfs
     mount ${DEVICE}${PARTITION_2} rootfs
@@ -533,15 +515,13 @@ echo "Done."
 echo
 echo "To boot from USB on a Samsung XE303C12, use the USB 2.0 Port"
 echo
-echo "Reboot and press CTRL-U to boot USB/SD, or CTRL-D to boot Internal Storage."
+echo "Upon boot press CTRL-U to boot USB/SD, or CTRL-D to boot Internal Storage."
 echo
-echo "Would you like to reboot now? (Y/n)"
-read -p "> " REBOOT
-case "$REBOOT" in
-  n|N|no|No|NO|nO)
-      ;;
-  *)
-      echo "Rebooting..."
-      reboot
-      ;;
+read -p "Reboot now? [Y/n] " REBOOTER
+case "$REBOOTER" in
+  [nN]|[nN][oO])
+    ;;
+  *) echo "Rebooting..."
+     reboot
+     ;;
 esac
