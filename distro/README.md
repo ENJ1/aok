@@ -1,5 +1,5 @@
 Current *Arch Linux ARM* Release  
-[http://mirror.archlinuxarm.org/os/](mirror.archlinuxarm.org/os/)
+[http://mirror.archlinuxarm.org/os/](http://mirror.archlinuxarm.org/os/)
 ```
 ArchLinuxARM-armv7-chromebook-latest.tar.gz
 ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5
