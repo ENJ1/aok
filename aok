@@ -7,6 +7,11 @@
 ## Developer Note: curl is built without metalink support in Chrome OS,
 ## so the curl commands used here do not require metalink support
 
+if [ "$EUID" != 0 ]; then
+  echo "Root privilege not found, quitting."
+  exit 66
+fi
+
 ## Show some possibilities
 lsblk | grep '^[Aa-Zz]' | grep -v -E -- 'loop|boot|ram|rpmb'
 
@@ -139,11 +144,6 @@ case "$RELEASE_CHOICE"
     NEW_RELEASE=false
     ;;
 esac
-
-if [ "$EUID" != 0 ]; then
-  echo "Root privilege not found, quitting."
-  exit 66
-fi
 
 if [ "$DEVICE" = '/dev/mmcblk0' ]; then
   if [ "$(grep -i 'chrome' /etc/os-release)" ]; then
