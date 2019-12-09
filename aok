@@ -140,8 +140,9 @@ echo "Tools check complete."
 ## Installation process. Already working in /usr/local/ok
 
 echo "Preparing files..."
-mkdir -p distro
 cd distro
+## Save the included md5 file in case of a dropbox download
+cp ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak
 MIRROR_SUCCESS=false
 
 ## Offline function, try using local md5 or quit
@@ -149,7 +150,7 @@ use_local_md5 () {
   if [ -f 'ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5' ]; then
     echo "Using existing local md5 file."
   else
-    echo "Cannot find md5 file. exiting. Check your Internet connection."
+    echo "Cannot find md5 file. Quitting."
     exit 1
   fi
 }
@@ -248,6 +249,14 @@ else
 fi
 
 
+get_from_dropbox () {
+  echo "Attempting download of Latest AOK Verified Stable Release from dropbox..."
+  curl -LO https://dl.dropboxusercontent.com/s/gca6lst2llqoqg2/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
+      || {
+    echo "Couldn't download Arch Linux. Perhaps the Internet connection is not reliable."
+    exit 1
+    }
+}
 
 try_downloading_file () {
   echo "Attempting download..."
@@ -269,16 +278,17 @@ try_downloading_file () {
     done
     ## Try the main load-balanced mirror as a last resort
     if [ "$DOWNLOADED" = false ]; then
+      echo "Couldn't reach any mirrors, trying main archlinuxarm.org site..."
       curl -LO mirror.archlinuxarm.org${FILE_NEEDED} \
+          && DOWNLOADED=true \
           || {
-        echo "Couldn't download Arch Linux. Check your Internet connection reliability."
-        exit 1
-      }
+            echo "Couldn't download from archlinuxarm.org."
+            get_from_dropbox
+          }
     fi
-    ## Final md5 test after any downloads
     echo "Download of one file complete."
-  ## No ping response from archlinuxarm.org
   else
+    ## No ping response from archlinuxarm.org
     echo "Arch Linux local files unavailable."
     echo "No ping response from archlinuxarm.org. Exiting."
     exit 1
