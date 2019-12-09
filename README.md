@@ -19,7 +19,14 @@ Pronounced "A-okay"
 - HP Chromebook 11 G1
 - and more, see Wiki
 
-## Enable Developer Mode
+## Installation Guide
+Requirements:
+- A Chromebook: Sumsung XE303C12 or HP Chromebook 11 G1
+- Developer Mode enabled
+- 4 GB or larger SD Card, or a Sandisk SDCZ430-032G USB Flash drive*. The final install size is 2.9 GB
+- Internet (to download about 850 MB)
+
+#### Enable Developer Mode
 1. Back up your files.
 2. Turn off the laptop.
 3. To invoke Recovery mode, you hold down the ESC and Refresh keys and poke the Power button.
@@ -30,13 +37,7 @@ Note: After enabling developer mode, you will need to press Ctrl-D each time you
 
 Pro Tip: You can press Ctrl-D (or Ctrl-U to boot from SD Card) as soon as the backlight comes on. You don't have to wait for the white screen to appear.
 
-
-## Installation Guide
-Requirements:
-- A Chromebook: Sumsung XE303C12 or HP Chromebook 11 G1
-- Developer Mode enabled
-- 4 GB or larger SD Card, or a Sandisk SDCZ430-032G USB Flash drive*. The final install size is 2.9 GB
-- Internet (to download about 850 MB)
+#### Install and Setup
 
 1. Download the Zip (green button)
 2. Unzip by opening aok-master.zip and dragging aok-master to Downloads
