@@ -42,7 +42,7 @@ Pro Tip: You can press Ctrl-D (or Ctrl-U to boot from SD Card) as soon as the ba
 1. Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Get it from Dropbox")
 3. Press CTRL+ALT+T for a crosh window
 4. Type `shell` and press enter
-5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok-master/aok` and press enter
+5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter
 6. Type `sudo aok` and press enter (and DON'T click on Chrome OS pop-up messages when they appear!)
 7. Follow the instructions. (Reboot, login, and type `setup` to set it all up!)
 
