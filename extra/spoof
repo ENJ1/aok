@@ -2,7 +2,7 @@
 
 ip link set mlan0 down
 
-read -p "Enter a MAC ID to spoof (or Enter for generic): " SPOOF
+read -p "Enter a MAC ID to spoof (or Enter for random): " SPOOF
 if [ -z "$SPOOF" ]; then
   SPOOF=$(openssl rand -hex 6 | sed -e 's/\(..\)/:\1/g')
 fi
