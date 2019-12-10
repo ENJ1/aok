@@ -13,30 +13,29 @@ Pronounced "A-okay"
 6. Type `sudo aok` and press enter
 7. Follow the instructions. (Reboot, Press CTRL-U, login, and type `setup` to set it all up!)
 
-### What is this?
+## What is this?
 - A User-Friendly Linux Distro for certain ARMv7 laptops, based one Arch Linux ARM and Xfce.
 - The **easiest** and **fastest** way to get a full Linux Distro on an old Chromebook.
 - AOK Linux is a set of scripts with a few extra files. Packages are from archlinuxarm.org.
 
-### Features
+## Features
 - Fully automated. Easy for a beginner.
 - Mirror checking for improved 24/7 reliability.
 - Pre-configured: 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
 - Clean Xfce environment with Firefox out of the box, ready to use.
 
-### Supported Chromebooks
+## Supported Chromebooks
 - Samsung XE303C12
 - HP Chromebook 11 G1
 - and more, see Wiki
 
-### Installation Guide
-Requirements:
-- A Chromebook: Sumsung XE303C12 or HP Chromebook 11 G1
+## Requirements:
+- A Chromebook: Sumsung XE303C12 or HP Chromebook 11 G1, or other
 - Developer Mode enabled
 - 4 GB or larger SD Card, or a Sandisk SDCZ430-032G USB Flash drive*. The final install size is 2.9 GB
 - Internet (to download about 850 MB)
 
-### How to: Enable Developer Mode
+## How to Enable Developer Mode
 1. Back up your files.
 2. Turn off the Chromebook.
 3. Hold down the **ESC** and **Refresh** keys and poke the **Power** button.
@@ -47,13 +46,13 @@ Note: After enabling developer mode, you will need to press Ctrl-D each time you
 
 Pro Tip: You can press Ctrl-D or Ctrl-U as soon as the backlight comes on. You don't have to wait for the white screen to appear.
 
-### Post-Installation Tips
+## Post-Installation Tips
 - To free up space (up to 500 MB), run Terminal Emulator and type `sudo pacman -Scc`
 - To update the package list, run Terminal Emulator and type `sudo pacman -Sy`
 - To install a program (package), run Terminal Emulator and type `sudo pacman -S thunderbird` for example
 - For help using Arch Linux, visit https://wiki.archlinux.org/
 
-### Notes
+## Notes
 
 If you need to use a public Wi-Fi Hotspot with a Landing Page during setup, then see the WiFi Hotspot Help file in "extra".
 Once the system is installed, Landing Pages will work automatically.
@@ -77,7 +76,7 @@ replace `mmcblk1` with `sda` for a USB or `sdb` for a second USB
 
 It might be true that in rare cases, if the battery is discharged completely for a long period of time, the Chromebook boot system may not remember to allow you to boot from the SD Card. If Chrome OS is installed on the eMMC (internal memory), then it may "repair itself" and erase everything from the internal memory, and require logging in to Google's servers and starting as if from a new system, all before you can get back to developer mode and re-enable booting from the SD Card. This does not affect the integrity of the SD Card or your files on the SD Card.
 
-### Thanks
+## Thanks
 The upstream source for this distribution comes to you from archlinuxarm.org.
 
 https://archlinuxarm.org/platforms/armv7/samsung/samsung-chromebook
