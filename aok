@@ -173,6 +173,23 @@ esac
 
 
 
+## Check for necessary tools
+echo "Checking tools..."
+crossystem hwid && echo || echo "crossystem not found. OK."
+## crossystem fwid should show Veyron if it's a veyron board
+crossystem fwid && echo || echo "crossystem not found. OK."
+curl -V > /dev/null || { echo "curl not found. exiting."; exit 69; }
+ping -c 1 archlinuxarm.org > /dev/null \
+  || echo "archlinuxarm.org not found. May use local data."
+md5sum --version > /dev/null || { echo "md5sum not found. exiting."; exit 70; }
+umount -V > /dev/null || { echo "umount not found. exiting."; exit 71; }
+fdisk -V
+cgpt add -h > /dev/null || { echo "cgpt not found. exiting."; exit 72; }
+mkfs -V > /dev/null || { echo "mkfs not found. exiting."; exit 73; }
+dd --version > /dev/null || { echo "dd not found. exiting."; exit 74; }
+echo "Tools check complete."
+
+
 echo "Copying AOK setup files..."
 ## Automatic copy for ChromeOS users
 if [ -d "/home/chronos/user/Downloads/aok-master" ]; then
@@ -193,24 +210,6 @@ cd /usr/local/aok || {
   exit 68
 }
 echo "AOK setup files copied."
-
-
-## Check for necessary tools
-echo "Checking tools..."
-crossystem hwid && echo || echo "crossystem not found. OK."
-## crossystem fwid should show Veyron if it's a veyron board
-crossystem fwid && echo || echo "crossystem not found. OK."
-curl -V > /dev/null || { echo "curl not found. exiting."; exit 69; }
-ping -c 1 archlinuxarm.org > /dev/null \
-  || echo "archlinuxarm.org not found. May use local data."
-md5sum --version > /dev/null || { echo "md5sum not found. exiting."; exit 70; }
-umount -V > /dev/null || { echo "umount not found. exiting."; exit 71; }
-fdisk -V
-cgpt add -h > /dev/null || { echo "cgpt not found. exiting."; exit 72; }
-mkfs -V > /dev/null || { echo "mkfs not found. exiting."; exit 73; }
-dd --version > /dev/null || { echo "dd not found. exiting."; exit 74; }
-echo "Tools check complete."
-
 
 
 ## Installation process. Already working in /usr/local/ok
