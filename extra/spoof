@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+## Set down
+#ip link set mlan0 down
