@@ -6,7 +6,7 @@ Pronounced "A-okay"
 ## What is this?
 - A User-Friendly Linux Distro for certain ARMv7 laptops, based one Arch Linux ARM and Xfce.
 - The **easiest** and **fastest** way to get a full Linux Distro on an old Chromebook.
-- AOK Linux is a set of scripts with a few extra files. Packages are from archlinuxarm.org
+- AOK Linux is a set of scripts with a few extra files. Packages are from archlinuxarm.org.
 
 ## Features
 - Fully automated. Easy for a beginner.
