@@ -1,18 +1,43 @@
 #!/bin/bash -e
 
-## Randomization options
-# $(openssl rand -hex 6 | sed -e 's/\(..\)/:\1/g2')
-# $(hexdump -n 6 -v -e '6/1 "%02X"' /dev/urandom | sed -e 's/\(..\)/:\1/g2')
-
-## Format
-## 1a:2b:3c:4d:5e:6f
-
+## Must go down to change MAC. Go down immediately.
 ip link set mlan0 down
 
-read -p "Enter a MAC ID to spoof (or Enter for random): " SPOOF
-if [ -z "$SPOOF" ]; then
-  SPOOF=$(openssl rand -hex 6 | sed -e 's/\(..\)/:\1/g2')
-fi
+## MAC choice
+read -p "Enter a MAC ID to use (or Enter for random): " NEW_MAC
 
-ip link set dev mlan0 address $SPOOF
-ip link set mlan0 up
+## Try a random assignments, for compatibility and calibrated to be unpredictable
+new_random () {
+  NEW_MAC=$(timeout .009 openssl rand -hex 6 | sed -e 's/\(..\)/:\1/g2')
+  if [ -z "$NEW_MAC" ]; then
+    NEW_MAC=$(timeout .003 hexdump -n 6 -v -e '6/1 "%02X"' /dev/random | sed -e 's/\(..\)/:\1/g2')
+  fi
+  if [ -z "$NEW_MAC" ]; then
+    NEW_MAC=$(hexdump -n 6 -v -e '6/1 "%02X"' /dev/urandom | sed -e 's/\(..\)/:\1/g2')
+  fi
+  ip link set dev mlan0 address $NEW_MAC
+  ip link set mlan0 up 2> /dev/null
+}
+
+# Evaluate choice
+if [ -z "$NEW_MAC" ]; then
+  ## No user input, try 50 times to assign a valid random MAC
+  printf "Tries:"
+  TRY=1
+  while [ "$TRY" -le 50 ]; do
+    printf " $TRY"
+    new_random \
+      && echo ". Success." && break \
+      || TRY=$((TRY+1))
+  done
+  if [ "$TRY" -ge 50 ]; then
+    echo "Failed to randomly generate a valid MAC. MAC unchanged."
+    exit 99
+  fi
+else
+  ## User defined MAC
+  ip link set dev mlan0 address $NEW_MAC \
+    && echo "Valid MAC format, checking if assignable..." \
+    || exit 100
+  ip link set mlan0 up && echo "New MAC assigned."
+fi
