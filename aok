@@ -198,17 +198,21 @@ if [ -d "/home/chronos/user/Downloads/aok-master" ]; then
   cp -r /home/chronos/user/Downloads/aok-master/. /usr/local/aok
   cd /usr/local/aok
 elif
-  ## Get latest release (specific alpha release for now)
+  ## Get latest release
   mkdir -p /usr/local/aok
   cd /usr/local/aok
-  curl -LO https://github.com/cubetronic/aok/archive/v0.2-alpha.tar.gz
-  tar -xf v* --strip-components=1
+  echo "Checking for latest AOK release..."
+  AOK_LATEST=$(curl -sL https://api.github.com/repos/cubetronic/aok/releases/latest \
+  | grep 'tag_name' \
+  | sed 's/.*tag_name":."//' \
+  | sed 's/",.*//')
+  echo "Downloading ${AOK_LATEST}..."
+  curl -sLO https://github.com/cubetronic/aok/archive/${AOK_LATEST}.tar.gz
+  tar -xf ${AOK_LATEST}.tar.gz --strip-components=1
 else
   echo "can't find AOK setup files, exiting"
   exit 77
 fi
-
-
 
 ## Change directory to /usr/local/aok for the rest of the script
 cd /usr/local/aok || {
