@@ -1,5 +1,0 @@
-Use xfconf-query
-
-https://docs.xfce.org/xfce/xfconf/xfconf-query
-
-https://docs.xfce.org/xfce/xfce4-settings/editor
