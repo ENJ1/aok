@@ -327,12 +327,26 @@ fi
 
 ## Get the distro if md5 doesn't match
 
+## Test space (safe but isn't necessary if overwriting a previous release!)
+test_local_space () {
+  LOCAL_FREE=$(df --output=avail / | tail -n 1)
+  if [ "$LOCAL_FREE" -lt 500000 ]; then
+    echo "500 MB are required on local system to download files."
+    echo "$(expr $LOCAL_FREE / 1000) MB available."
+    echo "Not enough storage space on this system to download distro, exiting."
+    exit 79
+  else
+    echo "$(expr $LOCAL_FREE / 1000) MB available on local filesystem. ~500 MB will be used. OK."
+  fi
+}
+
 check_md5 () {
   md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status
 }
 
 get_from_dropbox () {
   echo "Attempting download of AOK Verified Backup Release from dropbox..."
+  test_local_space
   curl -LO \
       https://dl.dropboxusercontent.com/s/gca6lst2llqoqg2/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
       && md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak || {
@@ -351,6 +365,7 @@ try_downloading_file () {
   while [ "$DL" -le "$MAX_MIRRORS" ]; do
     TRY_MIRROR=$(sed -n "${DL}p" bestmirrors.txt | sed $'s/.*\t//')
     ## Try to download the root filesystem with 3 packages for wifi-menu
+    test_local_space
     curl -LO ${TRY_MIRROR}${FILE_NEEDED} \
         && {
           check_md5 && DOWNLOADED=true && break
@@ -360,6 +375,7 @@ try_downloading_file () {
   ## Try the main load-balanced mirror as a last resort
   if [ "$DOWNLOADED" = false ]; then
     echo "Couldn't reach any mirrors, trying main archlinuxarm.org site..."
+    test_local_space
     curl -LO mirror.archlinuxarm.org${FILE_NEEDED} \
         && check_md5 \
         || {
