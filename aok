@@ -191,11 +191,25 @@ echo "Tools check complete."
 
 
 echo "Copying AOK setup files..."
-## Automatic copy for ChromeOS users
+
+## Check for local development copy
 if [ -d "/home/chronos/user/Downloads/aok-master" ]; then
   ## Copy files and create /usr/local/aok if it doesn't already exist
   cp -r /home/chronos/user/Downloads/aok-master/. /usr/local/aok
+  cd /usr/local/aok
+elif
+  ## Get latest release (specific alpha release for now)
+  mkdir -p /usr/local/aok
+  cd /usr/local/aok
+  curl -LO https://github.com/cubetronic/aok/archive/v0.2-alpha.tar.gz
+  tar -xf v* --strip-components=1
+else
+  echo "can't find AOK setup files, exiting"
+  exit 77
 fi
+
+
+
 ## Change directory to /usr/local/aok for the rest of the script
 cd /usr/local/aok || {
   ## Not a ChromeOS user. Directory location unknown. Give instructions.
@@ -396,8 +410,8 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
   fi
 }
 
-## Return to aok from aok/distro
-cd -
+## Return to aok from aok/distro, silently
+cd - > /dev/null
 echo "Distribution files ready."
 
 
