@@ -2,7 +2,7 @@
 
 ## DEPENDS ON ARCH LINUX PACKAGE: xorg-xinput
 
-## SLOW DOWN A LOGITECH MOUSE
+## SLOW DOWN A MOUSE
 MOUSE=$(xinput | grep -i 'Mouse' | grep 'pointer' | cut -c55-56)
 PROP=$(xinput list-props $MOUSE | grep 'Accel Speed (' | cut -c24-26)
 xinput set-prop $MOUSE $PROP -1 || {
