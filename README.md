@@ -3,6 +3,17 @@ Pronounced "A-okay"
 
 ![2019-12-08-143018_1366x768_scrot](https://user-images.githubusercontent.com/11820866/70398181-a080b100-19cd-11ea-82db-439739f46dbc.png)
 
+#### Install and Setup
+
+0. Enable Developer Mode
+1. Insert an SD Card or USB Drive
+1. Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Get it from Dropbox")
+3. Press CTRL+ALT+T for a crosh window
+4. Type `shell` and press enter
+5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter
+6. Type `sudo aok` and press enter
+7. Follow the instructions. (Reboot, Press CTRL-U, login, and type `setup` to set it all up!)
+
 ## What is this?
 - A User-Friendly Linux Distro for certain ARMv7 laptops, based one Arch Linux ARM and Xfce.
 - The **easiest** and **fastest** way to get a full Linux Distro on an old Chromebook.
@@ -26,27 +37,16 @@ Requirements:
 - 4 GB or larger SD Card, or a Sandisk SDCZ430-032G USB Flash drive*. The final install size is 2.9 GB
 - Internet (to download about 850 MB)
 
-#### Enable Developer Mode
+#### How to: Enable Developer Mode
 1. Back up your files.
-2. Turn off the laptop.
-3. To invoke Recovery mode, you hold down the ESC and Refresh keys and poke the Power button.
-4. At the Recovery screen press Ctrl-D (there's no prompt - you have to know to do it).
-5. Confirm switching to developer mode by pressing enter, and the laptop will reboot and reset the system. This takes about 15-20 minutes.
+2. Turn off the Chromebook.
+3. Hold down the **ESC** and **Refresh** keys and poke the **Power** button.
+4. At the Recovery screen press **Ctrl-D** (there's no prompt - you have to know to do it).
+5. Confirm switching to developer mode by pressing **Enter**, and the laptop will reboot and reset the system. This takes about 15-20 minutes.
 
 Note: After enabling developer mode, you will need to press Ctrl-D each time you boot, or wait 30 seconds to continue booting.
 
-Pro Tip: You can press Ctrl-D (or Ctrl-U to boot from SD Card) as soon as the backlight comes on. You don't have to wait for the white screen to appear.
-
-#### Install and Setup
-
-1. Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Get it from Dropbox")
-3. Press CTRL+ALT+T for a crosh window
-4. Type `shell` and press enter
-5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter
-6. Type `sudo aok` and press enter (and DON'T click on Chrome OS pop-up messages when they appear!)
-7. Follow the instructions. (Reboot, login, and type `setup` to set it all up!)
-
-\* This USB Flash Drive is known to work. Many USB Flash drives do not work. 
+Pro Tip: You can press Ctrl-D or Ctrl-U as soon as the backlight comes on. You don't have to wait for the white screen to appear.
 
 ## Post-Installation Tips
 - To free up space (up to 500 MB), run Terminal Emulator and type `sudo pacman -Scc`
