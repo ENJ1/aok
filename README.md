@@ -39,8 +39,7 @@ Pro Tip: You can press Ctrl-D (or Ctrl-U to boot from SD Card) as soon as the ba
 
 #### Install and Setup
 
-1. Download the Zip (green button)
-2. Unzip by opening aok-master.zip and dragging aok-master to Downloads
+1. Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Get it from Dropbox")
 3. Press CTRL+ALT+T for a crosh window
 4. Type `shell` and press enter
 5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok-master/aok` and press enter
