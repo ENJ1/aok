@@ -1,4 +1,20 @@
 #!/bin/bash -e
 
-## Set down
-#ip link set mlan0 down
+ip link set mlan0 down
+
+read -p "Enter a MAC ID to spoof (or Enter for generic): " SPOOF
+if [ -z "$SPOOF" ]; then
+  SPOOF=$(openssl rand -hex 6 | sed -e 's/\(..\)/:\1/g')
+fi
+
+## Format
+## 1a:2b:3c:4d:5e:6f
+
+ip link set dev mlan0 address $SPOOF
+
+## Randomization options
+# hexdump -n 3 -v -e ' 3/1 "%02X" ' /dev/urandom
+# $(openssl rand -hex 6 | sed -e 's/\(..\)/-\1/g')
+
+
+ip link set mlan0 up
