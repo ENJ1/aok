@@ -98,7 +98,7 @@ touch /root/.aok-offline-setup-done.temp
 fi
 
 ## Run wifi-menu to get online
-wifi-menu
+wifi-menu -o
 
 ## Using the network immediately after wifi-menu doesn't work
 ## Must wait for at least 6 second. 5 seconds fails.
