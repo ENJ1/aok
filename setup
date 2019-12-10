@@ -54,24 +54,32 @@ cp files/locale.gen /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
-## AOK SYSTEM CONFIGURATION
-echo "ok" > /etc/hostname
+## Configure hostname
+read -p 'Enter a valid hostname (or press Enter to use hostname "ok"): ' NEW_HOSTNAME
+if [ -z "$NEW_HOSTNAME" ]; then
+NEW_HOSTNAME="ok"
+fi
+echo "hostname: $NEW_HOSTNAME"
+echo "${NEW_HOSTNAME}" > /etc/hostname
 cat << EOF > /etc/hosts
 127.0.0.1	localhost
 ::1		localhost
-127.0.1.1	ok.localdomain	ok
+127.0.1.1	${NEW_HOSTNAME}.localdomain	${NEW_HOSTNAME}
 EOF
 
-## If the offline part of the script doesn't finish, this
-## may need to be run through again, so if this account
-## already exists, then don't let that error break the script
-useradd -m -G wheel -s /bin/bash a || echo -n
-
-## Change password for the "a" account
+## Custom User Account
 echo
-echo 'The default user account is just the letter "a"'
-echo 'Enter a new password for the "a" account'
-passwd a
+read -p 'Enter a valid username (or press Enter to create user "a"): ' NEW_USERNAME
+if [ -z "$NEW_USERNAME" ]; then
+  NEW_USERNAME="a"
+fi
+echo "username: $NEW_USERNAME"
+useradd -m -G wheel -s /bin/bash ${NEW_USERNAME} && {
+  echo
+  echo "Enter a new password for the $NEW_USERNAME account"
+  passwd $NEW_USERNAME
+} || echo "$NEW_USERNAME already exists, skipping..."
+echo
 
 ## Disable systemd-resolved DNS managment because it breaks Wi-Fi hotspot
 ## landing pages
@@ -88,20 +96,6 @@ pacman-key --populate archlinuxarm
 
 touch /root/.aok-offline-setup-done.temp
 fi
-
-
-
-## Deprecated: Now in Dec 8, 2019 release (wasn't in Dec 3 release)
-#install_wifimenu_offline () {
-## Install 3 packages for wifi-menu to work (netctl needs openresolv)
-#pacman -S --noconfirm netctl dhcpcd
-#touch /root/.aok-wifi-menu-done.temp
-#}
-
-#if [ ! -f '/root/.aok-wifi-menu-done.temp' ]; then
-#  install_wifimenu_offline
-#fi
-
 
 ## Run wifi-menu to get online
 wifi-menu
