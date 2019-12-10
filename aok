@@ -628,3 +628,6 @@ case "$REBOOTER" in
      reboot
      ;;
 esac
+
+## Don't let apps open this as a text file
+: ''
