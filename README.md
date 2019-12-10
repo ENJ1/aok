@@ -4,14 +4,13 @@ Pronounced "A-okay"
 ![2019-12-08-143018_1366x768_scrot](https://user-images.githubusercontent.com/11820866/70398181-a080b100-19cd-11ea-82db-439739f46dbc.png)
 
 ## Instructions
-0. Enable Developer Mode
+1. Enable Developer Mode
 1. Insert an SD Card or USB Drive
 1. Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Get it from Dropbox")
 3. Press CTRL+ALT+T for a crosh window
 4. Type `shell` and press enter
 5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter
 6. Type `sudo aok` and press enter
-7. Follow the instructions. (Reboot, Press CTRL-U, login, and type `setup` to set it all up!)
 
 ## What is this?
 - A User-Friendly Linux Distro for certain ARMv7 laptops, based one Arch Linux ARM and Xfce.
