@@ -67,7 +67,7 @@ After enabling developer mode, you will need to press Ctrl-D each time you boot,
 - For help using Arch Linux, visit https://wiki.archlinux.org/
 
 ## Known Issues
-This Goes for any Open Source Linux Distribution on these Chromebooks, not just my own
+This Goes for any Open Source Linux Distribution on these Chromebooks, not just this one
 - Suspend
 - USB 3.0
 - Camera
