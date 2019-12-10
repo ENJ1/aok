@@ -24,16 +24,36 @@ Pronounced "A-okay"
 - Pre-configured: 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
 - Clean Xfce environment with Firefox out of the box, ready to use.
 
-## Supported Chromebooks
-- Samsung XE303C12
-- HP Chromebook 11 G1
-- and more, see Wiki
+## Full Support
+- Samsung Chromebook (XE303C12)
 
-## Requirements:
-- A Chromebook: Sumsung XE303C12 or HP Chromebook 11 G1, or other
-- Developer Mode enabled
-- 4 GB or larger SD Card, or a Sandisk SDCZ430-032G USB Flash drive*. The final install size is 2.9 GB
-- Internet (to download about 850 MB)
+## Partial Support
+- HP Chromebook 11 G1
+- Samsung Chromebook 2 13 (XE503C32)
+- Samsung Chromebook 2 11 (XE503C12)
+- Haier Chromebook 11
+- Medion Akoya S2013
+- True IDC Chromebook 11
+- Xolo Chromebook
+- CTL J2 / J4 Chromebook for Education
+- eduGear Chromebook K Series
+- Epik 11.6" Chromebook ELB1101
+- HiSense Chromebook 11
+- Mecer Chromebook
+- NComputing Chromebook CX100
+- Poin2 Chromebook 11
+- Positivo Chromebook CH1190
+- VideoNet Chromebook BL10
+- ASUS Chromebit CS10
+- ASUS Chromebook Flip C100P
+- ASUS Chromebook C201PA
+- Acer Chromebook 13 (CB5-311)
+- HP Chromebook 14 x000-x999 / HP Chromebook 14 G3
+
+## Minimum Requirements
+- A Supported Chromebook
+- 4 GB or larger SD Card or USB Drive
+- Internet
 
 ## How to Enable Developer Mode
 1. Back up your files.
@@ -42,18 +62,20 @@ Pronounced "A-okay"
 4. At the Recovery screen press **Ctrl-D** (there's no prompt - you have to know to do it).
 5. Confirm switching to developer mode by pressing **Enter**, and the laptop will reboot and reset the system. This takes about 15-20 minutes.
 
-Note: After enabling developer mode, you will need to press Ctrl-D each time you boot, or wait 30 seconds to continue booting.
-
-Pro Tip: You can press Ctrl-D or Ctrl-U as soon as the backlight comes on. You don't have to wait for the white screen to appear.
+After enabling developer mode, you will need to press Ctrl-D each time you boot, or wait 30 seconds to continue booting.
 
 ## Post-Installation Tips
-- To free up space (up to 500 MB), run Terminal Emulator and type `sudo pacman -Scc`
-- To update the package list, run Terminal Emulator and type `sudo pacman -Sy`
-- To install a program (package), run Terminal Emulator and type `sudo pacman -S thunderbird` for example
+- You can press Ctrl-D or Ctrl-U as soon as the backlight comes on. You don't have to wait for the white screen to appear.
 - For help using Arch Linux, visit https://wiki.archlinux.org/
 
-## Notes
+## Known Issues
+This Goes for any Open Source Linux Distribution on these Chromebooks, not just my own
+- Suspend
+- USB 3.0
+- Camera
+- GPU is now supported in the kernel as of September 2019, not functional here yet
 
+## Notes
 If you need to use a public Wi-Fi Hotspot with a Landing Page during setup, then see the WiFi Hotspot Help file in "extra".
 Once the system is installed, Landing Pages will work automatically.
 
@@ -61,10 +83,6 @@ You may want to customize the scripts to use:
   - Your locale
   - Your own username
   - Your own hostname
-
-You probably REALLY want to run the "pre-config" stuff!!!
-The patch code get Arch Linux working nicely on the XE303C12.
-Everything else is just normal Arch Linux install stuff.
 
 If you want to copy files from ChromeOS, then after booting from SD/USB, only mount the eMMC read-only without loading the journaling system, for example:  
 `sudo mount -o ro,noload /dev/mmcblk0p1 /mnt` Mounting the eMMC in any other way may cause Chrome OS to "repair itself" upon next boot, ERASING ALL USER DATA ON THE eMMC. If you want to copy files from AOK Linux to ChromeOS, then on ChromeOS do this:  
