@@ -57,8 +57,11 @@ Public wi-fi hotspots keep track of connections by mac id.
 For example, resetting a mac address requires logging in again.
 Conversely, setting another device to a mac id that's already logged in will bypass the landing page.
 
+Easy fix:
+Run "sudo spoof" to change MAC ID easily
+This is an AOK built-in command. It automates the following steps, and can give you a random address if you want.
 
-example:
+Command Line Details:
 
 smartphone mac id:
 1a:2b:3c:4d:5e:6f
@@ -66,11 +69,11 @@ smartphone mac id:
 laptop mac id:
 aa:bb:cc:dd:ee:ff
 
-## BASH COMMANDS ON LAPTOP
+## Check things, take the interface down, change it, check again
 ip link
 sudo ip link set mlan0 down
 sudo ip link set dev mlan0 address 1a:2b:3c:4d:5e:6f
 ip link
 
-## AND PERHAPS
+## Put the interface back up
 sudo ip link set mlan0 up
