@@ -532,16 +532,16 @@ mkdir -p rootfs/usr/local/bin
 install aok rootfs/usr/local/bin
 install setup rootfs/usr/local/bin
 install extra/dim rootfs/usr/local/bin
-install extra/*.sh rootfs/usr/local/bin
+install extra/tpad rootfs/usr/local/bin
+install extra/spoof rootfs/usr/local/bin
 
 ## Copy everything except distro to aok folder
 mkdir -p rootfs/usr/local/aok
-install aok rootfs/usr/local/aok
-install setup rootfs/usr/local/aok
+cp aok rootfs/usr/local/aok
+cp setup rootfs/usr/local/aok
 cp -r files rootfs/usr/local/aok
 cp -r extra rootfs/usr/local/aok
-chmod +x rootfs/usr/local/aok/extra/dim
-chmod +x rootfs/usr/local/aok/extra/*.sh
+cp README.md rootfs/usr/local/aok
 
 ## ALSO, copy global configuration files to specific locations
 
