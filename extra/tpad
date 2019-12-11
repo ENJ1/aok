@@ -1,19 +1,20 @@
-#!/bin/bash -ev
+#!/bin/bash -e
 
-## DEPENDS ON ARCH LINUX PACKAGE: xorg-xinput
+## This script depends on the Arch Linux package "xorg-xinput"
 
-## SLOW DOWN A MOUSE
-MOUSE=$(xinput | grep -i 'Mouse' | grep 'pointer' | cut -c55-56)
-PROP=$(xinput list-props $MOUSE | grep 'Accel Speed (' | cut -c24-26)
-xinput set-prop $MOUSE $PROP -1 || {
-  # IF THAT FAILED, THERE'S NO MOUSE, SO ENABLE THE TRACKPAD
-  TRACKPAD=$(xinput | grep -i 'Trackpad' | cut -c55-56)
-  xinput enable $TRACKPAD
-  exit 0
+## How to reduce mouse sensitivity
+#MOUSE=$(xinput | grep -i 'Mouse' | grep 'pointer' | cut -c55-56)
+#PROP=$(xinput list-props $MOUSE | grep 'Accel Speed (' | cut -c24-26)
+#xinput set-prop $MOUSE $PROP -1
+
+## If there's a mouse, then disable the trackpad
+xinput | grep -iq 'Mouse' \
+  && TRACKPAD=$(xinput | grep -i 'pad' | cut -c55-56) \
+    && xinput disable $TRACKPAD \
+    && echo "Trackpad disabled." \
+|| {
+  ## There's no mouse, so enable the trackpad
+  TRACKPAD=$(xinput | grep -i 'pad' | cut -c55-56) \
+    && xinput enable $TRACKPAD \
+    && echo "Trackpad enabled."
 }
-
-## IF THE LAST COMMAND SUCCEEDED, THEN THERE IS A MOUSE
-## SO DISABLE THE TRACKPAD
-TRACKPAD=$(xinput | grep -i 'Trackpad' | cut -c55-56)
-xinput disable $TRACKPAD
-
