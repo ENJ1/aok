@@ -1,0 +1,28 @@
+#!/bin/bash -e
+
+## Attempt to retrieve name of latest release
+echo "Checking online for latest AOK release..."
+AOK_LATEST=$(curl -sL https://api.github.com/repos/cubetronic/aok/releases/latest \
+| grep tag_name \
+| sed 's/.*tag_name":."//' \
+| sed 's/",.*//')
+
+## Catch failure
+if [ -z "$AOK_LATEST" ]; then
+  echo "Couldn't download latest AOK setup files from github.com"
+  exit 1
+fi
+
+## Download it
+echo "Downloading ${AOK_LATEST}..."
+sudo mkdir -p /usr/local/aok
+sudo cd /usr/local/aok
+sudo curl -sLO https://github.com/cubetronic/aok/archive/${AOK_LATEST}.tar.gz
+sudo tar -xf ${AOK_LATEST}.tar.gz --strip-components=1
+
+## Run it
+sudo chmod +x aokx
+sudo ./aokx
+
+## Allow downloading of this file, not opening as text
+: ''
