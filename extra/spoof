@@ -6,7 +6,7 @@ ip link set mlan0 down
 ## MAC choice
 read -p "Enter a MAC ID to use (or Enter for random): " NEW_MAC
 
-## Try a random assignments, for compatibility and calibrated to be unpredictable
+## Try any random assignment, for compatibility and calibrated to be unpredictable
 new_random () {
   NEW_MAC=$(timeout .009 openssl rand -hex 6 | sed -e 's/\(..\)/:\1/g2')
   if [ -z "$NEW_MAC" ]; then
