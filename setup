@@ -150,6 +150,7 @@ ping -c 1 archlinuxarm.org || {
 ## android-file-transfer: needed for transferring files to/from android devices
 ## xorg-xinput: mouse and trackpad control (needed by script included in extra)
 ## vboot-utils: cgpt partition flags for chromebooks (used by install script)
+## man: manual pages. type "man some-command" to get the manual for it
 ##
 pacman -Syu --noconfirm sudo unzip zip xf86-video-fbdev xorg-server \
 xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu \
