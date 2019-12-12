@@ -530,11 +530,11 @@ cp files/arch_linux_gnome_menu_icon_by_byamato.png rootfs/usr/share/icons
 ## Copy desktop, panel, power settings
 mkdir -p rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
 cp files/xfce4-desktop.xml \
-    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
-cp files/xfce4-panel.xml \
-    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
-cp files/xfce4-power-manager.xml \
-    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
+   files/xfce4-panel.xml \
+   files/xfce4-power-manager.xml \
+   files/xfwm4.xml \
+   files/keyboards.xml \
+   rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
 
 ## Copy firefox launcher
 mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-7
