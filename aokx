@@ -135,6 +135,8 @@ esac
 
 
 ## Safety checks
+
+## Avoid over-writing system in use
 if [ "$DEVICE" = '/dev/mmcblk0' ]; then
   if [ "$(grep -i 'chrome' /etc/os-release)" ]; then
     echo "ChromeOS detected. Your selection is not supported."
@@ -150,20 +152,8 @@ if [ "$DEVICE" = '/dev/mmcblk0' ]; then
   fi
 fi
 
-## Ask what version to use
-echo
-echo "The latest Arch Linux ARM release is recommended."
-echo "Alternatively, you may use a Dec 8, 2019 backup release."
-echo
-read -p "Use the latest release? [Y/n] " RELEASE_CHOICE
-case "$RELEASE_CHOICE" in
-  [yY]|[yY][eE][sS])
-    NEW_RELEASE=true
-    ;;
-  *)
-    NEW_RELEASE=false
-    ;;
-esac
+## Set default version
+NEW_RELEASE=false
 
 ## Check target capacity
 SIZER=$(lsblk -o SIZE -bnd $DEVICE)
@@ -291,20 +281,22 @@ if [ "$(ping -c 1 archlinuxarm.org)" ]; then
 
   ## If there's a new release, ask what to use
 
-  diff ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
-      ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak \
-    && echo "No new release is available" \
-    || {
-      read -p "A new disto has been released. Use it? [Y/n] " USE_NEW_DISTRO
-      case "$USE_NEW_DISTRO" in
-        [yY]|[yY][eE][sS])
-          NEW_RELEASE=true
-          ;;
-        *)
-          NEW_RELEASE=false
-          ;;
-      esac
-    }
+  ## Compare md5 of new md5 to md5 of old md5 - no "diff" utility on Chrome OS
+  OLD_DISTRO_MD5=$(md5sum ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5)
+  NEW_DISTRO_MD5=$(md5sum ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak)
+  if [ "$OLD_DISTRO_MD5" = "$NEW_DISTRO_MD5" ]; then
+    echo "No new distro release is available. Using old distro release."
+  else
+    read -p "A new disto has been released. Use it? [Y/n] " USE_NEW_DISTRO
+    case "$USE_NEW_DISTRO" in
+      [yY]|[yY][eE][sS])
+        NEW_RELEASE=true
+        ;;
+      *)
+        NEW_RELEASE=false
+        ;;
+    esac
+  fi
 
   ## Add a message just before a likely pause period
   echo "Do NOT click on pop-up messages!"
