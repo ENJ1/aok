@@ -16,7 +16,7 @@ fi
 ## Download it
 echo "Downloading ${AOK_LATEST}..."
 sudo mkdir -p /usr/local/aok
-sudo cd /usr/local/aok
+cd /usr/local/aok
 sudo curl -sLO https://github.com/cubetronic/aok/archive/${AOK_LATEST}.tar.gz
 sudo tar -xf ${AOK_LATEST}.tar.gz --strip-components=1
 
