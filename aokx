@@ -282,8 +282,8 @@ if [ "$(ping -c 1 archlinuxarm.org)" ]; then
   ## If there's a new release, ask what to use
 
   ## Compare md5 of new md5 to md5 of old md5 - no "diff" utility on Chrome OS
-  OLD_DISTRO_MD5=$(md5sum ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5)
-  NEW_DISTRO_MD5=$(md5sum ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak)
+  OLD_DISTRO_MD5=$(md5sum ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 | cut -c1-32)
+  NEW_DISTRO_MD5=$(md5sum ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak | cut -c1-32)
   if [ "$OLD_DISTRO_MD5" = "$NEW_DISTRO_MD5" ]; then
     echo "No new distro release is available. Using old distro release."
   else
