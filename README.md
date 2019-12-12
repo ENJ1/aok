@@ -1,5 +1,6 @@
 # AOK Linux for ARMv7 Chromebooks
 
+(https://raw.githubusercontent.com/cubetronic/aok/master/files/arch_linux_gnome_menu_icon_by_byamato.png)
 
 ## Instructions
 1. Enable Developer Mode
