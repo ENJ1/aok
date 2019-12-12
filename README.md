@@ -1,6 +1,5 @@
 # AOK Linux for vintage Chromebooks
 
-![2019-12-08-143018_1366x768_scrot](https://user-images.githubusercontent.com/11820866/70398181-a080b100-19cd-11ea-82db-439739f46dbc.png)
 
 ## Instructions
 1. Enable Developer Mode
@@ -9,7 +8,7 @@
 3. Press CTRL+ALT+T for a crosh window
 4. Type `shell` and press enter
 5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter
-6. Type `sudo aok` and press enter
+6. Type `aok` and press enter
 
 ## What is this?
 - A User-Friendly Linux Distro for certain ARMv7 laptops, based one Arch Linux ARM and Xfce.
@@ -22,10 +21,10 @@
 - Pre-configured: 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
 - Clean Xfce environment with Firefox out of the box, ready to use.
 
-## Full Support
+## Compatible Chromebook
 - Samsung Chromebook (XE303C12)
 
-## Partial Support
+## Possibly Compatible Chromebooks
 - HP Chromebook 11 G1
 - Samsung Chromebook 2 13 (XE503C32)
 - Samsung Chromebook 2 11 (XE503C12)
@@ -49,7 +48,7 @@
 - HP Chromebook 14 x000-x999 / HP Chromebook 14 G3
 
 ## Minimum Requirements
-- A Supported Chromebook
+- A Compatible Chromebook
 - 4 GB or larger SD Card or USB Drive
 - Internet
 
@@ -67,11 +66,11 @@ After enabling developer mode, you will need to press Ctrl-D each time you boot,
 - For help using Arch Linux, visit https://wiki.archlinux.org/
 
 ## Known Issues
-This Goes for any Open Source Linux Distribution on these Chromebooks, not just this one
+Issues common to open source linux distributions on the Samsung Chromebook XE303C12
 - Suspend
 - USB 3.0
 - Camera
-- GPU is now supported in the kernel as of September 2019, not functional here yet
+- 3D Acceleration not yet supported (But definitely possible now due to recent (2019) updates in the Linux Kernel)
 
 ## Notes
 If you need to use a public Wi-Fi Hotspot with a Landing Page during setup, then see the WiFi Hotspot Help file in "extra".
