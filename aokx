@@ -541,6 +541,9 @@ mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-7
 cp files/15761344891.desktop \
     rootfs/etc/skel/.config/xfce4/panel/launcher-7
 
+## Copy firefox pre-config (ublock, user-agent switcher, kill sticky, settings)
+tar -xf files/dot-mozilla-preconfig.tar.gz -C rootfs/etc/skel/
+
 ## Configure being able to run "startx" to load Xfce
 echo "exec startxfce4" > rootfs/etc/skel/.xinitrc
 
