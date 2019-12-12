@@ -283,7 +283,6 @@ echo >> /etc/issue
 ## Uninstall setup files
 rm /usr/local/bin/setup
 rm /root/.aok-offline-setup-done.temp
-rm /root/.aok-wifi-menu-done.temp
 
 ## Exit message
 echo
