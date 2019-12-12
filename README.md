@@ -50,7 +50,7 @@
 
 ## Minimum Requirements
 - A Compatible Chromebook
-- 4 GB or larger SD Card or USB Drive
+- 4 GB or larger SD Card or compatible USB Drive
 - Internet
 
 ## How to Enable Developer Mode
@@ -82,12 +82,12 @@ The default locale is English, US. You may want to customize the setup script to
 If you want to copy files from ChromeOS, then after booting from SD/USB, only mount the eMMC read-only without loading the journaling system, for example:  
 `sudo mount -o ro,noload /dev/mmcblk0p1 /mnt` Mounting the eMMC in any other way may cause Chrome OS to "repair itself" upon next boot, ERASING ALL USER DATA ON THE eMMC. If you want to copy files from AOK Linux to ChromeOS, then on ChromeOS do this:  
 ```
-mkdir -p /usr/local/mount
+sudo mkdir -p /usr/local/mount
 sudo mount -o noload /dev/mmcblk1 /usr/local/mount
 ```
 replace `mmcblk1` with `sda` for a USB or `sdb` for a second USB
 
-In rare cases, if the battery is discharged completely for a long period of time, the Chromebook boot system may not remember to allow you to boot from the SD Card or USB. If Chrome OS is installed on the eMMC (internal memory), then it may "repair itself" and erase everything from the internal memory, and require logging in to Google's servers and starting as if from a new system, all before you can get back to developer mode and re-enable booting from the SD Card or USB. This does not affect the integrity of the SD Card or USB, or your files on the SD Card or USB.
+In rare cases, if the battery is discharged completely for a long period of time, the Chromebook boot system may revert to not allowing booting from the SD Card or USB. If Chrome OS is installed on the eMMC (internal memory), then it may "repair itself" and erase everything from the internal memory, and require logging in to Google's servers and starting as if from a new system, all before you can get back to developer mode and re-enable booting from the SD Card or USB. This does not affect the integrity of the SD Card or USB, or your files on the SD Card or USB.
 
 ## Thanks
 The upstream source for this distribution comes to you from archlinuxarm.org.
