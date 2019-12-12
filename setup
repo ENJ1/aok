@@ -78,6 +78,7 @@ useradd -m -G wheel -s /bin/bash ${NEW_USERNAME} && {
   echo
   echo "Enter a new password for the $NEW_USERNAME account"
   passwd $NEW_USERNAME
+  echo "$NEW_USERNAME" > /root/.autologin-user.temp
 } || echo "$NEW_USERNAME already exists, skipping..."
 echo
 
@@ -167,6 +168,12 @@ get_packages || get_packages || get_packages || {
   exit 1
 }
 
+## Set lightdm to autologin for user
+NEW_USERNAME=$(cat /root/.autologin-user.temp)
+sed "s/#autologin-user=/autologin-user=${NEW_USERNAME}/" /etc/lightdm/lightdm.conf \
+    && rm /root/.autologin-user.temp
+
+
 
 ## Veyron support (ASUS Chromebook C201, Flip C100P and other makes and models)
 if [ $(crossystem fwid | grep -i veyron) ]; then
@@ -204,6 +211,7 @@ EOF
 ## With this driver setup, the Xorg Server needs root privilege
 echo "needs_root_rights = yes" > /etc/X11/Xwrapper.config
 ###########################################################################
+
 
 ###########################################################################
 ## AUDIO PRE-CONFIG
