@@ -534,6 +534,7 @@ cp files/xfce4-desktop.xml \
    files/xfce4-power-manager.xml \
    files/xfwm4.xml \
    files/keyboards.xml \
+   files/thunar.xml \
    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
 
 ## Copy firefox launcher
