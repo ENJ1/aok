@@ -95,9 +95,8 @@ pacman-key --init
 pacman-key --populate archlinuxarm
 
 touch /root/.aok-offline-setup-done.temp
-fi
 
-## Run wifi-menu to get online
+## Run wifi-menu once without checking ping
 wifi-menu -o
 
 ## Using the network immediately after wifi-menu doesn't work
@@ -105,9 +104,18 @@ wifi-menu -o
 echo "Waiting 10 seconds for network interface to be ready..."
 sleep 10
 
+fi
+
 
 ## This part of the script depends on being online
+get_packages () {
 
+ping -c 1 archlinuxarm.org || {
+  wifi-menu -o \
+  && sleep 10 \
+  && echo "Waiting 10 seconds for network interface to be ready..."
+}
+  
 ###########################################################################
 ## UPGRADE AND INSTALL PACKAGES
 ##
@@ -150,10 +158,23 @@ mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
 vboot-utils \
 ###########################################################################
 
+}
+get_packages || get_packages || get_packages || {
+  echo
+  echo "Can't get packages. Check your Internet connection."
+  echo 'When ready, run "setup" again'
+  echo
+  exit 1
+}
+
+
 ## Veyron support (ASUS Chromebook C201, Flip C100P and other makes and models)
 if [ $(crossystem fwid | grep -i veyron) ]; then
   pacman -S firmware-veyron
 fi
+
+
+
 
 ###########################################################################
 ## VIDEO PRE-CONFIG
