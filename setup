@@ -257,13 +257,15 @@ rm /root/sudoers2* || echo -n
 
 
 ###########################################################################
-## CAPS LOCK PRE-CONFIG (FOR WINDOW ENVIRONMENT NOT CONSOLE)
+## Caps Lock pre-config (for a Window Environment not Console)
 ##
-## THIS WILL PROVIDE CAPS LOCK GLOBALLY, FOR ALL USERS, EVEN AT LOGIN.
-## THIS CHANGES THE CONFIGURATION FOR "Generic 105-key PC (intl.)" AND
-## OTHER GENERIC KEYBOARDS. IF YOU INSTEAD CHOOSE A CHROMEBOOK KEYBOARD
-## IN THE LAYOUT SETTINGS OF YOUR DESKTOP ENVIRONMENT, THEN YOU
-## WILL GET THE TRUE CHROMEBOOK EXPERIENCE: NO CAPS LOCK.
+## This will provide Caps Lock globally, for all users, even at a window
+## manager login like lightdm. This changes the configuration for
+## "generic 105-key pc (intl.)" and other generic keyboards. if you
+## instead choose a chromebook keyboard in the layout settings of your
+## desktop environment, then you will get the true Chromebook experience:
+## No Caps Lock. The "search" key is considered the "meta" key.
+##
 ## Backup the original keyboard configuration file
 echo "Fixing Caps Lock for X11 Windowing"
 cp -n /usr/share/X11/xkb/symbols/pc /usr/share/X11/xkb/symbols/pc.bak
@@ -280,9 +282,11 @@ echo "Caps Lock for X11 Windows fixed."
 #reboot
 ## You can restore the original file at any time
 #cp /usr/share/X11/xkb/symbols/pc.bak /usr/share/X11/xkb/symbols/pc
+
+##########################################################################
 ## X11 CAPS LOCK, PER USER, PER SESSION: THE SIMPLE WAY
-## Alternatively, you could just run the following command, but you would have
-## to run it upon every login, for every user.
+## Alternatively, you could just run the following command, but you would
+## have to run it upon every login, for every user.
 #xmodmap -e "keycode 133 = Caps_Lock"
 ## To load it on X11 login every time for that user...
 ## (This may not work for the root user, and may not work for all systems)
@@ -308,6 +312,7 @@ cp /usr/local/aok/files/exo-mail-reader.desktop \
 pacman --noconfirm -Sc || echo -n
 
 ## Now that that's all done, restore the default login prompt
+## (Remove the AOK setup welcome message)
 echo "Arch Linux \r (\l)" > /etc/issue
 echo >> /etc/issue
 
