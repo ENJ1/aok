@@ -169,9 +169,9 @@ get_packages || get_packages || get_packages || {
 }
 
 ## Set lightdm to autologin for user
-NEW_USERNAME=$(cat /root/.autologin-user.temp)
+NEW_USERNAME=$(cat /root/.autologin-user.temp) || echo -n
 sed "s/#autologin-user=/autologin-user=${NEW_USERNAME}/" /etc/lightdm/lightdm.conf \
-    && rm /root/.autologin-user.temp
+    && rm /root/.autologin-user.temp || echo -n
 
 
 
@@ -222,15 +222,15 @@ echo "needs_root_rights = yes" > /etc/X11/Xwrapper.config
 ## USE RIGHT ARROW, AND PRESS "m" TO UNMUTE THE FOLLOWING:
 ## (alsamixer options won't load after pulseaudio is installed)
 ## (in that case you muse use these amixer commands)
-amixer -c 0 set 'Left Headphone Mixer Left DAC1' on
-amixer -c 0 set 'Right Headphone Mixer Right DAC1' on
-amixer -c 0 set 'Left Speaker Mixer Left DAC1' on
-amixer -c 0 set 'Right Speaker Mixer Right DAC1' on
+amixer -c 0 set 'Left Headphone Mixer Left DAC1' on || echo -n
+amixer -c 0 set 'Right Headphone Mixer Right DAC1' on || echo -n
+amixer -c 0 set 'Left Speaker Mixer Left DAC1' on || echo -n
+amixer -c 0 set 'Right Speaker Mixer Right DAC1' on || echo -n
 ## DOES A MICROPHONE NEED TO BE UNMUTED?
 ##
 ## SET VOLUME (DEFAULT IS ZERO)
-amixer -c 0 set Headphone 70%
-amixer -c 0 set Speaker 70%
+amixer -c 0 set Headphone 70% || echo -n
+amixer -c 0 set Speaker 70% || echo -n
 ##
 ## PLUGGING-IN/UNPLUGGING HEADPHONES WILL NOT MUTE/UNMUTE THE SPEAKER
 ## (with pulseaudio you can only run speaker or headphones not both,
@@ -240,7 +240,7 @@ amixer -c 0 set Speaker 70%
 ## SAVE SETTINGS AFTER UNMUTING HEADPHONES AND SPEAKER
 ## THIS ALSO CREATES A FILE SO THAT CHANGES ALWAYS PERSIST ACROSS REBOOTS
 ## SO THIS ONLY NEEDS TO BE RUN ONCE
-alsactl store
+alsactl store || echo -n
 ##
 ## the package "pulseaudio-alsa" installs /etc/asound.conf, which is needed
 ## at least for the ability to listen to multiple streams at once.
@@ -255,7 +255,8 @@ alsactl store
 ## because if this script is run again, this will be appended again.
 ## Should probably use sed, or just copy a new file in without depending
 ## on getting sudo, but does installing sudo overwrite the sudoers file?
-echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
+echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(ALL:ALL) ALL' \
+    | EDITOR='tee -a' visudo
 
 
 ###########################################################################
@@ -269,12 +270,15 @@ echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(A
 ## Backup the original keyboard configuration file
 echo "Fixing Caps Lock for X11 Windowing"
 cp -n /usr/share/X11/xkb/symbols/pc /usr/share/X11/xkb/symbols/pc.bak
+
 ## Create a new custom file
 sed 's/key <LWIN> {\t\[ Super_L/key <LWIN> {\t\[ Caps_Lock/g' \
 /usr/share/X11/xkb/symbols/pc > /usr/share/X11/xkb/symbols/pc-chrome-caps
+
 ## Overwrite the old file with the new custom file
 cp /usr/share/X11/xkb/symbols/pc-chrome-caps /usr/share/X11/xkb/symbols/pc
 echo "Caps Lock for X11 Windows fixed."
+
 ## You must reboot for changes to take effect
 #reboot
 ## You can restore the original file at any time
@@ -294,24 +298,25 @@ systemctl enable lightdm
 ## Enable WiFi gui autostart now that lightdm is autostarting Xfce
 systemctl enable NetworkManager
 
-# Enable Bluetooth user interface (different from turning bluetooth on)
-systemctl enable bluetooth
+## Enable Bluetooth user interface (different from turning bluetooth on)
+## Currently disabled: it can be enabled by starting the bluetooth program
+#systemctl enable bluetooth
 
 ## Don't show Mail Reader menu link
 mkdir -p /usr/share/applications
 cp /usr/local/aok/files/exo-mail-reader.desktop \
-    /usr/share/applications
+    /usr/share/applications || echo -n
 
 ## Remove old packages
-pacman --noconfirm -Sc
+pacman --noconfirm -Sc || echo -n
 
 ## Now that that's all done, restore the default login prompt
 echo "Arch Linux \r (\l)" > /etc/issue
 echo >> /etc/issue
 
 ## Uninstall setup files
-rm /usr/local/bin/setup
-rm /root/.aok-offline-setup-done.temp
+rm /usr/local/bin/setup || echo -n
+rm /root/.aok-offline-setup-done.temp || echo -n
 
 ## Exit message
 echo
