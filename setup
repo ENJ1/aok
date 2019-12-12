@@ -49,8 +49,8 @@ ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 ## Standard Arch Linux Recommendation, perhaps not necessary or needed
 hwclock --systohc
 
-## nano /etc/locale.gen AND UNCOMMENT LOCALE, OR USE PREMADE FILE
-cp files/locale.gen /etc/locale.gen
+## Set locale. CURRENTLY NO OPTION TO SET YOUR OWN. EDIT THIS AS DESIRED.
+sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
