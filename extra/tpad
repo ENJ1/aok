@@ -8,13 +8,12 @@
 #xinput set-prop $MOUSE $PROP -1
 
 ## If there's a mouse, then disable the trackpad
+TRACKPAD=$(xinput | grep -i 'pad' | cut -c55-56)
 xinput | grep -iq 'Mouse' \
-  && TRACKPAD=$(xinput | grep -i 'pad' | cut -c55-56) \
     && xinput disable $TRACKPAD \
     && echo "Trackpad disabled." \
 || {
   ## There's no mouse, so enable the trackpad
-  TRACKPAD=$(xinput | grep -i 'pad' | cut -c55-56) \
-    && xinput enable $TRACKPAD \
+    xinput enable $TRACKPAD \
     && echo "Trackpad enabled."
 }
