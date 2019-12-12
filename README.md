@@ -5,7 +5,7 @@
 ## Instructions
 1. Enable Developer Mode
 1. Insert an SD Card or USB Drive
-1. Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Get it from Dropbox")
+1. Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download it now")
 3. Press CTRL+ALT+T for a crosh window
 4. Type `shell` and press enter
 5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter
@@ -18,7 +18,7 @@
 
 ## Features
 - Fully automated. Easy for a beginner.
-- Mirror checking for improved 24/7 reliability.
+- Mirror checking for speed and improved 24/7 reliability.
 - Pre-configured: 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
 - Clean Xfce environment with Firefox out of the box, ready to use.
 
