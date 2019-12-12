@@ -490,8 +490,10 @@ if [ -f 'distro/bestmirrors.txt' ]; then
 
   ## Append use mirror list to the BOTTOM of the mirrorlist
   cp rootfs/etc/pacman.d/mirrorlist rootfs/etc/pacman.d/mirrorlist.bak
-  cat rootfs/etc/pacman.d/mirrorlist usemirrors.txt > newmirrorlist.tmp \
+  head -n 3 usemirrors.txt > topmirrors.tmp
+  cat topmirrors.tmp rootfs/etc/pacman.d/mirrorlist > newmirrorlist.tmp \
       && mv newmirrorlist.tmp rootfs/etc/pacman.d/mirrorlist
+  rm topmirrors.tmp
 
 fi
 
