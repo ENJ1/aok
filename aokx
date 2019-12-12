@@ -156,7 +156,7 @@ echo "The latest Arch Linux ARM release is recommended."
 echo "Alternatively, you may use a Dec 8, 2019 backup release."
 echo
 read -p "Use the latest release? [Y/n] " RELEASE_CHOICE
-case "$RELEASE_CHOICE"
+case "$RELEASE_CHOICE" in
   [yY]|[yY][eE][sS])
     NEW_RELEASE=true
     ;;
