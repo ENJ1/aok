@@ -247,16 +247,13 @@ alsactl store || echo -n
 ###########################################################################
 
 
-## Configure sudo
-## Append wheel group line to /etc/sudoers file through visudo.
-## This allows root privilege to users who are members of the wheel group
-## This is an easy way to automate this but a cheap solution, because
-## a similar line already exists in the file but is commented out, and
-## because if this script is run again, this will be appended again.
-## Should probably use sed, or just copy a new file in without depending
-## on getting sudo, but does installing sudo overwrite the sudoers file?
-echo -e '\n# Allow members of group wheel to execute any command\n%wheel\tALL=(ALL:ALL) ALL' \
-    | EDITOR='tee -a' visudo
+## Configure sudo: uncomment wheel group
+cp /etc/sudoers /root/sudoers2
+sed -iq 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /root/sudoers2
+visudo -c /root/sudoers2 && mv /root/sudoers2 /etc/sudoers
+## visudo -c (check) will leave a "sudoers2q" temp file behind,
+## which is not documented, so delete whatever it might leave
+rm /root/sudoers2* || echo -n
 
 
 ###########################################################################
