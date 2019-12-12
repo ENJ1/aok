@@ -122,7 +122,7 @@ ping -c 1 archlinuxarm.org || {
 ##
 ## Sync repo, upgrade, and install packages without hassle
 ##
-## sudo: needed to gain root privilege
+## sudo: needed to gain root privilege for users
 ## unzip: basic utility
 ## zip: basic utility
 ## xf86-video-fbdev: needed for Mali-T604 Graphics acceleration pre-config below
@@ -156,10 +156,11 @@ xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu \
 alsa-utils xfce4-pulseaudio-plugin pavucontrol pulseaudio pulseaudio-alsa \
 networkmanager nm-connection-editor network-manager-applet firefox blueman \
 mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
-vboot-utils \
+vboot-utils man
 ###########################################################################
 
 }
+## Sometimes it might miss 1 or 2 little things, so try a few times
 get_packages || get_packages || get_packages || {
   echo
   echo "Can't get packages. Check your Internet connection."
