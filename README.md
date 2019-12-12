@@ -1,4 +1,4 @@
-# AOK Linux for vintage Chromebooks
+# AOK Linux for ARMv7 Chromebooks
 
 
 ## Instructions
