@@ -528,18 +528,18 @@ cp files/arch_linux_gnome_menu_icon_by_byamato.png rootfs/usr/share/icons
 
 ## PLANNING TO RE-DESIGN DESKTOP EXPERIENCE, SO START FROM SCRATCH
 ## Copy desktop, panel, power settings
-#mkdir -p rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
-#cp files/xfce4-desktop.xml \
-#    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
-#cp files/xfce4-panel.xml \
-#    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
-#cp files/xfce4-power-manager.xml \
-#    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
+mkdir -p rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
+cp files/xfce4-desktop.xml \
+    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
+cp files/xfce4-panel.xml \
+    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
+cp files/xfce4-power-manager.xml \
+    rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
 
 ## Copy firefox launcher
-mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-8
-cp files/15745773551.desktop \
-    rootfs/etc/skel/.config/xfce4/panel/launcher-8
+mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-7
+cp files/15761344891.desktop \
+    rootfs/etc/skel/.config/xfce4/panel/launcher-7
 
 ## Configure being able to run "startx" to load Xfce
 echo "exec startxfce4" > rootfs/etc/skel/.xinitrc
