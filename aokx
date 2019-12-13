@@ -12,7 +12,6 @@ if [ "$EUID" != 0 ]; then
 fi
 
 ## Check for necessary tools
-echo "Checking tools..."
 crossystem hwid && echo || echo "crossystem not found. OK."
 ## crossystem fwid should show Veyron if it's a veyron board
 crossystem fwid && echo || echo -n
@@ -26,15 +25,18 @@ cgpt add -h > /dev/null || { echo "cgpt not found. exiting."; exit 72; }
 mkfs -V > /dev/null || { echo "mkfs not found. exiting."; exit 73; }
 dd --version > /dev/null || { echo "dd not found. exiting."; exit 74; }
 lsblk -V > /dev/null || { echo "lsblk not found. exiting."; exit 80; }
-echo "Tools check complete."
 
 ## Show some possibilities
+echo
+echo "Possible Devices to Install Arch Linux:"
+echo
 lsblk | grep '^[Aa-Zz]' | grep -v -E -- 'loop|boot|ram|rpmb'
 
 ## Show USB compatibility if possible
 {
 USB_DEVICE_COUNT=$(lsblk | grep '^sd' | wc -l)
 if [ "$USB_DEVICE_COUNT" -gt 0 ]; then
+echo
 echo "Not all USB drives are compatible."
 fi
 while [ "$USB_DEVICE_COUNT" -gt 0 ]; do
