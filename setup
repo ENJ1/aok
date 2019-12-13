@@ -249,13 +249,10 @@ alsactl store || echo -n
 ###########################################################################
 
 
-## Configure sudo: uncomment wheel group
+## Configure sudo: uncomment wheel group, use visudo syntax check
 cp /etc/sudoers /root/sudoers2
-sed -iq 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /root/sudoers2
+sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /root/sudoers2
 visudo -c /root/sudoers2 && mv /root/sudoers2 /etc/sudoers
-## visudo -c (check) will leave a "sudoers2q" temp file behind,
-## which is not documented, so delete whatever it might leave
-rm /root/sudoers2* || echo -n
 
 
 ###########################################################################
