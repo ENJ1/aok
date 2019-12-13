@@ -58,7 +58,7 @@
 ## How to Enable Developer Mode
 1. Back up your files.
 2. Turn off the Chromebook.
-3. Hold down the **ESC** and **Refresh** keys and poke the **Power** button.
+3. Hold down **ESC** and **Refresh** (circular arrow above the "4" key) and poke the **Power** button.
 4. At the Recovery screen press **Ctrl-D** (there's no prompt - you have to know to do it).
 5. Confirm switching to developer mode by pressing **Enter**, and the laptop will reboot and reset the system. This takes about 15-20 minutes.
 
