@@ -21,6 +21,8 @@
 - Mirror checking for speed and improved 24/7 reliability.
 - Pre-configured: 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
 - Clean Xfce environment with Firefox out of the box, ready to use.
+- Firefox is pre-loaded with UBlock, User-Agent Switcher, and Kill Sticky Headers
+- AOK custom command line utilities: dim, spoof, and tpad
 
 ## Compatible Chromebook
 - Samsung Chromebook (XE303C12)
