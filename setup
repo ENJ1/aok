@@ -294,6 +294,7 @@ systemctl enable lightdm
 NEW_USERNAME=$(cat /root/.autologin-user.temp) || echo -n
 sed -i "s/#autologin-user=/autologin-user=${NEW_USERNAME}/" /etc/lightdm/lightdm.conf \
     && rm /root/.autologin-user.temp || echo -n
+sed -i "s/#autologin-session=/autologin-session=xfce/" /etc/lightdm/lightdm.conf
 
 ## Enable WiFi gui autostart because Xfce will be used
 systemctl enable NetworkManager
