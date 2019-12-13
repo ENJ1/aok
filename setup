@@ -67,6 +67,9 @@ cat << EOF > /etc/hosts
 127.0.1.1	${NEW_HOSTNAME}.localdomain	${NEW_HOSTNAME}
 EOF
 
+## Enable lightdm autologin
+groupadd -r autologin || echo -n
+
 ## Custom User Account
 echo
 read -p 'Enter a valid username (or press Enter to create user "a"): ' NEW_USERNAME
@@ -76,9 +79,10 @@ fi
 echo "username: $NEW_USERNAME"
 useradd -m -G wheel -s /bin/bash ${NEW_USERNAME} && {
   echo
-  echo "Enter a new password for the $NEW_USERNAME account"
+  echo 'Enter a new password for the "$NEW_USERNAME" account'
   passwd $NEW_USERNAME
   echo "$NEW_USERNAME" > /root/.autologin-user.temp
+  gpasswd -a $NEW_USERNAME autologin
 } || echo "$NEW_USERNAME already exists, skipping..."
 echo
 
