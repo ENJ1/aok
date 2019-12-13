@@ -79,7 +79,7 @@ fi
 echo "username: $NEW_USERNAME"
 useradd -m -G wheel -s /bin/bash ${NEW_USERNAME} && {
   echo
-  echo 'Enter a new password for the "$NEW_USERNAME" account'
+  echo "Enter a new password for the account: $NEW_USERNAME"
   passwd $NEW_USERNAME
   echo "$NEW_USERNAME" > /root/.autologin-user.temp
   gpasswd -a $NEW_USERNAME autologin
