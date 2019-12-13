@@ -170,19 +170,10 @@ get_packages || get_packages || get_packages || {
   exit 1
 }
 
-## Set lightdm to autologin for user
-NEW_USERNAME=$(cat /root/.autologin-user.temp) || echo -n
-sed "s/#autologin-user=/autologin-user=${NEW_USERNAME}/" /etc/lightdm/lightdm.conf \
-    && rm /root/.autologin-user.temp || echo -n
-
-
-
 ## Veyron support (ASUS Chromebook C201, Flip C100P and other makes and models)
 if [ $(crossystem fwid | grep -i veyron) ]; then
   pacman -S firmware-veyron
 fi
-
-
 
 
 ###########################################################################
@@ -294,6 +285,12 @@ echo "Caps Lock for X11 Windows fixed."
 
 ## Enable lightdm to load Xfce on boot
 systemctl enable lightdm
+
+## Set lightdm to autologin for user
+NEW_USERNAME=$(cat /root/.autologin-user.temp) || echo -n
+sed "s/#autologin-user=/autologin-user=${NEW_USERNAME}/" /etc/lightdm/lightdm.conf \
+    && rm /root/.autologin-user.temp || echo -n
+
 
 ## Enable WiFi gui autostart now that lightdm is autostarting Xfce
 systemctl enable NetworkManager
