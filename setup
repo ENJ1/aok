@@ -288,11 +288,10 @@ systemctl enable lightdm
 
 ## Set lightdm to autologin for user
 NEW_USERNAME=$(cat /root/.autologin-user.temp) || echo -n
-sed "s/#autologin-user=/autologin-user=${NEW_USERNAME}/" /etc/lightdm/lightdm.conf \
+sed -i "s/#autologin-user=/autologin-user=${NEW_USERNAME}/" /etc/lightdm/lightdm.conf \
     && rm /root/.autologin-user.temp || echo -n
 
-
-## Enable WiFi gui autostart now that lightdm is autostarting Xfce
+## Enable WiFi gui autostart because Xfce will be used
 systemctl enable NetworkManager
 
 ## Enable Bluetooth user interface (different from turning bluetooth on)
@@ -311,6 +310,8 @@ pacman --noconfirm -Sc || echo -n
 ## (Remove the AOK setup welcome message)
 echo "Arch Linux \r (\l)" > /etc/issue
 echo >> /etc/issue
+
+
 
 ## Uninstall setup files
 rm /usr/local/bin/setup || echo -n
