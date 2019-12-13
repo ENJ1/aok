@@ -439,8 +439,8 @@ umount rootfs 2> /dev/null || echo -n
 
 ## Make filesystem
 ## Avoid mkfs complaining that it's 'apparently in use by the system' but isn't
-## Suppress kernel upgrade recommendation
-mkfs.ext4 -F -F ${DEVICE}${PARTITION_2} 2> /dev/null
+## Suppress technical jargon and kernel upgrade recommendation
+mkfs.ext4 -F -F ${DEVICE}${PARTITION_2} &> /dev/null
 
 ## Updating partition info, regardless of whether it's necessary or not
 partx -u ${DEVICE}
