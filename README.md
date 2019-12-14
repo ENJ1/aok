@@ -1,4 +1,7 @@
 # AOK Linux for ARMv7 Chromebooks
+- A User-Friendly Linux Distro for certain ARMv7 laptops, based one Arch Linux ARM and Xfce.
+- The **easiest** and **fastest** way to get a full Linux Distro on an old Chromebook.
+- AOK Linux is a set of scripts with a few extra files. Packages are from archlinuxarm.org.
 
 [![Download The AOK Script](https://raw.githubusercontent.com/cubetronic/aok/master/files/arch_linux_gnome_menu_icon_by_byamato.png)](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
 
@@ -53,12 +56,6 @@ When Chrome OS is done installing:
 
 Congratulations! You are now using Developer Mode.
 
-
-
-## What is this?
-- A User-Friendly Linux Distro for certain ARMv7 laptops, based one Arch Linux ARM and Xfce.
-- The **easiest** and **fastest** way to get a full Linux Distro on an old Chromebook.
-- AOK Linux is a set of scripts with a few extra files. Packages are from archlinuxarm.org.
 
 ## Features
 - Fully automated. Easy for a beginner.
