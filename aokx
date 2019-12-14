@@ -539,6 +539,9 @@ mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-7
 cp files/15761344891.desktop \
     rootfs/etc/skel/.config/xfce4/panel/launcher-7
 
+## Provide gentoo style bashrc, enabling color in all shells (changes filename)
+cp files/dot-bashrc rootfs/etc/skel/.bashrc
+
 ## Copy firefox pre-config (ublock, user-agent switcher, kill sticky, settings)
 tar -xf files/dot-mozilla-preconfig.tar.gz -C rootfs/etc/skel/
 
@@ -552,6 +555,9 @@ Welcome. To finish installing AOK, do the following:
 2. After logging in, type "setup" and press enter.
 
 EOF
+
+## Enable color in pacman
+sed -i 's/#Color/Color/' rootfs/etc/pacman.conf
 
 ## Finish up
 umount rootfs
