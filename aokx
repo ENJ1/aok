@@ -162,7 +162,7 @@ if [ "$DEVICE" = '/dev/mmcblk0' ]; then
   fi
 fi
 
-## Set default version
+## Set default of whether to get the latest distro release
 NEW_RELEASE=false
 
 ## Check target capacity
@@ -467,7 +467,6 @@ echo
 echo "Filesystem copy complete pending sync"
 echo "Copying Boot Partition..."
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
-#dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_2} status=progress
 echo "Boot Partition copy complete pending sync"
 
 
@@ -475,7 +474,7 @@ echo "Boot Partition copy complete pending sync"
 
 echo "Pre-configuring system and syncing..."
 
-## If on ChromeOS then enable booting
+## If using Chrome OS then this will enable booting
 crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
 
 ## Don't let kernel messages garble the console; hide them instead.
@@ -536,7 +535,6 @@ cp files/arch_linux_gnome_menu_icon_by_byamato.png rootfs/usr/share/icons
 
 ## ALSO, copy Xfce skeleton files
 
-## PLANNING TO RE-DESIGN DESKTOP EXPERIENCE, SO START FROM SCRATCH
 ## Copy desktop, panel, power settings
 mkdir -p rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
 cp files/*.xml \
@@ -548,6 +546,7 @@ cp files/15761344891.desktop \
     rootfs/etc/skel/.config/xfce4/panel/launcher-7
 
 ## Provide gentoo style bashrc, enabling color in all shells (changes filename)
+cp rootfs/etc/skel/.bashrc rootfs/etc/skel/.bashrc.backup || echo -n
 cp files/dot-bashrc rootfs/etc/skel/.bashrc
 cp files/dot-bashrc rootfs/root/.bashrc
 
@@ -566,7 +565,7 @@ Welcome. To finish installing \e[1;36mAOK Linux\e[0m, do the following:
 EOF
 
 ## Enable color in pacman
-sed -i 's/#Color/Color/' rootfs/etc/pacman.conf
+sed -i 's/^#Color/Color/' rootfs/etc/pacman.conf
 
 ## Finish up
 umount rootfs
