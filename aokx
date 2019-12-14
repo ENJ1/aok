@@ -549,6 +549,7 @@ cp files/15761344891.desktop \
 
 ## Provide gentoo style bashrc, enabling color in all shells (changes filename)
 cp files/dot-bashrc rootfs/etc/skel/.bashrc
+cp files/dot-bashrc rootfs/root/.bashrc
 
 ## Copy firefox pre-config (ublock, user-agent switcher, kill sticky, settings)
 tar -xf files/dot-mozilla-preconfig.tar.gz -C rootfs/etc/skel/
