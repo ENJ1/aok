@@ -1,11 +1,11 @@
 # AOK Linux for ARMv7 Chromebooks
 
-[![Arch Linux](https://raw.githubusercontent.com/cubetronic/aok/master/files/arch_linux_gnome_menu_icon_by_byamato.png)](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Arch Linux")
+[![Download The AOK Script](https://raw.githubusercontent.com/cubetronic/aok/master/files/arch_linux_gnome_menu_icon_by_byamato.png)](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
 
 ## Instructions
 1. Enable Developer Mode
 1. Insert an SD Card or USB Drive
-1. Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download it now")
+1. Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
 3. Press CTRL+ALT+T for a crosh window
 4. Type `shell` and press enter
 5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter
