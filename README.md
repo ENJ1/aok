@@ -99,7 +99,7 @@ Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Do
 At a *bash* shell, type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter.
 
 ### Step 9
-Finally, at the *bash* shell, type `aok` and press enter.
+Finally, at a *bash* shell, type `aok` and press enter.
 
 ---
 
