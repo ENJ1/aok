@@ -490,9 +490,9 @@ if [ -f 'distro/bestmirrors.txt' ]; then
     ADD=$[$ADD+1]
   done
 
-  ## Append use mirror list to the BOTTOM of the mirrorlist
+  ## Append 3 use mirror list to the TOP of the mirrorlist
   cp rootfs/etc/pacman.d/mirrorlist rootfs/etc/pacman.d/mirrorlist.bak
-  head -n 3 usemirrors.txt > topmirrors.tmp
+  head -n 5 usemirrors.txt > topmirrors.tmp
   cat topmirrors.tmp rootfs/etc/pacman.d/mirrorlist > newmirrorlist.tmp \
       && mv newmirrorlist.tmp rootfs/etc/pacman.d/mirrorlist
   rm topmirrors.tmp
