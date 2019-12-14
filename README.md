@@ -111,8 +111,8 @@ Finally, at the *bash* shell, type `aok` and press enter.
 - Firefox is pre-loaded with UBlock, User-Agent Switcher, and Kill Sticky Headers
 - AOK custom command line utilities: dim, spoof, and tpad
 
-## Post-Installation Tips
-- You can press Ctrl-D or Ctrl-U as soon as the backlight comes on. You don't have to wait for the white screen to appear.
+## Tips
+- You can press **`ctrl`**+**`d`** or **`ctrl`**+**`u`** as soon as the backlight comes on. You don't have to wait for the "OS verification is OFF" screen.
 - For help using Arch Linux, visit https://wiki.archlinux.org/
 
 ## Known Issues
