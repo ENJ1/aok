@@ -11,10 +11,10 @@ if [ "$EUID" != 0 ]; then
   exit 66
 fi
 
-## Check for necessary tools
-# crossystem hwid && echo || echo "crossystem not found. OK."
+## Check for necessary tools (and show hwid, fwid)
+crossystem hwid && echo || echo "crossystem not found. OK."
 ## crossystem fwid should show Veyron if it's a veyron board
-# crossystem fwid && echo || echo -n
+crossystem fwid && echo || echo -n
 curl -V > /dev/null || { echo "curl not found. exiting."; exit 69; }
 ping -c 1 archlinuxarm.org > /dev/null \
   || echo "archlinuxarm.org not found. May use local data."
