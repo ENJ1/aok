@@ -82,7 +82,7 @@ When setting up the refreshed Chrome OS, you may see the option:
 ![shell](https://user-images.githubusercontent.com/11820866/70835504-2cba1c00-1db2-11ea-8fef-d82942d33e6a.png "Screen shows Chrome OS developer shell")  
 
 When Chrome OS is done installing:
-1. Press **`ctrl`**+**`alt`**+**`t`** for a *crosh* shell
+1. Press **`ctrl`**+**`alt`**+**`t`** for a *crosh* shell.
 2. Type `shell` for a *bash* shell.
 
 Congratulations! You are now using Developer Mode.
@@ -90,16 +90,16 @@ Congratulations! You are now using Developer Mode.
 ---
 
 ### Step 6
-Insert an SD Card or USB Drive
+Insert an SD Card or USB Drive.
 
 ### Step 7
-Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
+Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script").
 
 ### Step 8
-At a *bash* shell, type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter
+At a *bash* shell, type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter.
 
 ### Step 9
-Finally, at the *bash* shell, type `aok` and press enter
+Finally, at the *bash* shell, type `aok` and press enter.
 
 ---
 
