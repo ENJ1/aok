@@ -76,7 +76,7 @@ The secret options from this screen are:
 Chrome OS will walk you through a new installation of Chrome OS.  
 You will be required to create or login with a Google account.  
 
-When setting up the refreshed Chrome OS, you may see an option:
+When setting up the refreshed Chrome OS, you may see the option:
 - *Enable Debugging Features* - This is not required, and doesn't work. Ignore it.
 
 ![shell](https://user-images.githubusercontent.com/11820866/70835504-2cba1c00-1db2-11ea-8fef-d82942d33e6a.png "Screen shows Chrome OS developer shell")  
