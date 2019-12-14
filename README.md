@@ -129,7 +129,7 @@ If you need to use a public Wi-Fi Hotspot with a Landing Page during setup, then
 The default locale is English, US.
 
 ## Warnings
-- Do not attempt to access files on Chrome OS when running Arch Linux [unless you know what you are doing](https://github.com/cubetronic/aok/wiki/Accessing-Files-between-Chrome-OS-and-Arch-Linux "*unless you know what you are doing.*") Improperly accessing files on Chrome OS from Arch Linux will cause Chrome OS to ERASE EVERYTHING on the Chrome OS system, including any personal files you may have stored there. In general, don't rely on storing important files on Chrome OS. See the next section.
+- Do not attempt to access files on Chrome OS when running Arch Linux [unless you know what you are doing](https://github.com/cubetronic/aok/wiki/Accessing-Files-between-Chrome-OS-and-Arch-Linux "*unless you know what you are doing*"). Improperly accessing files on Chrome OS from Arch Linux will cause Chrome OS to ERASE EVERYTHING on the Chrome OS system, including any personal files you may have stored there. In general, don't rely on storing important files on Chrome OS. See the next section.
 - In rare cases, if the battery is discharged completely for a long period of time, the Chromebook may disable booting from the SD Card or USB, and ERASE EVERYTHING on the eMMC (Internal Memory), and start from a factory default state. This has nothing to do with using a custom OS such as this or enabling Developer Mode. It is a known issue with Chrome OS. For this reason, *never* store important files *solely* on the eMMC (Internal Memory) such as within Chrome OS. This does not affect the integrity of the SD Card or USB, or your files on the SD Card or USB.
 
 ## Thanks
