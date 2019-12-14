@@ -20,6 +20,8 @@ Back up your files. Turn off the Chromebook.
 ![buttons](https://user-images.githubusercontent.com/11820866/70834287-c5e73380-1dae-11ea-88c2-fc9c7940bd91.png "The location of the ESC, Refresh (or F3), and Power Buttons")  
 Hold **`esc`**+**`refresh`** and press **`power`**.
 
+---
+
 #### Step 2
 ![missing](https://user-images.githubusercontent.com/11820866/70834349-f202b480-1dae-11ea-97f9-7a410f74ac9a.png "Screen shows 'Chrome OS is missing or damanged.'")  
 Press **`ctrl`**+**`d`** when the screen says "Chrome OS is missing or damanged."
