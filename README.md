@@ -22,22 +22,22 @@ Hold **`esc`**+**`refresh`** and press **`power`**.
 
 #### Step 2
 ![missing](https://user-images.githubusercontent.com/11820866/70834349-f202b480-1dae-11ea-97f9-7a410f74ac9a.png "Screen shows 'Chrome OS is missing or damanged.'")  
-At the screen that says "Chrome OS is missing or damanged.", press **`ctrl`**+**`d`**.
+Press **`ctrl`**+**`d`** when the screen says "Chrome OS is missing or damanged."
 
 #### Step 3
 ![enter](https://user-images.githubusercontent.com/11820866/70834851-435f7380-1db0-11ea-95ea-625e30a5c2a1.png "Screen shows 'To turn OS verification OFF, press ENTER.'")  
-At the screen that says "To turn OS verification OFF, press ENTER." press **`enter`**.
+Press **`enter`** when the screen says "To turn OS verification OFF, press ENTER."
 
 #### Step 4
 ![verification](https://user-images.githubusercontent.com/11820866/70834971-8883a580-1db0-11ea-8ca1-d77cb3843cf2.png "Screen shows 'OS verification is OFF'")  
-Whenever you see the "OS verification is OFF" screen, **never** press space. Doing so will disable Developer Mode.
+Press **`ctrl`**+**`d`** when the screen says "OS verification is OFF".  
+
+**Never** press space. Doing so will disable Developer Mode.  
 
 The secret options from this screen are:
 - Wait 30 seconds - the computer will beep and boot from eMMC (Internal Storage)
 - Press **`ctrl`**+**`d`** - immediately boot from eMMC (Internal Storage)
 - Press **`ctrl`**+**`u`** - immediately boot from SD Card or USB Drive (External Storage)  
-
-For now, always press **`ctrl`**+**`d`** at the "OS verification is OFF" screen.
 
 
 ### Step 5
