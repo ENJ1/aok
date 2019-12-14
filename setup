@@ -327,6 +327,10 @@ echo
 echo "Done."
 echo
 
+YELLOW='\033[1;33m' # Light Yellow
+NC='\033[0m' # No Color
+printf "Upon boot press ${YELLOW}ctrl${NC}+${YELLOW}u${NC} to boot USB/SD, or ctrl+d to boot Internal Storage.\n"
+echo
 ## REBOOT TO LOAD UPGRADED KERNEL, ETC
 read -p "Press enter to reboot"
 reboot
