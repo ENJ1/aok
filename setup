@@ -50,7 +50,7 @@ ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 hwclock --systohc
 
 ## Set locale. CURRENTLY NO OPTION TO SET YOUR OWN. EDIT THIS AS DESIRED.
-sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
@@ -67,8 +67,9 @@ cat << EOF > /etc/hosts
 127.0.1.1	${NEW_HOSTNAME}.localdomain	${NEW_HOSTNAME}
 EOF
 
-## Enable lightdm autologin
-groupadd -r autologin || echo -n
+## Enable lightdm autologin (commented out - would also need to set default greeter)
+## All instances of word 'autologin' in this file pertain to lightdm autologin
+#groupadd -r autologin || echo -n
 
 ## Custom User Account
 echo
@@ -81,8 +82,8 @@ useradd -m -G wheel -s /bin/bash ${NEW_USERNAME} && {
   echo
   echo "Enter a new password for the account: $NEW_USERNAME"
   passwd $NEW_USERNAME
-  echo "$NEW_USERNAME" > /root/.autologin-user.temp
-  gpasswd -a $NEW_USERNAME autologin
+#  echo "$NEW_USERNAME" > /root/.autologin-user.temp
+#  gpasswd -a $NEW_USERNAME autologin
 } || echo "$NEW_USERNAME already exists, skipping..."
 echo
 
@@ -101,7 +102,7 @@ pacman-key --populate archlinuxarm
 
 touch /root/.aok-offline-setup-done.temp
 
-## Run wifi-menu once without checking ping
+## Run wifi-menu once without checking ping, -o to obfuscate password
 wifi-menu -o
 
 ## Using the network immediately after wifi-menu doesn't work
@@ -157,7 +158,7 @@ ping -c 1 archlinuxarm.org || {
 ## man: manual pages. type "man some-command" to get the manual for it
 ##
 pacman -Syu --noconfirm sudo unzip zip xf86-video-fbdev xorg-server \
-xfce4 xorg-xinit lightdm ttf-dejavu vboot-utils man \
+xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu vboot-utils man \
 alsa-utils xfce4-pulseaudio-plugin pavucontrol pulseaudio pulseaudio-alsa \
 networkmanager nm-connection-editor network-manager-applet firefox blueman \
 mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput
@@ -165,7 +166,7 @@ mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput
 ###########################################################################
 
 }
-## Sometimes it might miss 1 or 2 little things, so try a few times
+## Sometimes it might miss some packages, so try a few times
 get_packages || get_packages || get_packages || {
   echo
   echo "Can't get packages. Check your Internet connection."
@@ -175,6 +176,7 @@ get_packages || get_packages || get_packages || {
 }
 
 ## Veyron support (ASUS Chromebook C201, Flip C100P and other makes and models)
+## Now that vboot-utils is installed, crossystem will work
 if [ $(crossystem fwid | grep -i veyron) ]; then
   pacman -S firmware-veyron
 fi
@@ -246,7 +248,7 @@ alsactl store || echo -n
 
 ## Configure sudo: uncomment wheel group, use visudo syntax check
 cp /etc/sudoers /root/sudoers2
-sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /root/sudoers2
+sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /root/sudoers2
 visudo -c /root/sudoers2 && mv /root/sudoers2 /etc/sudoers
 
 
@@ -287,14 +289,17 @@ echo "Caps Lock for X11 Windows fixed."
 #echo "keycode 133 = Caps_Lock" > ~/.Xmodmap
 ###########################################################################
 
+## Change clock format for login screen
+sed -i 's/^#clock-format=/clock-format=%l:%M %p/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
+
 ## Enable lightdm to load Xfce on boot
 systemctl enable lightdm
 
-## Set lightdm to autologin for user
-NEW_USERNAME=$(cat /root/.autologin-user.temp) || echo -n
-sed -i "s/#autologin-user=/autologin-user=${NEW_USERNAME}/" /etc/lightdm/lightdm.conf \
-    && rm /root/.autologin-user.temp || echo -n
-sed -i "s/#autologin-session=/autologin-session=xfce/" /etc/lightdm/lightdm.conf
+## Set lightdm to autologin for user (commented out - would also need to setup default greeter)
+#NEW_USERNAME=$(cat /root/.autologin-user.temp) || echo -n
+#sed -i "s/#autologin-user=/autologin-user=${NEW_USERNAME}/" /etc/lightdm/lightdm.conf \
+#    && rm /root/.autologin-user.temp || echo -n
+#sed -i "s/#autologin-session=/autologin-session=xfce/" /etc/lightdm/lightdm.conf
 
 ## Enable WiFi gui autostart because Xfce will be used
 systemctl enable NetworkManager
