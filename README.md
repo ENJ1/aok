@@ -3,6 +3,14 @@ The **easy** way to get ***Arch Linux, Xfce, Firefox, and more*** running on an 
 
 [![Download The AOK Script](https://raw.githubusercontent.com/cubetronic/aok/master/files/arch_linux_gnome_menu_icon_by_byamato.png)](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
 
+## Features
+- Installing Arch Linux is fully automated. It's easy for a beginner. No Linux experience is required.
+- Mirror checking for speed and improved 24/7 reliability.
+- AOK custom command line utilities: dim, spoof, and tpad
+- Pre-configured: 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
+- Clean Xfce environment with Firefox out of the box, ready to use.
+- Firefox is pre-loaded with UBlock, User-Agent Switcher, and Kill Sticky Headers
+
 ## Compatible Chromebook
 - Samsung Chromebook (XE303C12)
 
@@ -35,8 +43,8 @@ The **easy** way to get ***Arch Linux, Xfce, Firefox, and more*** running on an 
 - Internet
 
 ## Instructions
-
-If Developer Mode is already enabled, skip steps 1-5
+If Developer Mode is already enabled, skip steps 1-5.  
+To check if Developer Mode is enabled, you can try opening *crosh* and *bash* (see Step 5).
 
 ---
 
@@ -103,20 +111,12 @@ Finally, at a *bash* shell, type `aok` and press enter.
 
 ---
 
-## Features
-- Fully automated. Easy for a beginner.
-- Mirror checking for speed and improved 24/7 reliability.
-- Pre-configured: 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
-- Clean Xfce environment with Firefox out of the box, ready to use.
-- Firefox is pre-loaded with UBlock, User-Agent Switcher, and Kill Sticky Headers
-- AOK custom command line utilities: dim, spoof, and tpad
-
 ## Tips
 - You can press **`ctrl`**+**`d`** or **`ctrl`**+**`u`** as soon as the backlight comes on. You don't have to wait for the "OS verification is OFF" screen.
 - For help using Arch Linux, visit https://wiki.archlinux.org/
 
 ## Known Issues
-Issues common to open source linux distributions
+Issues common to open source linux distributions on the Samsung Chromebook
 - Suspend does not work properly, *don't use it*. Shut down the computer when not in use.
 - The USB 3.0 port operates at USB 2.0 speed.
 - The Camera does not work.
