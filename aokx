@@ -26,6 +26,14 @@ mkfs -V > /dev/null || { echo "mkfs not found. exiting."; exit 73; }
 dd --version > /dev/null || { echo "dd not found. exiting."; exit 74; }
 lsblk -V > /dev/null || { echo "lsblk not found. exiting."; exit 80; }
 
+CYAN='\033[1;36m' # Light Cyan
+GREEN='\033[1;32m' # Light Green
+YELLOW='\033[1;33m' # Light Yellow
+RED='\033[1;31m' # Light Red
+NC='\033[0m' # No Color
+echo
+printf "Welcome to the ${CYAN}AOK Linux${NC} Installer\n"
+
 ## Show some possibilities
 echo
 echo "Possible Devices to Install Arch Linux:"
@@ -46,20 +54,20 @@ while [ "$USB_DEVICE_COUNT" -gt 0 ]; do
       sed 's/.*Mode\ Sense:\ //')
   case "$USB_MODE" in
     "23 00 00 00")
-      COMPATIBILITY="known to be compatible"
+      COMPATIBILITY="${GREEN}known to be compatible${NC}"
       ;;
     "43 00 00 00")
-      COMPATIBILITY="known to be either compatible or incompatible"
+      COMPATIBILITY="${YELLOW}known to be either compatible or incompatible${NC}"
       ;;
     "45 00 00 00")
-      COMPATIBILITY="known to be incompatible"
+      COMPATIBILITY="${RED}known to be incompatible${NC}"
       ;;
     *)
       COMPATIBILITY="unknown"
       ;;
   esac
   echo "The USB drive at /dev/${THIS_DEVICE} has a Mode Sense of ${USB_MODE},"
-  echo "    which is ${COMPATIBILITY}."
+  printf "    which is ${COMPATIBILITY}.\n"
   USB_DEVICE_COUNT=$[$USB_DEVICE_COUNT-1]
 done
 
