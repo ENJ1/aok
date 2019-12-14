@@ -3,68 +3,6 @@ Easily run a full Linux Distro
 
 [![Download The AOK Script](https://raw.githubusercontent.com/cubetronic/aok/master/files/arch_linux_gnome_menu_icon_by_byamato.png)](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
 
-## Instructions
-1. Enable Developer Mode
-1. Insert an SD Card or USB Drive
-1. Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
-3. Press CTRL+ALT+T for a crosh window
-4. Type `shell` and press enter
-5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter
-6. Type `aok` and press enter
-
-### Part 1: Enable Developer Mode
-If Developer Mode is already enabled, you can skip this section.
-
-#### Step 1
-Back up your files. Turn off the Chromebook.  
-![buttons](https://user-images.githubusercontent.com/11820866/70834287-c5e73380-1dae-11ea-88c2-fc9c7940bd91.png "The location of the ESC, Refresh (or F3), and Power Buttons")  
-Hold **`esc`**+**`refresh`** and press **`power`**.
-
----
-
-#### Step 2
-![missing](https://user-images.githubusercontent.com/11820866/70834349-f202b480-1dae-11ea-97f9-7a410f74ac9a.png "Screen shows 'Chrome OS is missing or damanged.'")  
-Press **`ctrl`**+**`d`** when the screen says "Chrome OS is missing or damanged."
-
-#### Step 3
-![enter](https://user-images.githubusercontent.com/11820866/70834851-435f7380-1db0-11ea-95ea-625e30a5c2a1.png "Screen shows 'To turn OS verification OFF, press ENTER.'")  
-Press **`enter`** when the screen says "To turn OS verification OFF, press ENTER."
-
-#### Step 4
-![verification](https://user-images.githubusercontent.com/11820866/70834971-8883a580-1db0-11ea-8ca1-d77cb3843cf2.png "Screen shows 'OS verification is OFF'")  
-Press **`ctrl`**+**`d`** when the screen says "OS verification is OFF".  
-
-**Never** press space. Doing so will disable Developer Mode.  
-
-The secret options from this screen are:
-- Wait 30 seconds - the computer will beep and boot from eMMC (Internal Storage)
-- Press **`ctrl`**+**`d`** - immediately boot from eMMC (Internal Storage)
-- Press **`ctrl`**+**`u`** - immediately boot from SD Card or USB Drive (External Storage)  
-
-
-### Step 5
-![shell](https://user-images.githubusercontent.com/11820866/70835504-2cba1c00-1db2-11ea-8fef-d82942d33e6a.png "Screen shows Chrome OS developer shell")  
-Chrome OS will walk you through a new installation of Chrome OS.  
-You will be required to create or login with a Google account.  
-
-When setting up the refreshed Chrome OS, you may see an option:
-- *Enable Debugging Features* - This is not required, and doesn't work. Ignore it.
-
-When Chrome OS is done installing:
-1. Press **`ctrl`**+**`alt`**+**`t`** for a *crosh* shell
-2. Type `shell` for a *bash* shell.
-
-Congratulations! You are now using Developer Mode.
-
-
-## Features
-- Fully automated. Easy for a beginner.
-- Mirror checking for speed and improved 24/7 reliability.
-- Pre-configured: 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
-- Clean Xfce environment with Firefox out of the box, ready to use.
-- Firefox is pre-loaded with UBlock, User-Agent Switcher, and Kill Sticky Headers
-- AOK custom command line utilities: dim, spoof, and tpad
-
 ## Compatible Chromebook
 - Samsung Chromebook (XE303C12)
 
@@ -95,6 +33,84 @@ Congratulations! You are now using Developer Mode.
 - A Compatible Chromebook
 - 4 GB or larger SD Card or compatible USB Drive
 - Internet
+
+## Instructions
+
+If Developer Mode is already enabled, skip steps 1-5
+
+---
+
+### Step 1
+Back up your files. Turn off the Chromebook.  
+![buttons](https://user-images.githubusercontent.com/11820866/70834287-c5e73380-1dae-11ea-88c2-fc9c7940bd91.png "The location of the ESC, Refresh (or F3), and Power Buttons")  
+Hold **`esc`**+**`refresh`** and press **`power`**.
+
+---
+
+### Step 2
+![missing](https://user-images.githubusercontent.com/11820866/70834349-f202b480-1dae-11ea-97f9-7a410f74ac9a.png "Screen shows 'Chrome OS is missing or damanged.'")  
+Press **`ctrl`**+**`d`** when the screen says "Chrome OS is missing or damanged."
+
+---
+
+### Step 3
+![enter](https://user-images.githubusercontent.com/11820866/70834851-435f7380-1db0-11ea-95ea-625e30a5c2a1.png "Screen shows 'To turn OS verification OFF, press ENTER.'")  
+Press **`enter`** when the screen says "To turn OS verification OFF, press ENTER."
+
+---
+
+### Step 4
+![verification](https://user-images.githubusercontent.com/11820866/70834971-8883a580-1db0-11ea-8ca1-d77cb3843cf2.png "Screen shows 'OS verification is OFF'")  
+Press **`ctrl`**+**`d`** when the screen says "OS verification is OFF".  
+
+**Never** press space. Doing so will disable Developer Mode.  
+
+The secret options from this screen are:
+- Wait 30 seconds - the computer will beep and boot from eMMC (Internal Storage)
+- Press **`ctrl`**+**`d`** - immediately boot from eMMC (Internal Storage)
+- Press **`ctrl`**+**`u`** - immediately boot from SD Card or USB Drive (External Storage)  
+
+---
+
+### Step 5
+![shell](https://user-images.githubusercontent.com/11820866/70835504-2cba1c00-1db2-11ea-8fef-d82942d33e6a.png "Screen shows Chrome OS developer shell")  
+Chrome OS will walk you through a new installation of Chrome OS.  
+You will be required to create or login with a Google account.  
+
+When setting up the refreshed Chrome OS, you may see an option:
+- *Enable Debugging Features* - This is not required, and doesn't work. Ignore it.
+
+When Chrome OS is done installing:
+1. Press **`ctrl`**+**`alt`**+**`t`** for a *crosh* shell
+2. Type `shell` for a *bash* shell.
+
+Congratulations! You are now using Developer Mode.
+
+---
+
+### Step 6
+Insert an SD Card or USB Drive
+
+### Step 7
+Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
+
+### Step 8
+At a *bash* shell, type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter
+
+### Step 9
+Finally, at the *bash* shell, type `aok` and press enter
+
+---
+
+## Features
+- Fully automated. Easy for a beginner.
+- Mirror checking for speed and improved 24/7 reliability.
+- Pre-configured: 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
+- Clean Xfce environment with Firefox out of the box, ready to use.
+- Firefox is pre-loaded with UBlock, User-Agent Switcher, and Kill Sticky Headers
+- AOK custom command line utilities: dim, spoof, and tpad
+
+
 
 ## Post-Installation Tips
 - You can press Ctrl-D or Ctrl-U as soon as the backlight comes on. You don't have to wait for the white screen to appear.
