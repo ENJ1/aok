@@ -39,7 +39,7 @@ The **easy** way to get ***Arch Linux, Xfce, Firefox, and more*** running on an 
 
 ## Minimum Requirements
 - A Compatible Chromebook
-- 4 GB or larger SD Card or a [compat-usb](https://github.com/cubetronic/aok/wiki#is-my-usb-flash-drive-bootable "compatible USB Drive")
+- 4 GB or larger SD Card or a [compatible USB Drive](https://github.com/cubetronic/aok/wiki#is-my-usb-flash-drive-bootable "Check the Wiki")
 - Internet
 
 ## Instructions
