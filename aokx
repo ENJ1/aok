@@ -596,7 +596,7 @@ echo "Done."
 echo
 echo "To boot from USB on a Samsung XE303C12, use the USB 2.0 Port"
 echo
-printf "Upon boot press ${YELLOW}CTRL-U${NC} to boot USB/SD, or CTRL-D to boot Internal Storage."
+printf "Upon boot press ${YELLOW}CTRL-U${NC} to boot USB/SD, or CTRL-D to boot Internal Storage.\n"
 echo
 read -p "Reboot now? [Y/n] " REBOOTER
 case "$REBOOTER" in
