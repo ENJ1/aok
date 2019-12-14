@@ -1,5 +1,5 @@
 # AOK Linux for ARMv7 Chromebooks
-The **fastest** and **easiest** way to set up *Arch Linux, Xfce, and Firefox* for an old Chromebook
+The **fastest** and **easiest** way to run *Arch Linux, Xfce, Firefox, and more* on an old Chromebook
 
 [![Download The AOK Script](https://raw.githubusercontent.com/cubetronic/aok/master/files/arch_linux_gnome_menu_icon_by_byamato.png)](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
 
@@ -73,12 +73,13 @@ The secret options from this screen are:
 ---
 
 ### Step 5
-![shell](https://user-images.githubusercontent.com/11820866/70835504-2cba1c00-1db2-11ea-8fef-d82942d33e6a.png "Screen shows Chrome OS developer shell")  
 Chrome OS will walk you through a new installation of Chrome OS.  
 You will be required to create or login with a Google account.  
 
 When setting up the refreshed Chrome OS, you may see an option:
 - *Enable Debugging Features* - This is not required, and doesn't work. Ignore it.
+
+![shell](https://user-images.githubusercontent.com/11820866/70835504-2cba1c00-1db2-11ea-8fef-d82942d33e6a.png "Screen shows Chrome OS developer shell")  
 
 When Chrome OS is done installing:
 1. Press **`ctrl`**+**`alt`**+**`t`** for a *crosh* shell
