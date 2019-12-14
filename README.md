@@ -5,11 +5,11 @@ The **easy** way to get ***Arch Linux, Xfce, Firefox, and more*** running on an 
 
 ## Features
 - Installing Arch Linux is fully automated. It's easy for a beginner. No Linux experience is required.
-- Mirror checking for speed and improved 24/7 reliability.
-- AOK custom command line utilities: dim, spoof, and tpad
-- Pre-configured: 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
-- Clean Xfce environment with Firefox out of the box, ready to use.
+- A fast, minimalist Xfce Desktop Environment, ready for running the programs you want
 - Firefox is pre-loaded with UBlock, User-Agent Switcher, and Kill Sticky Headers
+- Pre-configured 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
+- Mirror checking for speed and improved 24/7 reliability.
+- AOK Custom Command line utilities for advanced users: dim, spoof, and tpad
 
 ## Compatible Chromebook
 - Samsung Chromebook (XE303C12)
