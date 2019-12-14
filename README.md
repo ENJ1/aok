@@ -1,5 +1,5 @@
 # AOK Linux for ARMv7 Chromebooks
-The **fastest** and **easiest** way to run *Arch Linux, Xfce, Firefox, and more* on an old Chromebook
+The **easiest** way to get *Arch Linux, Xfce, Firefox, and more* running on an old Chromebook
 
 [![Download The AOK Script](https://raw.githubusercontent.com/cubetronic/aok/master/files/arch_linux_gnome_menu_icon_by_byamato.png)](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
 
