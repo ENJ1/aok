@@ -11,6 +11,46 @@
 5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter
 6. Type `aok` and press enter
 
+## How to Enable Developer Mode
+### Step 1
+Back up your files. Turn off the Chromebook.
+Hold **`esc`**+**`refresh`** and press **`power`**.
+![buttons](https://user-images.githubusercontent.com/11820866/70834287-c5e73380-1dae-11ea-88c2-fc9c7940bd91.png "The location of the ESC, Refresh (or F3), and Power Buttons")
+
+### Step 2
+At this screen, press **`ctrl`**+**`d`**.  
+![missing](https://user-images.githubusercontent.com/11820866/70834349-f202b480-1dae-11ea-97f9-7a410f74ac9a.png "Screen shows 'Chrome OS is missing or damanged.'")
+
+### Step 3
+At this screen press **`enter`**.  
+![enter](https://user-images.githubusercontent.com/11820866/70834851-435f7380-1db0-11ea-95ea-625e30a5c2a1.png "Screen shows 'To turn OS verification OFF, press ENTER.'")
+
+### Step 4
+Whenever you see this screen, **never** press space. Doing so will disable Developer Mode.
+
+The secret options from this screen are:
+- Wait 30 seconds - the computer will beep and boot from eMMC (Internal Storage)
+- Press **`ctrl`**+**`d`** - immediately boot from eMMC (Internal Storage)
+- Press **`ctrl`**+**`u`** - immediately boot from SD Card or USB Drive (External Storage)  
+
+For now, always press **`ctrl`**+**`d`** at this screen.
+![verification](https://user-images.githubusercontent.com/11820866/70834971-8883a580-1db0-11ea-8ca1-d77cb3843cf2.png "Screen shows 'OS verification is OFF'")
+
+### Step 5
+Chrome OS will walk you through a new installation of Chrome OS.  
+You will be required to create or login with a Google account.  
+
+When setting up the refreshed Chrome OS, you may see an option:
+- *Enable Debugging Features* - This is not required, and doesn't work. Ignore it.
+
+When Chrome OS is done installing:
+1. Press **`ctrl`**+**`alt`**+**`t`** for a *crosh* shell
+2. Type `shell` for a *bash* shell.
+
+Congratulations! You are now using Developer Mode.
+![shell](https://user-images.githubusercontent.com/11820866/70835504-2cba1c00-1db2-11ea-8fef-d82942d33e6a.png "Screen shows Chrome OS developer shell")
+
+
 ## What is this?
 - A User-Friendly Linux Distro for certain ARMv7 laptops, based one Arch Linux ARM and Xfce.
 - The **easiest** and **fastest** way to get a full Linux Distro on an old Chromebook.
@@ -54,15 +94,6 @@
 - A Compatible Chromebook
 - 4 GB or larger SD Card or compatible USB Drive
 - Internet
-
-## How to Enable Developer Mode
-1. Back up your files.
-2. Turn off the Chromebook.
-3. Hold down **ESC** and **Refresh** (circular arrow above the "4" key) and poke the **Power** button.
-4. At the Recovery screen press **Ctrl-D** (there's no prompt - you have to know to do it).
-5. Confirm switching to developer mode by pressing **Enter**, and the laptop will reboot and reset the system. This takes about 15-20 minutes.
-
-After enabling developer mode, you will need to press Ctrl-D each time you boot, or wait 30 seconds to continue booting.
 
 ## Post-Installation Tips
 - You can press Ctrl-D or Ctrl-U as soon as the backlight comes on. You don't have to wait for the white screen to appear.
