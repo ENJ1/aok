@@ -11,21 +11,24 @@
 5. Type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter
 6. Type `aok` and press enter
 
-## How to Enable Developer Mode
-### Step 1
-Back up your files. Turn off the Chromebook.
-Hold **`esc`**+**`refresh`** and press **`power`**.
+### Part 1: Enable Developer Mode
+If Developer Mode is already enabled, you can skip this section.
+
+#### Step 1
+Back up your files. Turn off the Chromebook.  
 ![buttons](https://user-images.githubusercontent.com/11820866/70834287-c5e73380-1dae-11ea-88c2-fc9c7940bd91.png "The location of the ESC, Refresh (or F3), and Power Buttons")
+Hold **`esc`**+**`refresh`** and press **`power`**.
 
-### Step 2
-At this screen, press **`ctrl`**+**`d`**.  
+#### Step 2
 ![missing](https://user-images.githubusercontent.com/11820866/70834349-f202b480-1dae-11ea-97f9-7a410f74ac9a.png "Screen shows 'Chrome OS is missing or damanged.'")
+At this screen, press **`ctrl`**+**`d`**.
 
-### Step 3
-At this screen press **`enter`**.  
+#### Step 3
 ![enter](https://user-images.githubusercontent.com/11820866/70834851-435f7380-1db0-11ea-95ea-625e30a5c2a1.png "Screen shows 'To turn OS verification OFF, press ENTER.'")
+At this screen press **`enter`**.
 
-### Step 4
+#### Step 4
+![verification](https://user-images.githubusercontent.com/11820866/70834971-8883a580-1db0-11ea-8ca1-d77cb3843cf2.png "Screen shows 'OS verification is OFF'")
 Whenever you see this screen, **never** press space. Doing so will disable Developer Mode.
 
 The secret options from this screen are:
@@ -34,9 +37,10 @@ The secret options from this screen are:
 - Press **`ctrl`**+**`u`** - immediately boot from SD Card or USB Drive (External Storage)  
 
 For now, always press **`ctrl`**+**`d`** at this screen.
-![verification](https://user-images.githubusercontent.com/11820866/70834971-8883a580-1db0-11ea-8ca1-d77cb3843cf2.png "Screen shows 'OS verification is OFF'")
+
 
 ### Step 5
+![shell](https://user-images.githubusercontent.com/11820866/70835504-2cba1c00-1db2-11ea-8fef-d82942d33e6a.png "Screen shows Chrome OS developer shell")
 Chrome OS will walk you through a new installation of Chrome OS.  
 You will be required to create or login with a Google account.  
 
@@ -48,7 +52,7 @@ When Chrome OS is done installing:
 2. Type `shell` for a *bash* shell.
 
 Congratulations! You are now using Developer Mode.
-![shell](https://user-images.githubusercontent.com/11820866/70835504-2cba1c00-1db2-11ea-8fef-d82942d33e6a.png "Screen shows Chrome OS developer shell")
+
 
 
 ## What is this?
