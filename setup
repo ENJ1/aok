@@ -296,6 +296,16 @@ echo "Caps Lock for X11 Windows fixed."
 #echo "keycode 133 = Caps_Lock" > ~/.Xmodmap
 ###########################################################################
 
+
+
+
+###########################################################################
+## start lightdm configuration
+##
+
+## Enable this
+systemctl enable accounts-daemon
+
 ## Patch lightdm (necessary. reportedly due to gnome/gtk presence)
 ## THE COMMENTS BELOW ARE NOT COMMENTS IN THIS FILE, BUT COMMENTS IN lightdm.conf
 cat << "EOF" >> /etc/lightdm/lightdm.conf
@@ -322,6 +332,13 @@ systemctl enable lightdm
 #sed -i "s/#autologin-user=/autologin-user=${NEW_USERNAME}/" /etc/lightdm/lightdm.conf \
 #    && rm /root/.autologin-user.temp || echo -n
 #sed -i "s/#autologin-session=/autologin-session=xfce/" /etc/lightdm/lightdm.conf
+
+##
+## end lightdm configuration
+###########################################################################
+
+
+
 
 ## Enable WiFi gui autostart because Xfce will be used
 systemctl enable NetworkManager
