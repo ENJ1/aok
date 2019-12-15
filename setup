@@ -156,12 +156,14 @@ ping -c 1 archlinuxarm.org || {
 ## xorg-xinput: mouse and trackpad control (needed by script included in extra)
 ## vboot-utils: cgpt partition flags for chromebooks (used by install script)
 ## man: manual pages. type "man some-command" to get the manual for it
+## accountsservice: lightdm dependency, needed to start system
 ##
 pacman -Syu --noconfirm sudo unzip zip xf86-video-fbdev xorg-server \
 xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu vboot-utils man \
 alsa-utils xfce4-pulseaudio-plugin pavucontrol pulseaudio pulseaudio-alsa \
 networkmanager nm-connection-editor network-manager-applet firefox blueman \
-mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput
+mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
+accountsservice
 
 ###########################################################################
 
