@@ -592,7 +592,7 @@ case "$FUTURE" in
 esac
 echo "Done."
 echo
-echo "To boot from USB on a Samsung XE303C12, use the USB 2.0 Port"
+printf "To boot from USB on a Samsung XE303C12, use the ${YELLOW}USB 2.0${NC} Port\n"
 echo
 printf "Upon boot press ${YELLOW}ctrl${NC}+${YELLOW}u${NC} to boot USB/SD, or ctrl+d to boot Internal Storage.\n"
 echo
