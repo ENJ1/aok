@@ -291,6 +291,14 @@ echo "Caps Lock for X11 Windows fixed."
 #echo "keycode 133 = Caps_Lock" > ~/.Xmodmap
 ###########################################################################
 
+## Patch lightdm (necessary. reportedly due to gnome/gtk presence)
+cat << EOF >> /etc/lightdm/lightdm.conf
+
+## AOK Stability Configuration
+## The package "accountsservice" is also needed
+services.accounts-daemon.enabled=true
+EOF
+
 ## Change clock format and indicators for login screen
 sed -i 's/^#clock-format=/clock-format=%l:%M %p/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
 sed -i 's/^#indicators=/indicators=~host;~spacer;~clock/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
