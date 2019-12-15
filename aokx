@@ -470,14 +470,16 @@ echo "Boot Partition copy complete pending sync"
 
 
 
-echo "Pre-configuring system and syncing..."
+printf "Pre-configuring system and syncing..."
 
 ## If using Chrome OS then this will enable booting
 crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
+printf .
 
 ## Don't let kernel messages garble the console; hide them instead.
 mkdir -p rootfs/etc/sysctl.d
 echo "kernel.printk = 3 3 3 3" >> rootfs/etc/sysctl.d/20-quiet-printk.conf
+printf .
 
 ## Add best mirrors to pacman mirrorlist
 if [ -f 'distro/bestmirrors.txt' ]; then
@@ -503,7 +505,7 @@ if [ -f 'distro/bestmirrors.txt' ]; then
   rm topmirrors.tmp
 
 fi
-
+printf .
 
 
 ## Bulk copy of custom content (will ALSO install in specific places)
@@ -515,6 +517,7 @@ install setup rootfs/usr/local/bin
 install extra/dim rootfs/usr/local/bin
 install extra/tpad rootfs/usr/local/bin
 install extra/spoof rootfs/usr/local/bin
+printf .
 
 ## Copy everything except distro to aok folder
 mkdir -p rootfs/usr/local/aok
@@ -524,6 +527,7 @@ cp setup rootfs/usr/local/aok
 cp -r files rootfs/usr/local/aok
 cp -r extra rootfs/usr/local/aok
 cp README.md rootfs/usr/local/aok
+printf .
 
 ## ALSO, copy global configuration files to specific locations
 
@@ -547,9 +551,11 @@ cp files/15761344891.desktop \
 cp rootfs/etc/skel/.bashrc rootfs/etc/skel/.bashrc.backup || echo -n
 cp files/dot-bashrc rootfs/etc/skel/.bashrc
 cp files/dot-bashrc rootfs/root/.bashrc
+printf .
 
 ## Copy firefox pre-config (ublock, user-agent switcher, kill sticky, settings)
 tar -xf files/dot-mozilla-preconfig.tar.gz -C rootfs/etc/skel/
+printf .
 
 ## Configure being able to run "startx" to load Xfce
 echo "exec startxfce4" > rootfs/etc/skel/.xinitrc
@@ -564,6 +570,9 @@ EOF
 
 ## Enable color in pacman
 sed -i 's/^#Color/Color/' rootfs/etc/pacman.conf
+printf .
+echo
+echo "Syncing..."
 
 ## Finish up
 umount rootfs
