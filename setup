@@ -116,6 +116,7 @@ fi
 ## This part of the script depends on being online
 get_packages () {
 
+echo "Testing connection..."
 ping -c 1 archlinuxarm.org || {
 
   ## wifi-menu has a bug where it won't work if the interface is already up
