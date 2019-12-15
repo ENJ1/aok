@@ -297,7 +297,7 @@ if [ "$(ping -c 1 archlinuxarm.org)" ]; then
   OLD_DISTRO_MD5=$(md5sum ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 | cut -c1-32)
   NEW_DISTRO_MD5=$(md5sum ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak | cut -c1-32)
   if [ "$OLD_DISTRO_MD5" = "$NEW_DISTRO_MD5" ]; then
-    echo "No new distro release is available. Using old distro release."
+    echo "No new distro release is available. Using current distro release."
   else
     read -p "A new disto has been released. Use it? [Y/n] " USE_NEW_DISTRO
     case "$USE_NEW_DISTRO" in
