@@ -117,6 +117,10 @@ fi
 get_packages () {
 
 ping -c 1 archlinuxarm.org || {
+
+  ## wifi-menu has a bug where it won't work if the interface is already up
+  ip link set mlan0 down || echo -n
+
   wifi-menu -o \
   && sleep 10 \
   && echo "Waiting 10 seconds for network interface to be ready..."
