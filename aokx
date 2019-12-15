@@ -79,7 +79,9 @@ done
 #  echo "The drive at /dev/$THIS_DEVICE is compatible, as all block devices are."
 #  OTHER_DEVICE_COUNT=$[$OTHER_DEVICE_COUNT-1]
 #done
-#} || echo -n
+
+} || echo -n
+
 
 if [ "$(uname -p | grep ARMv7)" ]; then
   echo
