@@ -310,7 +310,9 @@ sed -i 's/^#clock-format=/clock-format=%l:%M %p/' /etc/lightdm/lightdm-gtk-greet
 sed -i 's/^#indicators=/indicators=~host;~spacer;~clock/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
 ## NEVER show the user's wallpaper on login
 sed -i 's/^#user-background=/user-background=false/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
-sed -i 's/#icon-theme-name=/icon-theme-name=HighContrast/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
+
+## Use nice Arch Linux logo as the default Avatar for all users
+echo "default-user-image=/usr/share/icons/arch_linux_gnome_menu_icon_by_byamato.png" >> /etc/lightdm/lightdm-gtk-greeter.conf
 
 ## Enable lightdm to load Xfce on boot
 systemctl enable lightdm
