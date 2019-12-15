@@ -71,15 +71,15 @@ while [ "$USB_DEVICE_COUNT" -gt 0 ]; do
   USB_DEVICE_COUNT=$[$USB_DEVICE_COUNT-1]
 done
 
-echo
-
-OTHER_DEVICE_COUNT=$(lsblk | grep '^mmcblk' | grep -v -E -- 'loop|boot|ram|rpmb' | wc -l)
-while [ "$OTHER_DEVICE_COUNT" -gt 0 ]; do
-  THIS_DEVICE=$(lsblk | grep '^mmcblk' | head -c 7)
-  echo "The drive at /dev/$THIS_DEVICE is compatible, as all block devices are."
-  OTHER_DEVICE_COUNT=$[$OTHER_DEVICE_COUNT-1]
-done
-} || echo -n
+## Unnecessary feedback
+#echo
+#OTHER_DEVICE_COUNT=$(lsblk | grep '^mmcblk' | grep -v -E -- 'loop|boot|ram|rpmb' | wc -l)
+#while [ "$OTHER_DEVICE_COUNT" -gt 0 ]; do
+#  THIS_DEVICE=$(lsblk | grep '^mmcblk' | head -c 7)
+#  echo "The drive at /dev/$THIS_DEVICE is compatible, as all block devices are."
+#  OTHER_DEVICE_COUNT=$[$OTHER_DEVICE_COUNT-1]
+#done
+#} || echo -n
 
 if [ "$(uname -p | grep ARMv7)" ]; then
   echo
@@ -307,11 +307,6 @@ if [ "$(ping -c 1 archlinuxarm.org)" ]; then
         ;;
     esac
   fi
-
-  ## Add a message just before a likely pause period
-  echo "Do NOT click on pop-up messages!"
-
-
   if [ "$MIRROR_SUCCESS" = false ]; then
     echo "Cannot download latest md5: all mirrors failed."
     use_local_md5
@@ -394,6 +389,9 @@ md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
     get_from_dropbox
   fi
 }
+
+## Add warning
+printf "${RED}Do NOT click on pop-up messages!${NC}\n"
 
 ## Return to aok from aok/distro, silently
 cd - > /dev/null
