@@ -529,32 +529,47 @@ cp README.md rootfs/usr/local/aok
 ## ALSO, copy global configuration files to specific locations
 
 ## Copy Arch Linux icon for Xfce menu
-mkdir -p rootfs/usr/share/icons
-cp files/arch_linux_gnome_menu_icon_by_byamato.png rootfs/usr/share/icons
+#mkdir -p rootfs/usr/share/icons
+#cp files/arch_linux_gnome_menu_icon_by_byamato.png rootfs/usr/share/icons
 
 ## ALSO, copy Xfce skeleton files
 
 ## Copy desktop, panel, power settings
-mkdir -p rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
-cp files/*.xml \
-   rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
+#mkdir -p rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
+#cp files/*.xml \
+#   rootfs/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml
 
 ## Copy firefox launcher
-mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-7
-cp files/15761344891.desktop \
-    rootfs/etc/skel/.config/xfce4/panel/launcher-7
+#mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-7
+#cp files/15761344891.desktop \
+#    rootfs/etc/skel/.config/xfce4/panel/launcher-7
 
 ## Provide gentoo style bashrc, enabling color in all shells (changes filename)
 cp rootfs/etc/skel/.bashrc rootfs/etc/skel/.bashrc.backup || echo -n
 cp files/dot-bashrc rootfs/etc/skel/.bashrc
-cp files/dot-bashrc rootfs/root/.bashrc
-cp files/dot-dmrc rootfs/etc/skel/.dmrc
+#cp files/dot-bashrc rootfs/root/.bashrc
+#cp files/dot-dmrc rootfs/etc/skel/.dmrc
 
 ## Copy firefox pre-config (ublock, user-agent switcher, kill sticky, settings)
 tar -xf files/dot-mozilla-preconfig.tar.gz -C rootfs/etc/skel/
 
 ## Configure being able to run "startx" to load Xfce
-echo "exec startxfce4" > rootfs/etc/skel/.xinitrc
+#echo "exec startxfce4" > rootfs/etc/skel/.xinitrc
+
+## copy tint2 config
+mkdir -p rootfs/etc/skel/.config/tint2
+cp files/tint2rc rootfs/etc/skel/.config/tint2/
+
+## Create openbox xinitrc
+cat << "EOF" >> rootfs/etc/skel/.xinitrc
+nm-applet &
+volumeicon &
+pcmanfm --desktop &
+tint2 &
+exec openbox-session
+EOF
+
+
 
 ## Create a welcome message with instructions
 cat << "EOF" >> rootfs/etc/issue
