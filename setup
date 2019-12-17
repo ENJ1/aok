@@ -163,12 +163,12 @@ ping -c 1 archlinuxarm.org || {
 ## man: manual pages. type "man some-command" to get the manual for it
 ## accountsservice: lightdm dependency, needed to start system
 ##
-pacman -Syu --noconfirm sudo unzip zip xf86-video-fbdev xorg-server \
-xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu vboot-utils man \
-alsa-utils xfce4-pulseaudio-plugin pavucontrol pulseaudio pulseaudio-alsa \
+pacman -Sy --noconfirm sudo unzip zip xf86-video-fbdev xorg-server \
+xorg-xinit ttf-dejavu vboot-utils man \
+alsa-utils pavucontrol pulseaudio pulseaudio-alsa \
 networkmanager nm-connection-editor network-manager-applet firefox blueman \
 mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
-accountsservice
+openbox tint2 pcmanfm volumeicon jgmenu numix-themes
 
 ###########################################################################
 
@@ -304,28 +304,28 @@ echo "Caps Lock for X11 Windows fixed."
 ##
 
 ## Enable this
-systemctl enable accounts-daemon
+#systemctl enable accounts-daemon
 
 ## Patch lightdm (necessary. reportedly due to gnome/gtk presence)
 ## THE COMMENTS BELOW ARE NOT COMMENTS IN THIS FILE, BUT COMMENTS IN lightdm.conf
-cat << "EOF" >> /etc/lightdm/lightdm.conf
+#cat << "EOF" >> /etc/lightdm/lightdm.conf
 
 ## AOK Stability Configuration
 ## The package "accountsservice" is also needed
-services.accounts-daemon.enabled=true
-EOF
+#services.accounts-daemon.enabled=true
+#EOF
 
 ## Change clock format and indicators for login screen
-sed -i 's/^#clock-format=/clock-format=%l:%M %p/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
-sed -i 's/^#indicators=/indicators=~host;~spacer;~clock/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
+#sed -i 's/^#clock-format=/clock-format=%l:%M %p/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
+#sed -i 's/^#indicators=/indicators=~host;~spacer;~clock/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
 ## NEVER show the user's wallpaper on login
-sed -i 's/^#user-background=/user-background=false/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
+#sed -i 's/^#user-background=/user-background=false/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
 
 ## Use nice Arch Linux logo as the default Avatar for all users
-echo "default-user-image=/usr/share/icons/arch_linux_gnome_menu_icon_by_byamato.png" >> /etc/lightdm/lightdm-gtk-greeter.conf
+#echo "default-user-image=/usr/share/icons/arch_linux_gnome_menu_icon_by_byamato.png" >> /etc/lightdm/lightdm-gtk-greeter.conf
 
 ## Enable lightdm to load Xfce on boot
-systemctl enable lightdm
+#systemctl enable lightdm
 
 ## Set lightdm to autologin for user (commented out - would also need to setup default greeter)
 #NEW_USERNAME=$(cat /root/.autologin-user.temp) || echo -n
@@ -348,31 +348,35 @@ systemctl enable NetworkManager
 #systemctl enable bluetooth
 
 ## Don't show Mail Reader menu link
-mkdir -p /usr/share/applications
-cp /usr/local/aok/files/exo-mail-reader.desktop \
-    /usr/share/applications || echo -n
+#mkdir -p /usr/share/applications
+#cp /usr/local/aok/files/exo-mail-reader.desktop \
+#    /usr/share/applications || echo -n
 
 ## Remove old packages
 pacman --noconfirm -Sc || echo -n
 
 ## Now that that's all done, restore the default login prompt
 ## (Remove the AOK setup welcome message)
-echo "Arch Linux \r (\l)" > /etc/issue
-echo >> /etc/issue
-
+#echo "Arch Linux \r (\l)" > /etc/issue
+#echo >> /etc/issue
+printf "\e[1;36mAOK Linux\e[0m\n\n" > /etc/issue
 
 
 ## Uninstall setup files
 rm /usr/local/bin/setup || echo -n
 rm /root/.aok-offline-setup-done.temp || echo -n
 
+## save power, but don't be slow
+echo "conservative" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
+
 ## Exit message
+clear
 echo
 echo "Done."
 echo
 
-YELLOW='\033[1;33m' # Light Yellow
-NC='\033[0m' # No Color
+#YELLOW='\033[1;33m' # Light Yellow
+#NC='\033[0m' # No Color
 printf "Upon boot press ${YELLOW}ctrl${NC}+${YELLOW}u${NC} to boot USB/SD, or ctrl+d to boot Internal Storage.\n"
 echo
 ## REBOOT TO LOAD UPGRADED KERNEL, ETC
