@@ -575,6 +575,62 @@ tint2 &
 exec openbox-session
 EOF
 
+cat << "__EOF__" >> rootfs/etc/skel/.config/pcmanfm/default/pcmanfm.conf
+[config]
+bm_open_method=0
+
+[volume]
+mount_on_startup=1
+mount_removable=1
+autorun=1
+
+[ui]
+always_show_tabs=0
+max_tab_chars=32
+win_width=546
+win_height=386
+splitter_pos=150
+media_in_new_tab=0
+desktop_folder_new_win=1
+change_tab_on_drop=1
+close_on_unmount=1
+focus_previous=0
+side_pane_mode=hidden;places
+view_mode=compact
+show_hidden=0
+sort=name;ascending;
+toolbar=newtab;navigation;home;
+show_statusbar=1
+pathbar_mode_buttons=0
+__EOF__
+
+cat << "__EOF__" >> rootfs/etc/skel/.config/pcmanfm/default/desktop-items-0.conf
+[*]
+wallpaper_mode=color
+wallpaper_common=1
+desktop_bg=#474747
+desktop_fg=#ffffff
+desktop_shadow=#000000
+desktop_font=Sans 10
+show_wm_menu=0
+sort=mtime;ascending;
+show_documents=0
+show_trash=1
+show_mounts=0
+
+[kernel-stuff]
+x=972
+y=7
+
+[boxr]
+x=1256
+y=15
+
+[box]
+x=1131
+y=15
+
+__EOF__
 
 
 ## Create a welcome message with instructions
