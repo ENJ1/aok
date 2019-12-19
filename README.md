@@ -105,9 +105,7 @@ Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Do
 
 ### Step 8
 At a *bash* shell, type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter.
-
-### Step 9
-Finally, at a *bash* shell, type `aok` and press enter.
+Then type `aok` and press enter.
 
 ---
 
@@ -123,7 +121,7 @@ Issues common to latest stable linux kernel distributions on the Samsung Chromeb
 - \* The Camera does not work.
 - \* The Microphone does not work.
 
-\* For USB 3.0, camera, and mic, see the peach branch of this github repo
+\* For USB 3.0, camera, and mic, see the **peach** branch of this github repo
 
 ## Notes
 If you need to use a public Wi-Fi Hotspot with a Landing Page during setup, then see the WiFi Hotspot Help file in "extra".  
