@@ -118,12 +118,12 @@ Finally, at a *bash* shell, type `aok` and press enter.
 ## Known Issues
 Issues common to latest stable linux kernel distributions on the Samsung Chromebook
 - Suspend does not work properly, *don't use it*. Shut down the computer when not in use.
-- * The USB 3.0 port does not work for USB 3.0 devices, only USB 2.0 devices.
-- * The Camera does not work.
-- * The Microphone does not work.
+- \* The USB 3.0 port does not work for USB 3.0 devices, only USB 2.0 devices.
+- \* The Camera does not work.
+- \* The Microphone does not work.
 - 3D Acceleration not yet supported (But definitely possible now due to recent (2019) updates in the Linux Kernel)
 
-* For USB 3.0, camera, and mic, see the peach branch of this github repo
+\* For USB 3.0, camera, and mic, see the peach branch of this github repo
 
 ## Notes
 If you need to use a public Wi-Fi Hotspot with a Landing Page during setup, then see the WiFi Hotspot Help file in "extra".  
