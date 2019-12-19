@@ -1,30 +1,32 @@
 #!/bin/bash -e
 
-## This script depends on the AOK setup files (unzipped) in:
-## /usr/local/aok
+## This script depends on files in /usr/local/aok
 
-## Developer Note: curl is built without metalink support in Chrome OS,
-## so the curl commands used here do not require metalink support
+## Developer Note: curl is built without metalink support in Chrome OS
 
+## Check for root privilege
 if [ "$EUID" != 0 ]; then
   echo "Root privilege not found, quitting."
-  exit 66
+  exit 1
 fi
 
-## Check for necessary tools (and show hwid, fwid)
+## Show system info
 crossystem hwid && echo || echo "crossystem not found. OK."
 ## crossystem fwid should show Veyron if it's a veyron board
 crossystem fwid && echo || echo -n
-curl -V > /dev/null || { echo "curl not found. exiting."; exit 69; }
+
+## Check for necessary tools
+curl -V > /dev/null
+md5sum --version > /dev/null
+umount -V > /dev/null
+fdisk -V > /dev/null
+cgpt add -h > /dev/null
+mkfs -V > /dev/null
+dd --version > /dev/null
+lsblk -V > /dev/null
+
 ping -c 1 archlinuxarm.org > /dev/null \
   || echo "archlinuxarm.org not found. May use local data."
-md5sum --version > /dev/null || { echo "md5sum not found. exiting."; exit 70; }
-umount -V > /dev/null || { echo "umount not found. exiting."; exit 71; }
-fdisk -V > /dev/null || { echo "fdisk not found. exiting."; exit 81; }
-cgpt add -h > /dev/null || { echo "cgpt not found. exiting."; exit 72; }
-mkfs -V > /dev/null || { echo "mkfs not found. exiting."; exit 73; }
-dd --version > /dev/null || { echo "dd not found. exiting."; exit 74; }
-lsblk -V > /dev/null || { echo "lsblk not found. exiting."; exit 80; }
 
 CYAN='\033[1;36m' # Light Cyan
 GREEN='\033[1;32m' # Light Green
@@ -450,7 +452,7 @@ umount rootfs 2> /dev/null || echo -n
 ## Make filesystem
 ## Avoid mkfs complaining that it's 'apparently in use by the system' but isn't
 ## Suppress technical jargon and kernel upgrade recommendation
-mkfs.ext4 -F -F ${DEVICE}${PARTITION_2} &> /dev/null
+mkfs.ext4 -F -F -O ^has_journal ${DEVICE}${PARTITION_2} &> /dev/null
 
 ## Updating partition info, regardless of whether it's necessary or not
 partx -u ${DEVICE}
