@@ -104,8 +104,9 @@ Insert an SD Card or USB Drive.
 Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script").
 
 ### Step 8
-At a *bash* shell, type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter.
-Then type `aok` and press enter.
+At a *bash* shell:
+- Type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter.
+- Then type `aok` and press enter.
 
 ---
 
