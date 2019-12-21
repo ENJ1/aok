@@ -436,6 +436,8 @@ END
   echo "fdisk was unable to re-read partition table. Using partx to solve..."
 }
 
+umount ${DEVICE}* 2> /dev/null || echo -n
+
 ## Updating partition info, regardless of whether it's necessary or not
 partx -u ${DEVICE}
 
