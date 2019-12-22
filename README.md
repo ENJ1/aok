@@ -136,7 +136,7 @@ a@ok / $ cat /sys/devices/platform/soc/12ca0000.i2c/i2c-4/i2c-104/104-000b/power
 49
 
 ```
-In openbox, tint2 has a feature that displays the battery level reliably, no matter what kernel you're using.
+In an openbox/tint2 setup (not Xfce), tint2 has a feature that displays the battery level reliably, no matter what kernel you're using.
 
 ##### To get back to the latest kernel:
 1. `sudo pacman -Syu linux-armv7-chromebook`
