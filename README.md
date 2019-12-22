@@ -125,7 +125,8 @@ Issues common to latest stable linux kernel distributions on the Samsung Chromeb
 ##### \* For a working Microphone, Camera, USB 3.0, and the ability to fine-tune brightness, install the old Chrome OS kernel:
 1. Download the peach kernel: `sudo pacman -Sw linux-peach`
 2. Remove the current kernel and its dependency: `sudo pacman -R linux-armv7 linux-armv7-chromebook`
-3. Install the peach kernel: `sudo pacman -S linux-peach`  
+3. Install the peach kernel: `sudo pacman -S linux-peach`
+4. Reboot  
 The peach kernel is old. the Xfce power management interface may not load. To control brightness use a custom command I created called `dim`, like so: `dim` will show you what arguments are valid. `sudo dim 300` for example, would set the brightness to 300 (on a scale of 0-2800, 50-2800 to be safe). The `dim` command will also work with the new kernel, but the scale would be 0-7 (1-7 to be safe).  
 Changing permissions for the brightness file (like from the archlinuxarm.org wiki) helps and makes it so that xfce4-power-manager *might* load, and give you a nice gui interface. (note: you also have to be added to the `video` group for this to work). and then, if it loads, can also see the battery level. There is a file in the system named `capacity` that has battery percentage, for example: 
 ```
@@ -139,6 +140,7 @@ In openbox, tint2 has a feature that displays the battery level reliably, no mat
 
 ##### To get back to the latest kernel:
 1. `sudo pacman -Syu linux-armv7-chromebook`
+2. Reboot
 
 ## Notes
 If you need to use a public Wi-Fi Hotspot with a Landing Page during setup, then see the WiFi Hotspot Help file in "extra".  
