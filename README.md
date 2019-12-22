@@ -118,15 +118,15 @@ At a *bash* shell:
 Issues common to latest stable linux kernel distributions on the Samsung Chromebook
 - Suspend does not work properly, *don't use it*. Shut down the computer when not in use.
 - 3D Acceleration not yet supported (But definitely possible now due to recent (2019) updates in the Linux Kernel)
-- \* The USB 3.0 port does not work for USB 3.0 devices, only USB 2.0 devices.
-- \* The Camera does not work.
 - \* The Microphone does not work.
+- \* The Camera does not work.
+- \* The USB 3.0 port does not work for USB 3.0 devices, only USB 2.0 or older devices.
 
-##### \* For USB 3.0, camera, and mic, install the old Chrome OS kernel:
+##### \* For a working Microphone, Camera, USB 3.0, and the ability to fine-tune brightness, install the old Chrome OS kernel:
 1. Download the peach kernel: `sudo pacman -Sw linux-peach`
 2. Remove the current kernel and its dependency: `sudo pacman -R linux-armv7 linux-armv7-chromebook`
-3. Install the peach kernel: `sudo pacman -S linux-peach`
-Using the peach kernel, the Xfce power management interface has issues.
+3. Install the peach kernel: `sudo pacman -S linux-peach`  
+The peach kernel is old. the Xfce power management interface may not load. To control brightness use a custom command I created called `dim`, like so: `dim` will show you what arguments are valid. `sudo dim 300` for example, would set the brightness to 300 (on a scale of 0-2800, 50-2800 to be safe). The `dim` command will also work with the new kernel, but the scale would be 0-7 (1-7 to be safe).  
 ##### To get back to the latest kernel:
 1. `sudo pacman -Syu linux-armv7-chromebook`
 
