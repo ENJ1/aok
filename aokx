@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
 ## This script depends on files in /usr/local/aok
-
 ## Developer Note: curl is built without metalink support in Chrome OS
 
 ## Check for root privilege
@@ -137,13 +136,9 @@ case "$CHOICE" in
     PARTITION_1='1'
     PARTITION_2='2'
     ;;
-  q)
-    echo "No changes made."
-    exit 0
-    ;;
   *)
-    echo "No changes made. Quitting."
-    exit 65
+    echo "No changes made."
+    exit 1
     ;;
 esac
 
@@ -166,7 +161,7 @@ if [ "$DEVICE" = '/dev/mmcblk0' ]; then
   fi
 fi
 
-## Set default of whether to get the latest distro release
+## Set default of whether to get a new distro release
 NEW_RELEASE=false
 
 ## Check target capacity
@@ -179,19 +174,13 @@ else
   echo "$(expr $SIZER / 1000000000) GB capacity on ${DEVICE}. OK."
 fi
 
-## Ask for confirmation
+## Confirm
 echo
-read -p "Any data on ${DEVICE} will be erased. Are you sure? [y/N] " CONFIRM
-case "$CONFIRM" in
-  [yY]|[yY][eE][sS])
-    ;;
-  *)
-    echo "No changes made."
-    exit 0
-    ;;
-esac
-
-
+read -rp "Any data on ${DEVICE} will be erased. Are you sure? [y/N] " CONFIRM
+if [[ ! $CONFIRM =~ ^([yY]|[yY][eE][sS])$ ]]; then
+  echo "No changes made."
+  exit 1
+fi
 
 ## Installation process.
 
@@ -301,15 +290,10 @@ if [ "$(ping -c 1 archlinuxarm.org)" ]; then
   if [ "$OLD_DISTRO_MD5" = "$NEW_DISTRO_MD5" ]; then
     echo "No new distro release is available. Using current distro release."
   else
-    read -p "A new disto has been released. Use it? [Y/n] " USE_NEW_DISTRO
-    case "$USE_NEW_DISTRO" in
-      [yY]|[yY][eE][sS])
-        NEW_RELEASE=true
-        ;;
-      *)
-        NEW_RELEASE=false
-        ;;
-    esac
+    read -rp "A new disto has been released. Use it? [Y/n] " USE_NEW_DISTRO
+    if [[ ! $USE_NEW_DISTRO =~ ^([nN]|[nN][oO])$ ]]; then
+      NEW_RELEASE=true
+    fi
   fi
   if [ "$MIRROR_SUCCESS" = false ]; then
     echo "Cannot download latest md5: all mirrors failed."
@@ -580,34 +564,25 @@ rmdir rootfs
 echo
 echo "Arch Linux Installation is complete."
 echo
-read -p "Copy distro file to new drive for future installs? [y/N] " FUTURE
-case "$FUTURE" in
-  [yY]|[yY][eE][sS])
-    echo "Copying distro..."
-    mkdir rootfs
-    mount ${DEVICE}${PARTITION_2} rootfs
-    cp -r distro rootfs/usr/local/aok/
-    umount rootfs
-    sync
-    rmdir rootfs
-    echo "Distro copied."
-    ;;
-  *)
-    echo
-    ;;
-esac
+read -rp "Copy distro file to new drive for future installs? [y/N] " FUTURE
+if [[ $FUTURE =~ ^([yY]|[yY][eE][sS])$ ]]; then
+  echo "Copying distro..."
+  mkdir rootfs
+  mount ${DEVICE}${PARTITION_2} rootfs
+  cp -r distro rootfs/usr/local/aok/
+  umount rootfs
+  sync
+  rmdir rootfs
+  echo "Distro copied."
+fi
+
 echo "Done."
 echo
 printf "To boot from USB on a Samsung XE303C12, use the ${YELLOW}USB 2.0${NC} Port\n"
 echo
 printf "Upon boot press ${YELLOW}ctrl${NC}+${YELLOW}u${NC} to boot USB/SD, or ctrl+d to boot Internal Storage.\n"
 echo
-read -p "Reboot now? [Y/n] " REBOOTER
-case "$REBOOTER" in
-  [nN]|[nN][oO])
-    ;;
-  *) echo "Rebooting..."
-     reboot
-     ;;
-esac
-
+read -rp "Reboot now? [Y/n] " REBOOTER
+if [[ ! $REBOOTER =~ ^([nN]|[nN][oO])$ ]]; then
+  reboot
+fi
