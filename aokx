@@ -110,7 +110,7 @@ else
   echo
 fi
 
-read -p "> " CHOICE
+read -rp "> " CHOICE
 case "$CHOICE" in
   0)
     DEVICE='/dev/mmcblk0'
@@ -442,8 +442,8 @@ umount ${DEVICE}* 2> /dev/null || echo -n
 partx -u ${DEVICE}
 
 ## Set partition type here with -t, instead of in fdisk
-## Set special flags needed by U-Boot, and add labels to be user friendly
-## or echo -n. Don't let so-called-cgpt-errors break the script
+## Set special flags needed by U-Boot, and add labels to be user friendly.
+## Ignore cgpt errors
 cgpt add -i 1 -t kernel -S 1 -T 5 -P 10 -l KERN-A ${DEVICE} || echo -n
 cgpt add -i 2 -t data -l Root ${DEVICE} || echo -n
 
@@ -452,36 +452,31 @@ umount ${DEVICE}* 2> /dev/null || echo -n
 umount rootfs 2> /dev/null || echo -n
 
 ## Make filesystem
-## Avoid mkfs complaining that it's 'apparently in use by the system' but isn't
+## Ignore complaints that it's "apparently in use by the system" but isn't (-F -F)
+## Disable journaling
 ## Suppress technical jargon and kernel upgrade recommendation
 mkfs.ext4 -F -F -O ^has_journal ${DEVICE}${PARTITION_2} &> /dev/null
 
 ## Updating partition info, regardless of whether it's necessary or not
 partx -u ${DEVICE}
 
-## Copy files. Current directory is aok. Creating aok/rootfs for mounting
+## Copy files
 mkdir -p rootfs
 mount ${DEVICE}${PARTITION_2} rootfs
+
 echo "Copying Filesystem..."
 
 ## Ignore harmless SCHILY.fflags warnings
 tar --warning=no-unknown-keyword -xf \
 distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
-echo
-echo "Filesystem copy complete pending sync"
-echo "Copying Boot Partition..."
+sync
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
-echo "Boot Partition copy complete pending sync"
+sync
 
-
-
-
-printf "Pre-configuring system and syncing..."
-
-## If using Chrome OS then this will enable booting
+## Enable external boot
 crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
 
-## Don't let kernel messages garble the console; hide them instead.
+## Don't let kernel messages garble the console. Hide them.
 mkdir -p rootfs/etc/sysctl.d
 echo "kernel.printk = 3 3 3 3" >> rootfs/etc/sysctl.d/20-quiet-printk.conf
 
