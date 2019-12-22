@@ -127,6 +127,16 @@ Issues common to latest stable linux kernel distributions on the Samsung Chromeb
 2. Remove the current kernel and its dependency: `sudo pacman -R linux-armv7 linux-armv7-chromebook`
 3. Install the peach kernel: `sudo pacman -S linux-peach`  
 The peach kernel is old. the Xfce power management interface may not load. To control brightness use a custom command I created called `dim`, like so: `dim` will show you what arguments are valid. `sudo dim 300` for example, would set the brightness to 300 (on a scale of 0-2800, 50-2800 to be safe). The `dim` command will also work with the new kernel, but the scale would be 0-7 (1-7 to be safe).  
+Changing permissions for the brightness file (like from the archlinuxarm.org wiki) helps and makes it so that xfce4-power-manager *might* load, and give you a nice gui interface. (note: you also have to be added to the `video` group for this to work). and then, if it loads, can also see the battery level. There is a file in the system named `capacity` that has battery percentage, for example: 
+```
+a@ok / $ sudo find /sys -name capacity
+/sys/devices/platform/soc/12ca0000.i2c/i2c-4/i2c-104/104-000b/power_supply/sbs-104-000b/capacity
+a@ok / $ cat /sys/devices/platform/soc/12ca0000.i2c/i2c-4/i2c-104/104-000b/power_supply/sbs-104-000b/capacity
+49
+
+```
+In openbox, tint2 has a feature that displays the battery level reliably, no matter what kernel you're using.
+
 ##### To get back to the latest kernel:
 1. `sudo pacman -Syu linux-armv7-chromebook`
 
@@ -134,6 +144,17 @@ The peach kernel is old. the Xfce power management interface may not load. To co
 If you need to use a public Wi-Fi Hotspot with a Landing Page during setup, then see the WiFi Hotspot Help file in "extra".  
 
 The default locale is English, US.
+
+The best thing about this laptop, honestly, is its battery life. Chrome OS sets the battery governor to "interactive" mode, which is not fast or efficient, while default Linux sets to "performance" which is fast but not efficient. So running this version of Linux gives you **better performance** than Chrome OS. However, the best everyday mode, in my opinion, is "conservative", which will actually drop to 200 MHz (maximum efficiency), or go to 1700 MHz (full speed) as needed.
+```
+a@ok / $ sudo find /sys -name scaling_governor
+/sys/devices/system/cpu/cpufreq/policy0/scaling_governor
+```
+```
+a@ok /sys/devices/system/cpu/cpufreq/policy0 $ cat scaling_available_governors 
+conservative ondemand userspace powersave performance schedutil
+```
+`echo "conservative" | sudo tee scaling_governor`
 
 ## Warnings
 - Do not attempt to access files on Chrome OS when running Arch Linux [unless you know what you are doing](https://github.com/cubetronic/aok/wiki/Accessing-Files-between-Chrome-OS-and-Arch-Linux "*unless you know what you are doing*"). Improperly accessing files on Chrome OS from Arch Linux will cause Chrome OS to ERASE EVERYTHING on the Chrome OS system, including any personal files you may have stored there. In general, don't rely on storing important files on Chrome OS. See the next section.
