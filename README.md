@@ -122,11 +122,12 @@ Issues common to latest stable linux kernel distributions on the Samsung Chromeb
 - \* The Camera does not work.
 - \* The Microphone does not work.
 
-\* For USB 3.0, camera, and mic, install the old Chrome OS kernel:
+##### \* For USB 3.0, camera, and mic, install the old Chrome OS kernel:
 1. Download the peach kernel: `sudo pacman -Sw linux-peach`
-1. Remove the current kernel and its dependency: `sudo pacman -R linux-armv7 linux-armv7-chromebook`
-2. Install the peach kernel: `sudo pacman -S linux-peach`
-Using the peach kernel, the Xfce power management interface has issues. To get back to the latest kernel:
+2. Remove the current kernel and its dependency: `sudo pacman -R linux-armv7 linux-armv7-chromebook`
+3. Install the peach kernel: `sudo pacman -S linux-peach`
+Using the peach kernel, the Xfce power management interface has issues.
+##### To get back to the latest kernel:
 1. `sudo pacman -Syu linux-armv7-chromebook`
 
 ## Notes
