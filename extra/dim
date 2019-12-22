@@ -1,14 +1,22 @@
 #!/bin/bash -e
 
-## NOTES
-echo "7 is really bright, 5 is less bright, 1 is very dim"
-echo "i would not try 0, this may render your installation useless, however,"
-echo "brightness setting does not affect u-boot screen, so it won't really brick"
-echo "your device to do this, just make it so that retrieving files might be"
-echo "impossible"
-echo
-echo "Press enter to continue"
-read -p "... " WAIT
+cd /sys/class/backlight/backlight*
 
-## CHANGE BRIGHTNESS WHILE STILL AT THE COMMAND LINE
-nano /sys/devices/platform/backlight/backlight/backlight/brightness
+## Unpatched kernel
+## /sys/class/backlight/backlight/brightness
+
+## Chrome OS 3.8.11 kernel (archlinuxarm.org linux-peach package)
+## /sys/class/backlight/backlight.12/brightness
+
+pwd | grep 12 && {
+  echo "Patched kernel detected. Valid argument: 50-2800"
+  [[ $1 -ge 50 ]] || exit
+  [[ $1 -le 2800 ]] || exit
+  echo $1 > brightness && echo "Brightness is now: $1"
+  exit 0
+}
+
+echo "Unpatched kernel detected. Valid argument: 1-7"
+[[ $1 -ge 1 ]]
+[[ $1 -le 7 ]]
+echo $1 > brightness && echo "Brightness is now: $1"
