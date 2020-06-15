@@ -147,16 +147,13 @@ If you need to use a public Wi-Fi Hotspot with a Landing Page during setup, then
 
 The default locale is English, US.
 
-The best thing about this laptop, honestly, is its battery life. Chrome OS sets the battery governor to "interactive" mode, which is not fast or efficient, while default Linux sets to "performance" which is fast but not efficient. So running this version of Linux gives you **better performance** than Chrome OS. However, the best everyday mode, in my opinion, is "conservative", which will actually drop to 200 MHz (maximum efficiency), or go to 1700 MHz (full speed) as needed.
-```
-a@ok / $ sudo find /sys -name scaling_governor
-/sys/devices/system/cpu/cpufreq/policy0/scaling_governor
-```
-```
-a@ok /sys/devices/system/cpu/cpufreq/policy0 $ cat scaling_available_governors 
-conservative ondemand userspace powersave performance schedutil
-```
-`echo "conservative" | sudo tee scaling_governor`
+### Power Profiles
+
+This installer sets the power profile to `conservative` which is optimally efficient. It can drop to 200 MHz (maximum efficiency), or go to 1700 MHz (full speed) as needed. Other power profiles are possible, such as `performance`, which stays at max speed no matter what. To change the power profile, open a terminal `Ctrl+Alt+t` and type, for example:  
+`sudo cpupower frequency-set performance`  
+Setting it this way will persist across reboots. For more info, run `cpupower`.
+
+The best thing about this laptop, honestly, is its battery life. Chrome OS sets the battery governor to "interactive" mode, which is not fast or efficient, while default Arch Linux sets it to "performance" by default which is fast but not efficient. So running this version of Linux can give you **better performance** than Chrome OS. However, to get the most out of the laptop, `conservative` is the way to go.
 
 ## Warnings
 - Do not attempt to access files on Chrome OS when running Arch Linux [unless you know what you are doing](https://github.com/cubetronic/aok/wiki/Accessing-Files-between-Chrome-OS-and-Arch-Linux "*unless you know what you are doing*"). Improperly accessing files on Chrome OS from Arch Linux will cause Chrome OS to ERASE EVERYTHING on the Chrome OS system, including any personal files you may have stored there. In general, don't rely on storing important files on Chrome OS. See the next section.
