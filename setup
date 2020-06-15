@@ -172,7 +172,7 @@ xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu vboot-utils man \
 alsa-utils xfce4-pulseaudio-plugin pavucontrol pulseaudio pulseaudio-alsa \
 networkmanager nm-connection-editor network-manager-applet firefox blueman \
 mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
-accountsservice xfce4-whiskermenu-plugin
+accountsservice xfce4-whiskermenu-plugin cpupower
 
 ###########################################################################
 
