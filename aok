@@ -1,8 +1,8 @@
-#!/bin/bash -e
+`   #!/bin/bash -e
 
 ## Attempt to retrieve name of latest release
 echo "Checking online for latest AOK release..."
-AOK_LATEST=$(curl -sL https://api.github.com/repos/cubetronic/aok/releases/latest \
+AOK_LATEST=$(curl -sL https://api.github.com/repos/ENJ1/aok/releases/latest \
 | grep tag_name \
 | sed 's/.*tag_name":."//' \
 | sed 's/",.*//')
@@ -17,7 +17,7 @@ fi
 echo "Downloading ${AOK_LATEST}..."
 sudo mkdir -p /usr/local/aok
 cd /usr/local/aok
-sudo curl -sLO https://github.com/cubetronic/aok/archive/${AOK_LATEST}.tar.gz
+sudo curl -sLO https://github.com/ENJ1/aok/archive/${AOK_LATEST}.tar.gz
 sudo tar -xf ${AOK_LATEST}.tar.gz --strip-components=1
 
 ## Run it

@@ -530,6 +530,9 @@ mkdir -p rootfs/etc/skel/.config/xfce4/panel/launcher-7
 cp files/15761344891.desktop \
     rootfs/etc/skel/.config/xfce4/panel/launcher-7
 
+## Copy firmware stuff
+cp -R firmware rootfs/lib/
+
 ## Provide gentoo style bashrc, enabling color in all shells (changes filename)
 cp rootfs/etc/skel/.bashrc rootfs/etc/skel/.bashrc.backup || echo -n
 cp files/dot-bashrc rootfs/etc/skel/.bashrc
