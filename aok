@@ -1,4 +1,4 @@
-`   #!/bin/bash -e
+#!/bin/bash -e
 
 ## Attempt to retrieve name of latest release
 echo "Checking online for latest AOK release..."
