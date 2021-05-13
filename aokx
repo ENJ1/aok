@@ -88,7 +88,7 @@ if [ "$(uname -p | grep ARMv7)" ]; then
   echo
   echo "Select what to ERASE and install Arch Linux on:"
   echo 
-  echo "0) /dev/mmcblk0  eMMC, erase ChromeOS   Must be running from SD/USB already"
+  echo "0) /dev/mmcblk2  eMMC, erase ChromeOS   Must be running from SD/USB already"
   echo "1) /dev/mmcblk1  SD Card                4GB+ needed"
   echo "a) /dev/sda      USB Drive              4GB+ needed. For compatible USB's."
   echo "b) /dev/sdb      Second USB Drive       4GB+ needed. For compatible USB's."
@@ -99,7 +99,7 @@ else
   echo
   echo "Select what to ERASE and install Arch Linux on:"
   echo 
-  echo "0) /dev/mmcblk0"
+  echo "0) /dev/mmcblk2"
   echo "1) /dev/mmcblk1"
   echo "a) /dev/sda"
   echo "b) /dev/sdb"
@@ -112,7 +112,7 @@ fi
 read -rp "> " CHOICE
 case "$CHOICE" in
   0)
-    DEVICE='/dev/mmcblk0'
+    DEVICE='/dev/mmcblk2'
     PARTITION_1='p1'
     PARTITION_2='p2'
     ;;
@@ -146,7 +146,7 @@ esac
 ## Safety checks
 
 ## Avoid over-writing system in use
-if [ "$DEVICE" = '/dev/mmcblk0' ]; then
+if [ "$DEVICE" = '/dev/mmcblk2' ]; then
   if [ "$(grep -i 'chrome' /etc/os-release)" ]; then
     echo "ChromeOS detected. Your selection is not supported."
     echo
