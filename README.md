@@ -12,7 +12,9 @@ The **easy** way to get ***Arch Linux, Xfce, Firefox, and more*** running on an 
 - AOK Custom Command line utilities for advanced users: dim, spoof, and tpad
 
 ## Compatible Chromebook
-- Samsung Chromebook (XE303C12)
+- Samsung Chromebook (XE303C12) (Beware, currently the script is set up with ONLY C201PA and C100PA wifi firmware. You need to copy your firmware into the "firmware" folder after you clone the repo.
+- Asus C201PA
+- Asus C100PA
 
 ## Possibly Compatible Chromebooks
 - HP Chromebook 11 G1
@@ -32,8 +34,6 @@ The **easy** way to get ***Arch Linux, Xfce, Firefox, and more*** running on an 
 - Positivo Chromebook CH1190
 - VideoNet Chromebook BL10
 - ASUS Chromebit CS10
-- ASUS Chromebook Flip C100P
-- ASUS Chromebook C201PA
 - Acer Chromebook 13 (CB5-311)
 - HP Chromebook 14 x000-x999 / HP Chromebook 14 G3
 
