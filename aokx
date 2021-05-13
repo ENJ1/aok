@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/bin/bash 
+set -x
 
 ## This script depends on files in /usr/local/aok
 ## Developer Note: curl is built without metalink support in Chrome OS
@@ -392,22 +393,19 @@ echo "Starting Arch Linux Installation..."
 
 umount ${DEVICE}* 2> /dev/null || echo -n
 
-## Make partitions
-{
-cat <<EOF | fdisk ${DEVICE}
+make_partitions () {
+  cat <<EOF | fdisk ${DEVICE}
+  g
+  n
 
-g
-n
-
-16384
-+16M
-n
+  16384
+  +16M
+  n
 
 
 
-w
-q
-EOF
+  w
+  EOF
 }
 
 umount ${DEVICE}* 2> /dev/null || echo -n
