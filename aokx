@@ -458,7 +458,7 @@ dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 sync
 
 ## Enable external boot
-crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
+## crossystem dev_boot_usb=1 dev_boot_signed_only=0 || echo -n
 
 ## Don't let kernel messages garble the console. Hide them.
 mkdir -p rootfs/etc/sysctl.d
