@@ -1,5 +1,5 @@
 #!/bin/bash 
-set -x
+set -e
 
 ## This script depends on files in /usr/local/aok
 ## Developer Note: curl is built without metalink support in Chrome OS
