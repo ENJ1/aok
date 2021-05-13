@@ -398,7 +398,7 @@ umount ${DEVICE}* 2> /dev/null || echo -n
 dd if=/dev/zero of=${DEVICE} bs=512k count=128 seek=$EMMC_OFFSET
 
 # cgpt doesn't like if we don't do this
-parted --script ${DEVICE} mklabel gpt >/dev/null 2>&1 || true
+# parted --script ${DEVICE} mklabel gpt >/dev/null 2>&1 || true
 
 # create partitions
 cgpt create ${DEVICE}
