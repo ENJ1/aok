@@ -395,19 +395,19 @@ umount ${DEVICE}* 2> /dev/null || echo -n
 ## Make partitions
 
 # zero out kernel partitions, just in case
-dd if=/dev/zero of=${MMCDEV} bs=512k count=128 seek=$EMMC_OFFSET
+dd if=/dev/zero of=${DEVICE} bs=512k count=128 seek=$EMMC_OFFSET
 
 # cgpt doesn't like if we don't do this
-parted --script ${MMCDEV} mklabel gpt >/dev/null 2>&1 || true
+parted --script ${DEVICE} mklabel gpt >/dev/null 2>&1 || true
 
 # create partitions
 cgpt create ${DEVICE}
 export PARTOFFSET=0
 export ROOTPART=/dev/disk/by-partlabel/Root
-export KERNPART=/dev/disk/by-partlabel/MMCKernelA
+export KERNPART=/dev/disk/by-partlabel/KERN-A
 cgpt add -i 3 -t data   -b $(expr 139264 + $EMMC_OFFSET)        -s $(expr $(cgpt show ${DEVICE} | grep 'Sec GPT table' | awk '{print $1}') - $(expr 139264 + $EMMC_OFFSET)) -l Root ${DEVICE}
 cgpt add -i $(expr 1 + $PARTOFFSET) -t kernel   -b $(expr 8192 + $EMMC_OFFSET)          -s 65536 -l KERN-A -S 1 -T 2 -P 10  ${DEVICE}
-cgpt add -i $(expr 2 + $PARTOFFSET) -t kernel   -b $(expr 73728 + $EMMC_OFFSET)         -s 65536 -l KernB -S 0 -T 2 -P 5   ${DEVICE}
+cgpt add -i $(expr 2 + $PARTOFFSET) -t kernel   -b $(expr 73728 + $EMMC_OFFSET)         -s 65536 -l KERN-B -S 0 -T 2 -P 5   ${DEVICE}
 
 umount ${DEVICE}* 2> /dev/null || echo -n
 
