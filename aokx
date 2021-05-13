@@ -404,7 +404,7 @@ umount ${DEVICE}* 2> /dev/null || echo -n
 ## w: write and exit
 
 ## You may also want to add a swap drive (and enable swap)
-{ fdisk --wipe always ${DEVICE} << "END"
+fdisk --wipe always ${DEVICE}
 g
 n
 
@@ -415,10 +415,9 @@ n
 
 
 w
-END
-} &> /dev/null || {
-  echo "fdisk was unable to re-read partition table. Using partx to solve..."
-}
+q
+
+sleep 1
 
 umount ${DEVICE}* 2> /dev/null || echo -n
 
