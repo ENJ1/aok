@@ -393,7 +393,7 @@ echo "Starting Arch Linux Installation..."
 
 umount ${DEVICE}* 2> /dev/null || echo -n
 
-cat <<EOF | fdisk ${DEVICE}
+{ fdisk --wipe always ${DEVICE} << "END"
 g
 n
 
@@ -404,12 +404,21 @@ n
 
 
 w
-EOF
+END
+} &> /dev/null || {
+  echo "fdisk was unable to re-read partition table. Using partx to solve..."
+}
 
 umount ${DEVICE}* 2> /dev/null || echo -n
 
 ## Updating partition info, regardless of whether it's necessary or not
-## partx -u ${DEVICE}
+partx -u ${DEVICE}
+
+## Set partition type here with -t, instead of in fdisk
+## Set special flags needed by U-Boot, and add labels to be user friendly.
+## Ignore cgpt errors
+cgpt add -i 1 -t kernel -S 1 -T 5 -P 10 -l KERN-A ${DEVICE} || echo -n
+cgpt add -i 2 -t data -l Root ${DEVICE} || echo -n
 
 ## Extra umounting, just in case
 umount ${DEVICE}* 2> /dev/null || echo -n
