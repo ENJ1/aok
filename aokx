@@ -393,7 +393,7 @@ echo "Starting Arch Linux Installation..."
 umount ${DEVICE}* 2> /dev/null || echo -n
 
 ## Make partitions
-
+{
 cat <<EOF | fdisk ${DEVICE}
 
 g
@@ -406,7 +406,9 @@ n
 
 
 w
+q
 EOF
+}
 
 umount ${DEVICE}* 2> /dev/null || echo -n
 
