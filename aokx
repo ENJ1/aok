@@ -393,13 +393,11 @@ echo "Starting Arch Linux Installation..."
 
 umount ${DEVICE}* 2> /dev/null || echo -n
 
-{ sfdisk --wipe-partitions=always --label=gpt ${DEVICE} << "END"
+sfdisk --wipe-partitions=always --label=gpt ${DEVICE} << "END"
 16384, 16M
 ,
 END
-} &> /dev/null || {
-  echo "fdisk was unable to re-read partition table. Using partx to solve..."
-}
+
 
 umount ${DEVICE}* 2> /dev/null || echo -n
 
