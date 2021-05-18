@@ -413,6 +413,8 @@ echo "Got right before umount"
 umount ${DEVICE}* 2> /dev/null || echo -n
 umount rootfs 2> /dev/null || echo -n
 
+partx -u ${DEVICE}
+
 echo "Started to make filesystem"
 ## Make filesystem
 ## Ignore complaints that it's "apparently in use by the system" but isn't (-F -F)
