@@ -404,13 +404,16 @@ umount ${DEVICE}* 2> /dev/null || echo -n
 ## Set partition type here with -t, instead of in fdisk
 ## Set special flags needed by U-Boot, and add labels to be user friendly.
 ## Ignore cgpt errors
+echo "Got right before cgpt part"
 cgpt add -i 1 -t kernel -S 1 -T 5 -P 10 -l KERN-A ${DEVICE}
 cgpt add -i 2 -t data -l Root ${DEVICE}
 
+echo "Got right before umount"
 ## Extra umounting, just in case
 umount ${DEVICE}* 2> /dev/null || echo -n
 umount rootfs 2> /dev/null || echo -n
 
+echo "Started to make filesystem"
 ## Make filesystem
 ## Ignore complaints that it's "apparently in use by the system" but isn't (-F -F)
 ## Disable journaling
