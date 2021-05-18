@@ -420,10 +420,12 @@ echo "Started to make filesystem"
 ## Suppress technical jargon and kernel upgrade recommendation
 mkfs.ext4 -F -F -O ^has_journal ${DEVICE}${PARTITION_2} &> /dev/null
 
+echo "Right before partx"
 ## Updating partition info, regardless of whether it's necessary or not
 ## partx -u ${DEVICE}
 ## partx -a ${DEVICE}
 
+echo "right before copying files"
 ## Copy files
 mkdir -p rootfs
 mount ${DEVICE}${PARTITION_2} rootfs
