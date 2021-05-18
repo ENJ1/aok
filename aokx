@@ -421,8 +421,8 @@ echo "Started to make filesystem"
 mkfs.ext4 -F -F -O ^has_journal ${DEVICE}${PARTITION_2} &> /dev/null
 
 ## Updating partition info, regardless of whether it's necessary or not
-partx -u ${DEVICE}
-partx -a ${DEVICE}
+## partx -u ${DEVICE}
+## partx -a ${DEVICE}
 
 ## Copy files
 mkdir -p rootfs
