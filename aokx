@@ -386,14 +386,13 @@ printf "${RED}Do NOT click on pop-up messages!${NC}\n"
 cd - > /dev/null
 echo "Distribution files ready."
 
-
-
+parted --script ${DEVICE} mklabel gpt >/dev/null 2>&1 || true
 
 echo "Starting Arch Linux Installation..."
 
 umount ${DEVICE}* 2> /dev/null || echo -n
 
-sfdisk --wipe-partitions=always --label=gpt ${DEVICE} << "END"
+sfdisk --wipe-partitions=always ${DEVICE} << "END"
 16384, 16M
 ,
 write
