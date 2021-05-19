@@ -421,7 +421,7 @@ echo "Started to make filesystem"
 ## Ignore complaints that it's "apparently in use by the system" but isn't (-F -F)
 ## Disable journaling
 ## Suppress technical jargon and kernel upgrade recommendation
-mkfs.ext4 ${DEVICE}${PARTITION_2}
+mkfs.ext4 -O ^has_journal ${DEVICE}${PARTITION_2}
 
 echo "Right before partx"
 ## Updating partition info, regardless of whether it's necessary or not
