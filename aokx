@@ -393,7 +393,7 @@ umount ${DEVICE}* 2> /dev/null || echo -n
 if [ "$DEVICE" = '/dev/mmcblk2' ]; then
   offset=16384
 else
-  offset = ' '
+  offset=' '
 fi
 
 ## Copy fdisk binary over to /usr/local
