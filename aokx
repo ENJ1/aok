@@ -388,43 +388,69 @@ echo "Distribution files ready."
 
 echo "Starting Arch Linux Installation..."
 
-umount ${DEVICE}* 2> /dev/null || echo -n
-
-if [ "$DEVICE" = '/dev/mmcblk2' ]; then
-  offset=16384
-else
-  offset=' '
-fi
-
 ## Copy fdisk binary over to /usr/local
 cp fdisk /usr/local
 
-## Automate fdisk.
-## This automatically sizes the root partition.
-## Do not change the whitespace here, it is very important.
-## Each blank line represents accepting the default by just pressing enter.
-## g: new gpt partition table
-## n: new gpt partition
-## (blank line): accept the default, i.e., start at 2048 for partition 1
-## +16M: 16 MiB partition
-## w: write and exit
+umount ${DEVICE}* 2> /dev/null || echo -n
 
-## You may also want to add a swap drive (and enable swap)
-{ /usr/local/fdisk --wipe always ${DEVICE} << "END"
-g
-n
+if [ "$DEVICE" = '/dev/mmcblk2' ]; then
+  ## Automate fdisk.
+  ## This automatically sizes the root partition.
+  ## Do not change the whitespace here, it is very important.
+  ## Each blank line represents accepting the default by just pressing enter.
+  ## g: new gpt partition table
+  ## n: new gpt partition
+  ## (blank line): accept the default, i.e., start at 2048 for partition 1
+  ## +16M: 16 MiB partition
+  ## w: write and exit
 
-$offset
-+16M
-n
+  ## You may also want to add a swap drive (and enable swap)
+  { /usr/local/fdisk --wipe always ${DEVICE} << "END"
+  g
+  n
+
+  16384
+  +16M
+  n
 
 
 
-w
-END
-} &> /dev/null || {
-  echo "fdisk was unable to re-read partition table. Using partx to solve..."
-}
+  w
+  END
+  } &> /dev/null || {
+    echo "fdisk was unable to re-read partition table. Using partx to solve..."
+  }
+
+
+else
+  ## Automate fdisk.
+  ## This automatically sizes the root partition.
+  ## Do not change the whitespace here, it is very important.
+  ## Each blank line represents accepting the default by just pressing enter.
+  ## g: new gpt partition table
+  ## n: new gpt partition
+  ## (blank line): accept the default, i.e., start at 2048 for partition 1
+  ## +16M: 16 MiB partition
+  ## w: write and exit
+
+  ## You may also want to add a swap drive (and enable swap)
+  { /usr/local/fdisk --wipe always ${DEVICE} << "END"
+  g
+  n
+
+
+  +16M
+  n
+
+
+
+  w
+  END
+  } &> /dev/null || {
+    echo "fdisk was unable to re-read partition table. Using partx to solve..."
+  }
+  
+fi
 
 ## Updating partition info, regardless of whether it's necessary or not
 partx -u ${DEVICE}
