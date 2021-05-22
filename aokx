@@ -393,7 +393,8 @@ cp fdisk /usr/local
 
 umount ${DEVICE}* 2> /dev/null || echo -n
 
-if [ "$DEVICE" = '/dev/mmcblk2' ]; then
+if [ "$DEVICE" = '/dev/mmcblk2' ]
+then
   ## Automate fdisk.
   ## This automatically sizes the root partition.
   ## Do not change the whitespace here, it is very important.
