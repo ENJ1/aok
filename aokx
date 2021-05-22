@@ -406,7 +406,7 @@ then
   ## w: write and exit
 
   ## You may also want to add a swap drive (and enable swap)
-  /usr/local/fdisk --wipe always ${DEVICE} << "END"
+  /usr/local/fdisk --wipe always ${DEVICE} <<- "END"
   g
   n
 
@@ -435,7 +435,7 @@ else
   ## w: write and exit
 
   ## You may also want to add a swap drive (and enable swap)
-  /usr/local/fdisk --wipe always ${DEVICE} << "END"
+  /usr/local/fdisk --wipe always ${DEVICE} <<- "END"
   g
   n
 
