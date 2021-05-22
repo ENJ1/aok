@@ -15,7 +15,6 @@ crossystem hwid && echo || echo "crossystem not found. OK."
 ## crossystem fwid should show Veyron if it's a veyron board
 crossystem fwid && echo || echo -n
 
-offset=no
 ## Check for necessary tools
 curl -V > /dev/null
 md5sum --version > /dev/null
@@ -392,9 +391,9 @@ echo "Starting Arch Linux Installation..."
 umount ${DEVICE}* 2> /dev/null || echo -n
 
 if [ "$DEVICE" = '/dev/mmcblk2' ]; then
-  $offset = '16384'
+  offset=16384
 else
-  $offset = ' '
+  offset = ' '
 fi
 
 ## Copy fdisk binary over to /usr/local
