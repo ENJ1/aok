@@ -394,6 +394,7 @@ if [ "$DEVICE" = '/dev/mmcblk2' ]; then
   offset = '16384'
 else
   offset = ' '
+fi
 
 ## Copy fdisk binary over to /usr/local
 cp fdisk /usr/local
