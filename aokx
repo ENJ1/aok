@@ -392,45 +392,57 @@ echo "Starting Arch Linux Installation..."
 
 umount ${DEVICE}* 2> /dev/null || echo -n
 
-sfdisk --wipe-partitions=always ${DEVICE} << "END"
-16384, 16M
-,
-write
-END
+## Automate fdisk.
+## This automatically sizes the root partition.
+## Do not change the whitespace here, it is very important.
+## Each blank line represents accepting the default by just pressing enter.
 
+## g: new gpt partition table
+## n: new gpt partition
+## (blank line): accept the default, i.e., start at 2048 for partition 1
+## +16M: 16 MiB partition
+## w: write and exit
+
+## You may also want to add a swap drive (and enable swap)
+{ fdisk --wipe always ${DEVICE} << "END"
+g
+n
+
+16384
++16M
+n
+
+
+
+w
+END
+} &> /dev/null || {
+  echo "fdisk was unable to re-read partition table. Using partx to solve..."
+}
 
 umount ${DEVICE}* 2> /dev/null || echo -n
+
+## Updating partition info, regardless of whether it's necessary or not
+partx -u ${DEVICE}
 
 ## Set partition type here with -t, instead of in fdisk
 ## Set special flags needed by U-Boot, and add labels to be user friendly.
 ## Ignore cgpt errors
-echo "Got right before cgpt part"
-cgpt add -i 1 -t kernel -S 1 -T 5 -P 10 -l KERN-A ${DEVICE}
-cgpt add -i 2 -t data -l Root ${DEVICE}
+cgpt add -i 1 -t kernel -S 1 -T 5 -P 10 -l KERN-A ${DEVICE} || echo -n
+cgpt add -i 2 -t data -l Root ${DEVICE} || echo -n
 
-echo "Got right before umount"
 ## Extra umounting, just in case
 umount ${DEVICE}* 2> /dev/null || echo -n
 umount rootfs 2> /dev/null || echo -n
 
-partx -u ${DEVICE}
-
-echo "Started to make filesystem"
 ## Make filesystem
 ## Ignore complaints that it's "apparently in use by the system" but isn't (-F -F)
 ## Disable journaling
 ## Suppress technical jargon and kernel upgrade recommendation
-mkfs.ext4 -O ^has_journal ${DEVICE}${PARTITION_2}
+mkfs.ext4 -F -F -O ^has_journal ${DEVICE}${PARTITION_2} &> /dev/null
 
-echo "Right before partx"
 ## Updating partition info, regardless of whether it's necessary or not
-## partx -u ${DEVICE}
-## partx -a ${DEVICE}
-
-echo "right before copying files"
-## Copy files
-mkdir -p rootfs
-mount ${DEVICE}${PARTITION_2} rootfs
+partx -u ${DEVICE}
 
 echo "Copying Filesystem..."
 
