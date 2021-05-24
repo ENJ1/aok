@@ -366,12 +366,6 @@ pacman --noconfirm -Sc || echo -n
 echo "Arch Linux \r (\l)" > /etc/issue
 echo >> /etc/issue
 
-
-
-## Uninstall setup files
-rm /usr/local/bin/setup || echo -n
-rm /root/.aok-offline-setup-done.temp || echo -n
-
 ## Get git and clone this repo again to replace non-working firmware files given by Arch
 pacman -S git
 git clone https://github.com/ENJ1/aok
