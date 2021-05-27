@@ -409,7 +409,7 @@ fi
 ## +16M: 16 MiB partition
 ## w: write and exit
 ## You may also want to add a swap drive (and enable swap)
-/usr/local/fdisk --wipe always ${DEVICE} <<EOF
+{ /usr/local/fdisk --wipe always ${DEVICE} <<EOF
 g
 n
 
@@ -421,6 +421,11 @@ n
 
 w
 EOF
+} &> /dev/null || {
+  echo "fdisk was unable to re-read partition table. Using partx to solve..."
+}
+
+umount ${DEVICE}* 2> /dev/null || echo -n
 
 
 ## Updating partition info, regardless of whether it's necessary or not
