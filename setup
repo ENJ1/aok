@@ -369,11 +369,15 @@ echo >> /etc/issue
 ## Get git and clone this repo again to replace non-working firmware files given by Arch
 pacman -S git
 git clone https://github.com/ENJ1/aok
-cd aok/firmware
-sudo rm -R /lib/firmware/brcm
-sudo cp -R brcm /lib/firmware
-sudo rm -R /lib/firmware/tmp
-sudo cp tmp /lib/firmware
+rm -R /lib/firmware/brcm
+cp -R aok/firmware/brcm /lib/firmware
+rm -R /lib/firmware/tmp
+cp aok/firmware/tmp /lib/firmware
+rm -R aok
+
+## Uninstall setup files
+rm /usr/local/bin/setup || echo -n
+rm /root/.aok-offline-setup-done.temp || echo -n
 
 ## Exit message
 echo
