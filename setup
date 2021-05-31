@@ -343,7 +343,7 @@ systemctl enable lightdm
 ###########################################################################
 
 ## configure cpupower for efficiency
-sed -i "s/#*governor='.*'/governor='conservative'/" /etc/default/cpupower
+sed -i "s/#*governor='.*'/governor='schedutil'/" /etc/default/cpupower
 systemctl enable cpupower
 
 ## Enable WiFi gui autostart because Xfce will be used
@@ -367,11 +367,13 @@ echo "Arch Linux \r (\l)" > /etc/issue
 echo >> /etc/issue
 
 ## Get git and clone this repo again to replace non-working firmware files given by Arch
+rm -R /usr/local/aok || echo -n
+cd /usr/local
 pacman -S git
 git clone https://github.com/ENJ1/aok
 rm -R /lib/firmware/brcm
 cp -R aok/firmware/brcm /lib/firmware
-rm -R /lib/firmware/tmp
+rm -R /lib/firmware/tpm
 cp aok/firmware/tmp /lib/firmware
 rm -R aok
 
