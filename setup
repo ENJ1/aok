@@ -374,7 +374,7 @@ git clone https://github.com/ENJ1/aok
 rm -R /lib/firmware/brcm
 cp -R aok/firmware/brcm /lib/firmware
 rm -R /lib/firmware/tpm
-cp aok/firmware/tmp /lib/firmware
+cp aok/firmware/tpm /lib/firmware
 rm -R aok
 
 ## Uninstall setup files
