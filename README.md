@@ -16,7 +16,7 @@ The **easy** way to get ***Arch Linux, Xfce, Firefox, and more*** running on an 
 - Asus C100PA
 
 ## A Note On Possibly Compatible Chromebooks
-Will AOK work on other Chromebooks? Maybe. AOK uses vmlinuz.kpart supplied by the Arch rootfs. This kernel is guarenteed to work on RK3288 devices (C201PA and C100PA) but probably won't on other devices. How do I get it to work: Build the ChromeOS kernel from Googlesource and flash it to USB (or you could modify the "aokx" script and make a PR.... maybe? please? pretty please?) Anyway, I will eventually get the script to build ChromeOS kernel but for now you're stuck with whatever Arch gives you.
+Will AOK work on other Chromebooks? No (not in its current state) and you probably shouldn't try. The vmlinuz.kpart AOK uses is given by Arch for the C100PA. This kernel defnitely works on C201 and C100PA as they are the exact same model: just one has a touchscreen and 360-degree hinge. The Linux kernel uses something called a Device Tree. This is just a file that tells the Kernel about all of the hardware in the SOC. The device-tree may contain for example, where the GPU is located (hardware address) or how much power certain components one the motherboard should be given. If you use this file on a different motherboard, it may fry certain components and ruin your system. To get around this, you can compile the ChromeOS kernel from Googlesource and make the correct kernel for your system. You can then flash it to the USB drive. I will eventually add a script that allows you to build for your device, but that will come later. Join the Discord for support.
 
 ## Minimum Requirements
 - A Compatible Chromebook
