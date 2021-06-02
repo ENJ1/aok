@@ -88,6 +88,7 @@ Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Do
 At a *bash* shell:
 - Type `sudo install -Dt /usr/local/bin ~/Downloads/aok` and press enter.
 - Then type `aok` and press enter.
+- If you do not want to stick the script in /usr/local/bin, you can always remount your partitions to remove the "noexec" flag. Just run `sudo mount -i -o remount,exec /home/chronos/user/` and press enter. This does not affect the script in any way and is frankly kind of useless. After doing this, you can run the script from your home directory with `./aok`. If you are not a developer, don't bother with this. 
 
 ---
 
