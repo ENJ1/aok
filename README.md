@@ -11,31 +11,12 @@ The **easy** way to get ***Arch Linux, Xfce, Firefox, and more*** running on an 
 - Mirror checking for speed and improved 24/7 reliability.
 - AOK Custom Command line utilities for advanced users: dim, spoof, and tpad
 
-## Compatible Chromebook
-- Samsung Chromebook (XE303C12) (Beware, currently the script is set up with ONLY C201PA and C100PA wifi firmware. You need to copy your firmware into the "firmware" folder after you clone the repo.
+## Compatible Chromebooks
 - Asus C201PA
 - Asus C100PA
 
-## Possibly Compatible Chromebooks
-- HP Chromebook 11 G1
-- Samsung Chromebook 2 13 (XE503C32)
-- Samsung Chromebook 2 11 (XE503C12)
-- Haier Chromebook 11
-- Medion Akoya S2013
-- True IDC Chromebook 11
-- Xolo Chromebook
-- CTL J2 / J4 Chromebook for Education
-- eduGear Chromebook K Series
-- Epik 11.6" Chromebook ELB1101
-- HiSense Chromebook 11
-- Mecer Chromebook
-- NComputing Chromebook CX100
-- Poin2 Chromebook 11
-- Positivo Chromebook CH1190
-- VideoNet Chromebook BL10
-- ASUS Chromebit CS10
-- Acer Chromebook 13 (CB5-311)
-- HP Chromebook 14 x000-x999 / HP Chromebook 14 G3
+## A Note On Possibly Compatible Chromebooks
+Will AOK work on other Chromebooks? Maybe. AOK uses vmlinuz.kpart supplied by the Arch rootfs. This kernel is guarenteed to work on RK3288 devices (C201PA and C100PA) but probably won't on other devices. How do I get it to work: Build the ChromeOS kernel from Googlesource and flash it to USB (or you could modify the "aokx" script and make a PR.... maybe? please? Anyway, I will eventually get the script to build ChromeOS kernel but for now you're stuck with whatever Arch gives you.
 
 ## Minimum Requirements
 - A Compatible Chromebook
