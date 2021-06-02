@@ -1,5 +1,5 @@
 # AOK Linux for ARMv7 Chromebooks
-The **easy** way to get ***Arch Linux, Xfce, Firefox, and more*** running on an old Chromebook
+The **easy** way to get ***Arch Linux, Xfce, Firefox, and more*** running on an old Chromebook. Please read the whole README so you don't end up with a broken install.
 
 [![Download The AOK Script](https://raw.githubusercontent.com/ENJ1/aok/master/files/arch_linux_gnome_menu_icon_by_byamato.png)](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
 
@@ -111,6 +111,8 @@ Issues common to latest stable linux kernel distributions on the Samsung Chromeb
 4. Reboot  
 The peach kernel is old. the Xfce power management interface may not load. To control brightness use a custom command I created called `dim`, like so: `dim` will show you what arguments are valid. `sudo dim 300` for example, would set the brightness to 300 (on a scale of 0-2800, 50-2800 to be safe). The `dim` command will also work with the new kernel, but the scale would be 0-7 (1-7 to be safe).  
 Changing permissions for the brightness file (like from the archlinuxarm.org wiki) helps and makes it so that xfce4-power-manager *might* load, and give you a nice gui interface. (note: you also have to be added to the `video` group for this to work). and then, if it loads, can also see the battery level. There is a file in the system named `capacity` that has battery percentage, for example: 
+
+IMPORTANT: As of now, the original kernel that Arch ships in the rootFS (vmlinuz.kpart) is BROKEN! This kernel will hang at a whitescreen after reboot when install is finished. To avoid this, when the installer prompts you to flash a new kernel on to your boot devices, answer "yes". 
 ```
 a@ok / $ sudo find /sys -name capacity
 /sys/devices/platform/soc/12ca0000.i2c/i2c-4/i2c-104/104-000b/power_supply/sbs-104-000b/capacity
