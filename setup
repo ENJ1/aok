@@ -371,10 +371,8 @@ rm -R /usr/local/aok || echo -n
 cd /usr/local
 pacman -S git
 git clone https://github.com/ENJ1/aok
-rm -R /lib/firmware/brcm
 cp -R aok/firmware/brcm /lib/firmware
-rm -R /lib/firmware/tpm
-cp aok/firmware/tpm /lib/firmware
+cp -R aok/firmware/tpm /lib/firmware
 rm -R aok
 
 ## Uninstall setup files
