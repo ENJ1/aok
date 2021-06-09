@@ -82,7 +82,7 @@ Congratulations! You are now using Developer Mode.
 Insert an SD Card or USB Drive.
 
 ### Step 7
-Download [The AOK Script](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script").
+Download [The AOK Script](https://www.dropbox.com/s/0maaxbpnw7vx2im/aok?dl=1 "Download The AOK Script").
 
 ### Step 8
 At a *bash* shell:
