@@ -99,7 +99,7 @@ At a *bash* shell:
 ## Known Issues
 Issues common to latest stable linux kernel distributions on the Samsung Chromebook
 - Suspend does not work properly, *don't use it*. Shut down the computer when not in use.
-- 3D Acceleration not yet supported (But definitely possible now due to recent (2019) updates in the Linux Kernel)
+- 3D Acceleration does work with Panfrost for Midgard. It works fine (i guess) but you will probably have some issues with actual apps.
 - \* The Microphone does not work.
 - \* The Camera does not work.
 - \* The USB 3.0 port does not work for USB 3.0 devices, only USB 2.0 or older devices.
