@@ -66,9 +66,6 @@ cat << EOF > /etc/hosts
 127.0.1.1	${NEW_HOSTNAME}.localdomain	${NEW_HOSTNAME}
 EOF
 
-## Enable lightdm autologin (commented out - would also need to set default greeter)
-## All instances of word 'autologin' in this file pertain to lightdm autologin
-#groupadd -r autologin || echo -n
 
 ## Custom User Account
 echo
@@ -168,12 +165,12 @@ ping -c 1 archlinuxarm.org || {
 ## accountsservice: lightdm dependency, needed to start system
 ## mptfs: needed for android-file-transfer
 ##
-pacman -Syu --noconfirm sudo unzip zip xf86-video-fbdev xorg-server \
-xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu vboot-utils man \
-alsa-utils xfce4-pulseaudio-plugin pavucontrol pulseaudio pulseaudio-alsa \
-networkmanager nm-connection-editor network-manager-applet firefox blueman \
+pacman -Syu --noconfirm sudo unzip zip \
+ttf-dejavu vboot-utils man gnome \
+alsa-utils pavucontrol pulseaudio pulseaudio-alsa \
+firefox blueman \
 mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
-accountsservice xfce4-whiskermenu-plugin cpupower mtpfs
+accountsservice cpupower mtpfs
 
 ###########################################################################
 
@@ -192,37 +189,6 @@ get_packages || get_packages || get_packages || {
 if [ $(crossystem fwid | grep -i veyron) ]; then
   pacman -S firmware-veyron
 fi
-
-
-###########################################################################
-## VIDEO PRE-CONFIG
-##
-## DEPENDS ON: xf86-video-fbdev
-##
-## Create configuration file to implement graphics acceleration
-mkdir -p /etc/X11/xorg.conf.d/
-cat << EOF > /etc/X11/xorg.conf.d/10-monitor.conf
-Section	"Device"
-	Identifier	"Mali FBDEV"
-	Driver		"fbdev"
-	Option		"fbdev"			"/dev/fb0"
-	Option		"Fimg2Dexa"		"false"
-	Option		"DRI2"			"true"
-	Option		"DRI2_PAGE_FLIP"	"false"
-	Option		"DRI2_WAIT_VSYNC"	"true"
-	Option		"SWcursorLCD"		"false"
-EndSection
-
-Section	"Screen"
-	Identifier	"DefaultScreen"
-	Device		"Mali FBDEV"
-	DefaultDepth	24
-EndSection
-EOF
-## With this driver setup, the Xorg Server needs root privilege
-echo "needs_root_rights = yes" > /etc/X11/Xwrapper.config
-###########################################################################
-
 
 ###########################################################################
 ## AUDIO PRE-CONFIG
@@ -263,85 +229,6 @@ cp /etc/sudoers /root/sudoers2
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /root/sudoers2
 visudo -c /root/sudoers2 && mv /root/sudoers2 /etc/sudoers
 
-
-###########################################################################
-## Caps Lock pre-config (for a Window Environment not Console)
-##
-## This will provide Caps Lock globally, for all users, even at a window
-## manager login like lightdm. This changes the configuration for
-## "generic 105-key pc (intl.)" and other generic keyboards. if you
-## instead choose a chromebook keyboard in the layout settings of your
-## desktop environment, then you will get the true Chromebook experience:
-## No Caps Lock. The "search" key is considered the "meta" key.
-##
-## Backup the original keyboard configuration file
-echo "Fixing Caps Lock for X11 Windowing"
-cp -n /usr/share/X11/xkb/symbols/pc /usr/share/X11/xkb/symbols/pc.bak
-
-## Create a new custom file
-sed 's/key <LWIN> {\t\[ Super_L/key <LWIN> {\t\[ Caps_Lock/g' \
-/usr/share/X11/xkb/symbols/pc > /usr/share/X11/xkb/symbols/pc-chrome-caps
-
-## Overwrite the old file with the new custom file
-cp /usr/share/X11/xkb/symbols/pc-chrome-caps /usr/share/X11/xkb/symbols/pc
-echo "Caps Lock for X11 Windows fixed."
-
-## You must reboot for changes to take effect
-#reboot
-## You can restore the original file at any time
-#cp /usr/share/X11/xkb/symbols/pc.bak /usr/share/X11/xkb/symbols/pc
-
-##########################################################################
-## X11 CAPS LOCK, PER USER, PER SESSION: THE SIMPLE WAY
-## Alternatively, you could just run the following command, but you would
-## have to run it upon every login, for every user.
-#xmodmap -e "keycode 133 = Caps_Lock"
-## To load it on X11 login every time for that user...
-## (This may not work for the root user, and may not work for all systems)
-#echo "keycode 133 = Caps_Lock" > ~/.Xmodmap
-###########################################################################
-
-
-
-
-###########################################################################
-## start lightdm configuration
-##
-
-## Enable this
-systemctl enable accounts-daemon
-
-## Patch lightdm (necessary. reportedly due to gnome/gtk presence)
-## THE COMMENTS BELOW ARE NOT COMMENTS IN THIS FILE, BUT COMMENTS IN lightdm.conf
-cat << "EOF" >> /etc/lightdm/lightdm.conf
-
-## AOK Stability Configuration
-## The package "accountsservice" is also needed
-services.accounts-daemon.enabled=true
-EOF
-
-## Change clock format and indicators for login screen
-sed -i 's/^#clock-format=/clock-format=%l:%M %p/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
-sed -i 's/^#indicators=/indicators=~host;~spacer;~clock/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
-## NEVER show the user's wallpaper on login
-sed -i 's/^#user-background=/user-background=false/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
-
-## Use nice Arch Linux logo as the default Avatar for all users
-echo "default-user-image=/usr/share/icons/arch_linux_gnome_menu_icon_by_byamato.png" >> /etc/lightdm/lightdm-gtk-greeter.conf
-
-## Enable lightdm to load Xfce on boot
-systemctl enable lightdm
-
-## Set lightdm to autologin for user (commented out - would also need to setup default greeter)
-#NEW_USERNAME=$(cat /root/.autologin-user.temp) || echo -n
-#sed -i "s/#autologin-user=/autologin-user=${NEW_USERNAME}/" /etc/lightdm/lightdm.conf \
-#    && rm /root/.autologin-user.temp || echo -n
-#sed -i "s/#autologin-session=/autologin-session=xfce/" /etc/lightdm/lightdm.conf
-
-##
-## end lightdm configuration
-###########################################################################
-
 ## configure cpupower for efficiency
 sed -i "s/#*governor='.*'/governor='schedutil'/" /etc/default/cpupower
 systemctl enable cpupower
@@ -366,14 +253,6 @@ pacman --noconfirm -Sc || echo -n
 echo "Arch Linux \r (\l)" > /etc/issue
 echo >> /etc/issue
 
-## Get git and clone this repo again to replace non-working firmware files given by Arch
-rm -R /usr/local/aok || echo -n
-cd /usr/local
-pacman -S git
-git clone https://github.com/ENJ1/aok
-cp -R aok/firmware/brcm /lib/firmware
-cp -R aok/firmware/tpm /lib/firmware
-rm -R aok
 
 ## Uninstall setup files
 rm /usr/local/bin/setup || echo -n
