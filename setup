@@ -159,7 +159,8 @@ ping -c 1 archlinuxarm.org || {
 ## mptfs: needed for android-file-transfer
 
 pacman -Syu --noconfirm sudo unzip zip \
-ttf-dejavu vboot-utils man gnome alsa-utils pavucontrol pulseaudio pulseaudio-alsa \
+ttf-dejavu vboot-utils man gnome gnome-extra \
+alsa-utils pavucontrol pulseaudio pulseaudio-alsa \
 firefox blueman mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
 cpupower mtpfs
 
