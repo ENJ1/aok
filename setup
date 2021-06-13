@@ -136,6 +136,12 @@ ping -c 1 archlinuxarm.org || {
 ## sudo: needed to gain root privilege for users
 ## unzip: basic utility
 ## zip: basic utility
+## xf86-video-fbdev: needed for Mali-T604 Graphics acceleration pre-config below
+## xorg-server: needed for Xfce. chromebook caps (pre-config below)
+## xfce4: Desktop Environment and all associated packages
+## xorg-xinit: start Xfce from command line (configured below)
+## lightdm: autostart Xfce on bootup (enabled below)
+## lightdm-gtk-greeter: login screen
 ## ttf-dejavu: basic font pack
 ## alsa-utils: needed for auto (pre-config below); to unmute audio and keep unmuted
 ## xfce4-pulseaudio-plugin: volume control panel applet
@@ -156,13 +162,15 @@ ping -c 1 archlinuxarm.org || {
 ## xorg-xinput: mouse and trackpad control (needed by script included in extra)
 ## vboot-utils: cgpt partition flags for chromebooks (used by install script)
 ## man: manual pages. type "man some-command" to get the manual for it
+## accountsservice: lightdm dependency, needed to start system
 ## mptfs: needed for android-file-transfer
-
+##
 pacman -Syu --noconfirm sudo unzip zip \
-ttf-dejavu vboot-utils man gnome gnome-extra \
+ttf-dejavu vboot-utils man gnome \
 alsa-utils pavucontrol pulseaudio pulseaudio-alsa \
-firefox blueman mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
-cpupower mtpfs
+firefox blueman \
+mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
+accountsservice cpupower mtpfs
 
 ###########################################################################
 
@@ -227,9 +235,6 @@ systemctl enable cpupower
 
 ## Enable WiFi gui autostart because Xfce will be used
 systemctl enable NetworkManager
-
-## Enable GDM
-systemctl enable gdm.service
 
 ## Enable Bluetooth user interface (different from turning bluetooth on)
 ## Currently disabled: it can be enabled by starting the bluetooth program
