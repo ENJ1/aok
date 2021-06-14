@@ -193,12 +193,12 @@ cd /usr/local/aok
 echo "Preparing distribution files..."
 cd distro
 ## Save the included md5 file in case of a dropbox download
-cp ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak
+cp ArchLinuxARM-veyron-latest.tar.gz.md5 ArchLinuxARM-veyron-latest.tar.gz.md5.bak
 MIRROR_SUCCESS=false
 
 ## Offline function, try using local md5 or quit
 use_local_md5 () {
-	if [ -f 'ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5' ]; then
+	if [ -f 'ArchLinuxARM-veyron-latest.tar.gz.md5' ]; then
 		echo "Using existing local md5 file."
 	else
 		echo "Cannot find md5 file. Quitting."
@@ -211,9 +211,9 @@ if [ "$(ping -c 1 archlinuxarm.org)" ]; then
 
 	## Allow 10 seconds to download the md5 from main mirror
 	curl --max-time 10 -LO \
-			mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 && {
-		cp -u ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
-				ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.tmp
+			mirror.archlinuxarm.org/os/ArchLinuxARM-veyron-latest.tar.gz.md5 && {
+		cp -uArchLinuxARM-veyron-latest.tar.gz.md5 \
+				ArchLinuxARM-veyron-latest.tar.gz.md5.tmp
 		MIRROR_SUCCESS=true
 	} || echo -n
 
@@ -236,21 +236,21 @@ if [ "$(ping -c 1 archlinuxarm.org)" ]; then
 		## Download md5, and save Current Speed from curl progress meter
 		## A higher number is better. Domains that fail will have a null value.
 		CURRENT_SPEED=$(curl --max-time 5 -LO \
-		${SUBDOMAIN}.mirror.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
+		${SUBDOMAIN}.mirror.archlinuxarm.org/os/ArchLinuxARM-veyron-latest.tar.gz.md5 \
 		2>&1 | grep $'\r100' | grep -o '[^ ]*$' || echo -n)
 
 		## What if it's a bad md5 file, like a 404?
 		## It should contain the filename, and be only 1 line
-		if [ $(grep ArchLinuxARM-armv7-chromebook-latest.tar.gz \
-				ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 | wc -l) -eq 1 ]; then
+		if [ $(grep ArchLinuxARM-veyron-latest.tar.gz \
+				ArchLinuxARM-veyron-latest.tar.gz.md5 | wc -l) -eq 1 ]; then
 
 			## Save the working mirror to a text file, Format: Speed (tab) Mirror
 			if [ -n "$CURRENT_SPEED" ]; then
 				echo -e "${CURRENT_SPEED}\t${SUBDOMAIN}.mirror.archlinuxarm.org" \
 					| tee -a workingmirrors.txt.tmp
 				## Save the best md5, and record success
-				cp -u ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 \
-						ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.tmp
+				cp -u ArchLinuxARM-veyron-latest.tar.gz.md5 \
+						ArchLinuxARM-veyron-latest.tar.gz.md5.tmp
 				MIRROR_SUCCESS=true
 				LOCAL_MIRROR_SUCCESS=true
 
@@ -263,8 +263,8 @@ if [ "$(ping -c 1 archlinuxarm.org)" ]; then
 		else
 			echo -e "\t${SUBDOMAIN}.mirror.archlinuxarm.org did not provide the correct file (Likely 404)"
 			## Restore the real (and best) md5 if one exists
-			cp ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.tmp \
-					ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 || echo -n
+			cp ArchLinuxARM-veyron-latest.tar.gz.md5.tmp \
+					ArchLinuxARM-veyron-latest.tar.gz.md5 || echo -n
 		fi
 	done
 
@@ -281,15 +281,15 @@ if [ "$(ping -c 1 archlinuxarm.org)" ]; then
 	fi
 
 	## Cleanup
-	rm -f ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.tmp
+	rm -f ArchLinuxARM-veyron-latest.tar.gz.md5.tmp
 	rm -f workingmirrors.txt.tmp
 	echo "Mirrors testing complete."
 
 	## If there's a new release, ask what to use
 
 	## Compare md5 of new md5 to md5 of old md5 - no "diff" utility on Chrome OS
-	OLD_DISTRO_MD5=$(md5sum ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 | cut -c1-32)
-	NEW_DISTRO_MD5=$(md5sum ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak | cut -c1-32)
+	OLD_DISTRO_MD5=$(md5sum ArchLinuxARM-veyron-latest.tar.gz.md5 | cut -c1-32)
+	NEW_DISTRO_MD5=$(md5sum ArchLinuxARM-veyron-latest.tar.gz.md5.bak | cut -c1-32)
 	if [ "$OLD_DISTRO_MD5" = "$NEW_DISTRO_MD5" ]; then
 		echo "No new distro release is available. Using current distro release."
 	else
@@ -325,18 +325,7 @@ test_local_space () {
 }
 
 check_md5 () {
-	md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status
-}
-
-get_from_dropbox () {
-	echo "Attempting download of AOK Verified Backup Release from dropbox..."
-	test_local_space
-	curl -LO \
-			https://dl.dropboxusercontent.com/s/gca6lst2llqoqg2/ArchLinuxARM-armv7-chromebook-latest.tar.gz \
-			&& md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5.bak || {
-				echo "Couldn't download Arch Linux. Perhaps the Internet connection is not reliable."
-				exit 76
-			}
+	md5sum -c ArchLinuxARM-veyron-latest.tar.gz.md5 --status
 }
 
 try_downloading_file () {
@@ -364,7 +353,7 @@ try_downloading_file () {
 				&& check_md5 \
 				|| {
 					echo "Couldn't download from archlinuxarm.org."
-					get_from_dropbox
+					
 				}
 	fi
 	## Must have a good file at this point
@@ -374,10 +363,10 @@ try_downloading_file () {
 ## Check md5 against file even if it doesn't exist, or try downloading
 md5sum -c ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5 --status || {
 	if [ "$NEW_RELEASE" = true ]; then
-		FILE_NEEDED='/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz'
+		FILE_NEEDED='/os/ArchLinuxARM-veyron-latest.tar.gz'
 		try_downloading_file
 	else
-		get_from_dropbox
+		
 	fi
 }
 
@@ -459,7 +448,7 @@ echo "Copying Filesystem..."
 
 ## Ignore harmless SCHILY.fflags warnings
 tar --warning=no-unknown-keyword -xf \
-distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
+distro/ArchLinuxARM-veyron-latest.tar.gz -C rootfs --checkpoint=.500
 sync
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 sync
@@ -561,7 +550,7 @@ fi
 
 echo "Done."
 echo
-printf "To boot from USB on a Samsung XE303C12, use the ${YELLOW}USB 2.0${NC} Port\n"
+printf "To boot from USB on an Asus C201PA/C100PA, use the ${YELLOW}USB 2.0${NC} Port\n"
 echo
 printf "Upon boot press ${YELLOW}ctrl${NC}+${YELLOW}u${NC} to boot USB/SD, or ctrl+d to boot Internal Storage.\n"
 echo
