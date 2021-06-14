@@ -131,9 +131,11 @@ ping -c 1 archlinuxarm.org || {
 ###########################################################################
 ## UPGRADE AND INSTALL PACKAGES
 
-pacman -Syu --noconfirm sudo unzip zip \
-ttf-dejavu vboot-utils man sway git alsa-utils pavucontrol pulseaudio pulseaudio-alsa \
-firefox blueman mousepad galculator gpicview engrampa mpv android-file-transfer \ 
+pacman -Syu --noconfirm sudo unzip \
+ttf-dejavu vboot-utils man \
+alsa-utils pavucontrol pulseaudio pulseaudio-alsa \
+networkmanager nm-connection-editor firefox blueman \
+mousepad galculator gpicview engrampa mpv android-file-transfer \
 cpupower mtpfs
 
 ###########################################################################
@@ -232,7 +234,7 @@ echo 'tty | grep tty1 && exec sway' >> /home/$NEW_USERNAME/.bashrc
 
 ## Exit message
 echo
-echo "Done."
+echo "Done. Wifi will not work when you log in, this is a bug. Go to the discord to figure out how to make it work. This will be patched eventually."
 echo
 
 YELLOW='\033[1;33m' # Light Yellow
