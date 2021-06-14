@@ -130,47 +130,11 @@ ping -c 1 archlinuxarm.org || {
   
 ###########################################################################
 ## UPGRADE AND INSTALL PACKAGES
-##
-## Sync repo, upgrade, and install packages without hassle
-##
-## sudo: needed to gain root privilege for users
-## unzip: basic utility
-## zip: basic utility
-## xf86-video-fbdev: needed for Mali-T604 Graphics acceleration pre-config below
-## xorg-server: needed for Xfce. chromebook caps (pre-config below)
-## xfce4: Desktop Environment and all associated packages
-## xorg-xinit: start Xfce from command line (configured below)
-## lightdm: autostart Xfce on bootup (enabled below)
-## lightdm-gtk-greeter: login screen
-## ttf-dejavu: basic font pack
-## alsa-utils: needed for auto (pre-config below); to unmute audio and keep unmuted
-## xfce4-pulseaudio-plugin: volume control panel applet
-## pavucontrol: volume control
-## pulseaudio: audio backend
-## pulseaudio-alsa: compatibility
-## networkmanager: networking backend (enabled below)
-## nm-connection-editor: networking editor gui
-## network-manager-applet: tray icon
-## firefox: needed for landing page redirection for public Wi-Fi Hotspots
-## blueman: bluetooth utility and frontend
-## mousepad: lightweight text editor and code syntax highlighter made for Xfce
-## galculator: common calculator
-## gpicview: lightweight image viewer designed for LXDE
-## engrampa: easy to use archive manager designed for MATE desktop
-## mpv: video player, best performance, minimal ui
-## android-file-transfer: needed for transferring files to/from android devices
-## xorg-xinput: mouse and trackpad control (needed by script included in extra)
-## vboot-utils: cgpt partition flags for chromebooks (used by install script)
-## man: manual pages. type "man some-command" to get the manual for it
-## accountsservice: lightdm dependency, needed to start system
-## mptfs: needed for android-file-transfer
-##
+
 pacman -Syu --noconfirm sudo unzip zip \
-ttf-dejavu vboot-utils man gnome \
-alsa-utils pavucontrol pulseaudio pulseaudio-alsa \
-firefox blueman \
-mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
-accountsservice cpupower mtpfs
+ttf-dejavu vboot-utils man sway git alsa-utils pavucontrol pulseaudio pulseaudio-alsa \
+firefox blueman mousepad galculator gpicview engrampa mpv android-file-transfer \ 
+cpupower mtpfs
 
 ###########################################################################
 
@@ -257,6 +221,14 @@ echo >> /etc/issue
 ## Uninstall setup files
 rm /usr/local/bin/setup || echo -n
 rm /root/.aok-offline-setup-done.temp || echo -n
+
+## Sway config
+rm -R /usr/local/aok
+cd /usr/local
+git clone https://github.com/ENJ1/aok
+mkdir -p /etc/sway
+cp /usr/local/aok/files/swayconfig /etc/sway/config
+echo 'tty | grep tty1 && exec sway' >> /home/$NEW_USERNAME/.bashrc
 
 ## Exit message
 echo
