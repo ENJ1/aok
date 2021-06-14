@@ -1,15 +1,13 @@
 # AOK Linux for ARMv7 Chromebooks
-The **easy** way to get ***Arch Linux, Xfce, Firefox, and more*** running on an old Chromebook. Please read the whole README so you don't end up with a broken install.
+A script to get Arch Linux with Sway Wayland running on an old Chromebook. Please read the whole README so you don't end up with a broken install.
 
 [![Download The AOK Script](https://raw.githubusercontent.com/ENJ1/aok/master/files/arch_linux_gnome_menu_icon_by_byamato.png)](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
 
 ## Features
 - Installing Arch Linux is fully automated. It's easy for a beginner. No Linux experience is required.
-- A fast, minimalist Xfce Desktop Environment, ready for running the programs you want
-- Firefox is pre-loaded with UBlock, User-Agent Switcher, and Kill Sticky Headers
-- Pre-configured 2D Graphics acceleration, Audio enabled, Caps Lock setup, WiFi hotspots compatible, etc.
 - Mirror checking for speed and improved 24/7 reliability.
 - AOK Custom Command line utilities for advanced users: dim, spoof, and tpad
+- Has Panfrost Opensource 3D accelleration.
 
 ## Compatible Chromebooks
 - Asus C201PA
