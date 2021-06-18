@@ -210,7 +210,7 @@ test_local_space () {
 
 echo "Downloading Distro!"
 
-curl -LO http://os.archlinuxarm.org/os/ArchLinuxARM-veyron-latest.tar.gz
+curl -LO http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-chromebook-latest.tar.gz
 
 ## Add warning
 printf "${RED}Do NOT click on pop-up messages!${NC}\n"
@@ -290,7 +290,7 @@ echo "Copying Filesystem..."
 
 ## Ignore harmless SCHILY.fflags warnings
 tar --warning=no-unknown-keyword -xf \
-distro/ArchLinuxARM-veyron-latest.tar.gz -C rootfs --checkpoint=.500
+distro/ArchLinuxARM-armv7-chromebook-latest.tar.gz -C rootfs --checkpoint=.500
 sync
 dd if=rootfs/boot/vmlinux.kpart of=${DEVICE}${PARTITION_1} status=progress
 sync
