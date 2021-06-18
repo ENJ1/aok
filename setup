@@ -134,7 +134,7 @@ ping -c 1 archlinuxarm.org || {
 pacman -Syu --noconfirm sudo unzip \
 ttf-dejavu vboot-utils man alsa-utils pavucontrol \
 pulseaudio pulseaudio-alsa firefox blueman mousepad galculator \ 
-gpicview engrampa mpv android-file-transfer cpupower mtpfs sway
+gpicview engrampa mpv android-file-transfer cpupower mtpfs sway veyron-libgl
 
 ###########################################################################
 
