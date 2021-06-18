@@ -132,11 +132,9 @@ ping -c 1 archlinuxarm.org || {
 ## UPGRADE AND INSTALL PACKAGES
 
 pacman -Syu --noconfirm sudo unzip \
-ttf-dejavu vboot-utils man \
-alsa-utils pavucontrol pulseaudio pulseaudio-alsa \
-networkmanager nm-connection-editor firefox blueman \
-mousepad galculator gpicview engrampa mpv android-file-transfer \
-cpupower mtpfs
+ttf-dejavu vboot-utils man alsa-utils pavucontrol \
+pulseaudio pulseaudio-alsa firefox blueman mousepad galculator \ 
+gpicview engrampa mpv android-file-transfer cpupower mtpfs sway
 
 ###########################################################################
 
@@ -199,17 +197,9 @@ visudo -c /root/sudoers2 && mv /root/sudoers2 /etc/sudoers
 sed -i "s/#*governor='.*'/governor='schedutil'/" /etc/default/cpupower
 systemctl enable cpupower
 
-## Enable WiFi gui autostart because Xfce will be used
-systemctl enable NetworkManager
-
 ## Enable Bluetooth user interface (different from turning bluetooth on)
 ## Currently disabled: it can be enabled by starting the bluetooth program
 #systemctl enable bluetooth
-
-## Don't show Mail Reader menu link
-mkdir -p /usr/share/applications
-cp /usr/local/aok/files/exo-mail-reader.desktop \
-    /usr/share/applications || echo -n
 
 ## Remove old packages
 pacman --noconfirm -Sc || echo -n
