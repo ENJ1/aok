@@ -7,7 +7,7 @@ A script to get Arch Linux with Sway Wayland running on an old Chromebook. Pleas
 - Installing Arch Linux is fully automated. It's easy for a beginner. No Linux experience is required.
 - Mirror checking for speed and improved 24/7 reliability.
 - AOK Custom Command line utilities for advanced users: dim, spoof, and tpad
-- Has Panfrost Opensource 3D accelleration.
+- Has LibGL proprietary Mali 3D accleration.
 
 ## Compatible Chromebooks
 - Asus C201PA
@@ -97,7 +97,6 @@ At a *bash* shell:
 ## Known Issues
 Issues common to latest stable linux kernel distributions on the Samsung Chromebook
 - Suspend does not work properly, *don't use it*. Shut down the computer when not in use.
-- 3D Acceleration does work with Panfrost for Midgard. It works fine (i guess) but you will probably have some issues with actual apps.
 - \* The Microphone does not work.
 - \* The Camera does not work.
 - \* The USB 3.0 port does not work for USB 3.0 devices, only USB 2.0 or older devices.
@@ -142,6 +141,3 @@ The best thing about this laptop, honestly, is its battery life. Chrome OS sets 
 - In rare cases, if the battery is discharged completely for a long period of time, the Chromebook may disable booting from the SD Card or USB, and ERASE EVERYTHING on the eMMC (Internal Memory), and start from a factory default state. This has nothing to do with using a custom OS such as this or enabling Developer Mode. It is a known issue with Chrome OS. For this reason, *never* store important files *solely* on the eMMC (Internal Memory) such as within Chrome OS. This does not affect the integrity of the SD Card or USB, or your files on the SD Card or USB.
 
 ## Thanks
-The upstream source for this distribution comes to you from archlinuxarm.org.
-
-https://archlinuxarm.org/platforms/armv7/samsung/samsung-chromebook
