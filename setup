@@ -66,6 +66,9 @@ cat << EOF > /etc/hosts
 127.0.1.1	${NEW_HOSTNAME}.localdomain	${NEW_HOSTNAME}
 EOF
 
+## Enable lightdm autologin (commented out - would also need to set default greeter)
+## All instances of word 'autologin' in this file pertain to lightdm autologin
+#groupadd -r autologin || echo -n
 
 ## Custom User Account
 echo
@@ -130,8 +133,46 @@ ping -c 1 archlinuxarm.org || {
   
 ###########################################################################
 ## UPGRADE AND INSTALL PACKAGES
-
-pacman -Syu --noconfirm sudo unzip ttf-dejavu vboot-utils man alsa-utils pavucontrol pulseaudio pulseaudio-alsa firefox blueman mousepad galculator gpicview engrampa mpv android-file-transfer cpupower mtpfs git sway veyron-libgl
+##
+## Sync repo, upgrade, and install packages without hassle
+##
+## sudo: needed to gain root privilege for users
+## unzip: basic utility
+## zip: basic utility
+## xf86-video-fbdev: needed for Mali-T604 Graphics acceleration pre-config below
+## xorg-server: needed for Xfce. chromebook caps (pre-config below)
+## xfce4: Desktop Environment and all associated packages
+## xorg-xinit: start Xfce from command line (configured below)
+## lightdm: autostart Xfce on bootup (enabled below)
+## lightdm-gtk-greeter: login screen
+## ttf-dejavu: basic font pack
+## alsa-utils: needed for auto (pre-config below); to unmute audio and keep unmuted
+## xfce4-pulseaudio-plugin: volume control panel applet
+## pavucontrol: volume control
+## pulseaudio: audio backend
+## pulseaudio-alsa: compatibility
+## networkmanager: networking backend (enabled below)
+## nm-connection-editor: networking editor gui
+## network-manager-applet: tray icon
+## firefox: needed for landing page redirection for public Wi-Fi Hotspots
+## blueman: bluetooth utility and frontend
+## mousepad: lightweight text editor and code syntax highlighter made for Xfce
+## galculator: common calculator
+## gpicview: lightweight image viewer designed for LXDE
+## engrampa: easy to use archive manager designed for MATE desktop
+## mpv: video player, best performance, minimal ui
+## android-file-transfer: needed for transferring files to/from android devices
+## xorg-xinput: mouse and trackpad control (needed by script included in extra)
+## vboot-utils: cgpt partition flags for chromebooks (used by install script)
+## man: manual pages. type "man some-command" to get the manual for it
+## accountsservice: lightdm dependency, needed to start system
+## mptfs: needed for android-file-transfer
+##
+pacman -Syu --noconfirm sudo unzip zip xf86-video-armsoc-rockchip xorg-server \
+xfce4 xorg-xinit lightdm lightdm-gtk-greeter ttf-dejavu vboot-utils man alsa-utils \
+xfce4-pulseaudio-plugin pavucontrol pulseaudio pulseaudio-alsa networkmanager nm-connection-editor \
+network-manager-applet firefox blueman mousepad galculator gpicview engrampa mpv android-file-transfer xorg-xinput \
+accountsservice xfce4-whiskermenu-plugin cpupower mtpfs xorg-server-utils xorg-apps mesa xorg-twm xorg-xclock xterm xf86-input-synaptics \
 
 ###########################################################################
 
@@ -151,6 +192,68 @@ if [ $(crossystem fwid | grep -i veyron) ]; then
   pacman -S firmware-veyron
 fi
 
+
+###########################################################################
+## VIDEO PRE-CONFIG
+##
+## DEPENDS ON: xf86-video-fbdev
+##
+## Create configuration file to implement graphics acceleration
+mkdir -p /etc/X11/xorg.conf.d/
+cat << EOF > /etc/X11/xorg.conf.d/20-armsoc.conf
+Section "Device"
+        Identifier      "Mali"
+        Driver          "modesetting"
+        Option          "ShadowFB"              "false"
+EndSection
+
+Section "Screen"
+        Identifier      "DefaultScreen"
+        Device          "Mali"
+        DefaultDepth    24
+EndSection
+
+Section "InputClass"
+    Identifier "touchpad"
+    Driver "synaptics"
+    MatchIsTouchpad "on"
+    Option          "Sensitivity" "0.45"
+    Option      "FingerHigh" "12"
+    Option      "FingerLow" "1"
+    Option          "IgnoreThumb" "true"
+    Option          "IgnorePalm" "true"
+    Option          "TapButton1" "0"
+    Option          "TapButton2" "0"
+    Option          "TapButton3" "0"
+    Option          "TapButton4" "0"
+    Option          "ClickFinger1" "1"
+    Option          "ClickFinger2" "3"
+    Option          "ClickFinger3" "3"
+    Option          "ButtonMoveEmulate" "false"
+    Option      "ButtonIntegrated" "true"
+    Option          "ClickTime" "25"
+    Option          "BottomEdge" "25"
+    Option      "SwipeLeftButton" "8"
+    Option      "SwipeRightButton" "9"
+    Option      "SwipeUpButton" "0"
+    Option      "SwipeDownButton" "0"
+    Option      "ScrollDistance" "75"
+EndSection
+
+Section "DRI"
+        Mode            0666
+EndSection
+
+Section "Module"
+        Disable         "glamoregl"
+        Disable	        "fbdev"
+EndSection
+EOF
+## With this driver setup, the Xorg Server needs root privilege
+echo "needs_root_rights = yes" > /etc/X11/Xwrapper.config
+###########################################################################
+
+
 ###########################################################################
 ## AUDIO PRE-CONFIG
 ##
@@ -160,10 +263,8 @@ fi
 ## USE RIGHT ARROW, AND PRESS "m" TO UNMUTE THE FOLLOWING:
 ## (alsamixer options won't load after pulseaudio is installed)
 ## (in that case you muse use these amixer commands)
-amixer -c 0 set 'Left Headphone Mixer Left DAC1' on || echo -n
-amixer -c 0 set 'Right Headphone Mixer Right DAC1' on || echo -n
-amixer -c 0 set 'Left Speaker Mixer Left DAC1' on || echo -n
-amixer -c 0 set 'Right Speaker Mixer Right DAC1' on || echo -n
+amixer -c 0 sset “Right Speaker Mixer Right DAC” unmute || echo -n
+amixer -c 0 sset “Left Speaker Mixer Left DAC” unmute || echo -n
 ## DOES A MICROPHONE NEED TO BE UNMUTED?
 ##
 ## SET VOLUME (DEFAULT IS ZERO)
@@ -190,13 +291,99 @@ cp /etc/sudoers /root/sudoers2
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /root/sudoers2
 visudo -c /root/sudoers2 && mv /root/sudoers2 /etc/sudoers
 
+
+###########################################################################
+## Caps Lock pre-config (for a Window Environment not Console)
+##
+## This will provide Caps Lock globally, for all users, even at a window
+## manager login like lightdm. This changes the configuration for
+## "generic 105-key pc (intl.)" and other generic keyboards. if you
+## instead choose a chromebook keyboard in the layout settings of your
+## desktop environment, then you will get the true Chromebook experience:
+## No Caps Lock. The "search" key is considered the "meta" key.
+##
+## Backup the original keyboard configuration file
+echo "Fixing Caps Lock for X11 Windowing"
+cp -n /usr/share/X11/xkb/symbols/pc /usr/share/X11/xkb/symbols/pc.bak
+
+## Create a new custom file
+sed 's/key <LWIN> {\t\[ Super_L/key <LWIN> {\t\[ Caps_Lock/g' \
+/usr/share/X11/xkb/symbols/pc > /usr/share/X11/xkb/symbols/pc-chrome-caps
+
+## Overwrite the old file with the new custom file
+cp /usr/share/X11/xkb/symbols/pc-chrome-caps /usr/share/X11/xkb/symbols/pc
+echo "Caps Lock for X11 Windows fixed."
+
+## You must reboot for changes to take effect
+#reboot
+## You can restore the original file at any time
+#cp /usr/share/X11/xkb/symbols/pc.bak /usr/share/X11/xkb/symbols/pc
+
+##########################################################################
+## X11 CAPS LOCK, PER USER, PER SESSION: THE SIMPLE WAY
+## Alternatively, you could just run the following command, but you would
+## have to run it upon every login, for every user.
+#xmodmap -e "keycode 133 = Caps_Lock"
+## To load it on X11 login every time for that user...
+## (This may not work for the root user, and may not work for all systems)
+#echo "keycode 133 = Caps_Lock" > ~/.Xmodmap
+###########################################################################
+
+
+
+
+###########################################################################
+## start lightdm configuration
+##
+
+## Enable this
+systemctl enable accounts-daemon
+
+## Patch lightdm (necessary. reportedly due to gnome/gtk presence)
+## THE COMMENTS BELOW ARE NOT COMMENTS IN THIS FILE, BUT COMMENTS IN lightdm.conf
+cat << "EOF" >> /etc/lightdm/lightdm.conf
+## AOK Stability Configuration
+## The package "accountsservice" is also needed
+services.accounts-daemon.enabled=true
+EOF
+
+## Change clock format and indicators for login screen
+sed -i 's/^#clock-format=/clock-format=%l:%M %p/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
+sed -i 's/^#indicators=/indicators=~host;~spacer;~clock/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
+## NEVER show the user's wallpaper on login
+sed -i 's/^#user-background=/user-background=false/' /etc/lightdm/lightdm-gtk-greeter.conf || echo -n
+
+## Use nice Arch Linux logo as the default Avatar for all users
+echo "default-user-image=/usr/share/icons/arch_linux_gnome_menu_icon_by_byamato.png" >> /etc/lightdm/lightdm-gtk-greeter.conf
+
+## Enable lightdm to load Xfce on boot
+systemctl enable lightdm
+
+## Set lightdm to autologin for user (commented out - would also need to setup default greeter)
+#NEW_USERNAME=$(cat /root/.autologin-user.temp) || echo -n
+#sed -i "s/#autologin-user=/autologin-user=${NEW_USERNAME}/" /etc/lightdm/lightdm.conf \
+#    && rm /root/.autologin-user.temp || echo -n
+#sed -i "s/#autologin-session=/autologin-session=xfce/" /etc/lightdm/lightdm.conf
+
+##
+## end lightdm configuration
+###########################################################################
+
 ## configure cpupower for efficiency
-sed -i "s/#*governor='.*'/governor='schedutil'/" /etc/default/cpupower
+sed -i "s/#*governor='.*'/governor='conservative'/" /etc/default/cpupower
 systemctl enable cpupower
+
+## Enable WiFi gui autostart because Xfce will be used
+systemctl enable NetworkManager
 
 ## Enable Bluetooth user interface (different from turning bluetooth on)
 ## Currently disabled: it can be enabled by starting the bluetooth program
 #systemctl enable bluetooth
+
+## Don't show Mail Reader menu link
+mkdir -p /usr/share/applications
+cp /usr/local/aok/files/exo-mail-reader.desktop \
+    /usr/share/applications || echo -n
 
 ## Remove old packages
 pacman --noconfirm -Sc || echo -n
@@ -207,21 +394,14 @@ echo "Arch Linux \r (\l)" > /etc/issue
 echo >> /etc/issue
 
 
+
 ## Uninstall setup files
 rm /usr/local/bin/setup || echo -n
 rm /root/.aok-offline-setup-done.temp || echo -n
 
-## Sway config
-rm -R /usr/local/aok
-cd /usr/local
-git clone https://github.com/ENJ1/aok
-mkdir -p /etc/sway
-cp /usr/local/aok/files/swayconfig /etc/sway/config
-echo 'tty | grep tty1 && exec sway' >> /home/$NEW_USERNAME/.bashrc
-
 ## Exit message
 echo
-echo "Done. Wifi will not work when you log in, this is a bug. Go to the discord to figure out how to make it work. This will be patched eventually."
+echo "Done."
 echo
 
 YELLOW='\033[1;33m' # Light Yellow
@@ -231,4 +411,3 @@ echo
 ## REBOOT TO LOAD UPGRADED KERNEL, ETC
 read -p "Press enter to reboot"
 reboot
-
