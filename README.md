@@ -3,6 +3,7 @@ A script to get Arch Linux with Sway Wayland running on an old Chromebook. Pleas
 
 [![Download The AOK Script](https://raw.githubusercontent.com/ENJ1/aok/master/files/arch_linux_gnome_menu_icon_by_byamato.png)](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
 
+## Official Discord server is here: https://discord.gg/F8VGSMUq
 ## Features
 - Installing Arch Linux is fully automated. It's easy for a beginner. No Linux experience is required.
 - Mirror checking for speed and improved 24/7 reliability.
