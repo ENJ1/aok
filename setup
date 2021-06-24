@@ -200,7 +200,7 @@ fi
 ##
 ## Create configuration file to implement graphics acceleration
 mkdir -p /etc/X11/xorg.conf.d/
-cat << EOF > /etc/X11/xorg.conf.d/20-armsoc.conf
+cat << EOF > /usr/share/X11/xorg.conf.d/20-armsoc.conf
 Section "Device"
         Identifier      "Mali"
         Driver          "modesetting"
