@@ -1,5 +1,5 @@
 # AOK Linux for ARMv7 Chromebooks
-A script to get Arch Linux with Sway Wayland running on an old Chromebook. Please read the whole README so you don't end up with a broken install.
+A script to get Arch Linux with Xfce running on an old Chromebook. Please read the whole README so you don't end up with a broken install.
 
 [![Download The AOK Script](https://raw.githubusercontent.com/ENJ1/aok/master/files/arch_linux_gnome_menu_icon_by_byamato.png)](https://www.dropbox.com/s/ahhk0cvjjavfqi4/aok?dl=1 "Download The AOK Script")
 
@@ -131,7 +131,7 @@ The default locale is English, US.
 
 ### Power Profiles
 
-This installer sets the power profile to `conservative` which is optimally efficient. It can drop to 200 MHz (maximum efficiency), or go to 1700 MHz (full speed) as needed. Other power profiles are possible, such as `performance`, which stays at max speed no matter what. To change the power profile, open a terminal `Ctrl+Alt+t` and type, for example:  
+This installer sets the power profile to `schedutil` which is optimally efficient. It can drop to 200 MHz (maximum efficiency), or go to 1700 MHz (full speed) as needed. Other power profiles are possible, such as `performance`, which stays at max speed no matter what. To change the power profile, open a terminal `Ctrl+Alt+t` and type, for example:  
 `sudo cpupower frequency-set performance`  
 Setting it this way will persist across reboots. For more info, run `cpupower`.
 
