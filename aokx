@@ -190,7 +190,6 @@ fi
 ## Should already be in /usr/local/ok, but make sure
 cd /usr/local/aok
 
-echo "Preparing distribution files..."
 cd distro
 
 ## Test space (safe but isn't necessary if overwriting a previous release!)
