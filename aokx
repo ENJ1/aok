@@ -344,10 +344,8 @@ cp aok rootfs/usr/local/aok
 cp setup rootfs/usr/local/aok
 cp -r files rootfs/usr/local/aok
 cp -r extra rootfs/usr/local/aok
+cp -r firmware rootfs/usr/local/aok
 cp README.md rootfs/usr/local/aok
-
-## Copy firmware stuff
-cp -R /usr/local/aok/firmware rootfs/lib/
 
 ## Provide gentoo style bashrc, enabling color in all shells (changes filename)
 cp rootfs/etc/skel/.bashrc rootfs/etc/skel/.bashrc.backup || echo -n
