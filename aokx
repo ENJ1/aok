@@ -344,7 +344,8 @@ cp aok rootfs/usr/local/aok
 cp setup rootfs/usr/local/aok
 cp -r files rootfs/usr/local/aok
 cp -r extra rootfs/usr/local/aok
-cp -r firmware rootfs/usr/local/aok
+cp -r firmware/brcm rootfs/lib/firmware
+cp -r firmware/tpm rootfs/lib/firmware
 cp README.md rootfs/usr/local/aok
 
 ## Provide gentoo style bashrc, enabling color in all shells (changes filename)
