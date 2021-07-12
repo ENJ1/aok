@@ -186,9 +186,6 @@ visudo -c /root/sudoers2 && mv /root/sudoers2 /etc/sudoers
 sed -i "s/#*governor='.*'/governor='conservative'/" /etc/default/cpupower
 systemctl enable cpupower
 
-## Enable WiFi gui autostart because Xfce will be used
-systemctl enable NetworkManager
-
 ## Enable Bluetooth user interface (different from turning bluetooth on)
 ## Currently disabled: it can be enabled by starting the bluetooth program
 #systemctl enable bluetooth
